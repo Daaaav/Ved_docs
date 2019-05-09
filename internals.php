@@ -259,7 +259,7 @@ scripts = {
 		[4] = "back to the ship to study..."
 	}
 }', 'generic'); ?>
-If you're wondering how Ved stores internal scripts: <?php hyperlight('say(x) #v', 'generic', 'tt'); ?> is put at the start of the script, and <?php hyperlight('loadscript(stop) #v', 'generic', 'tt'); ?> and <?php hyperlight('text(1,0,0,4) #v', 'generic', 'tt'); ?> at the end (with additional <?php hyperlight('text(1,0,0,4) #v', 'generic', 'tt'); ?> + <?php hyperlight('say(x) #v', 'generic', 'tt'); ?> in between blocks if they have to be split.) If you want to check, hold down the shift key while opening a script. The same goes for checking checking flag names - Ved converts them to numbers when leaving the script editor and converts them back into names when opening it, unless you hold shift while opening.
+If you're wondering how Ved stores internal scripts: <?php hyperlight('squeak(off) #v', 'generic', 'tt'); ?> and <?php hyperlight('say(x) #v', 'generic', 'tt'); ?> is put at the start of the script, and <?php hyperlight('loadscript(stop) #v', 'generic', 'tt'); ?> and <?php hyperlight('text(1,0,0,3) #v', 'generic', 'tt'); ?> at the end (with additional <?php hyperlight('text(1,0,0,3) #v', 'generic', 'tt'); ?> + <?php hyperlight('say(x) #v', 'generic', 'tt'); ?> in between blocks if they have to be split.) If you want to check, hold down the shift key while opening a script. The same goes for checking checking flag names - Ved converts them to numbers when leaving the script editor and converts them back into names when opening it, unless you hold shift while opening.
 <!-- Also explain storage of internal scripts here, and when flag names are handled -->
 
 <h3>Counts</h3>
