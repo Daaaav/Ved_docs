@@ -410,7 +410,7 @@ Each dialog can have a list of input fields that will be shown in the dialog. Ea
 	<li>Y position in characters (blocks of 8)</li>
 	<li>Width of input field in characters (so in blocks of 8 again)</li>
 	<li>Default value (like <tt>value</tt> in HTML)</li>
-	<li>Type (optional, by default 0, <tt>DF.TEXT</tt>, a text field)</li>
+	<li>Type (for example, use <tt>DF.TEXT</tt> for a text field)</li>
 </ul>
 <p>The X and Y positions for the field both start at 0, which is the position the regular dialog text also starts.<br>
 These are the different types of input fields:</p>
@@ -423,7 +423,7 @@ These are the different types of input fields:</p>
 </table>
 <p>The <tt>DF.</tt> constants were added in Ved 1.5.0. More information about how the different types work:</p>
 <h4>(0) DF.TEXT - Text input</h4>
-A text field is what it says it is. An example is given as follows: <?php hyperlight('{"name", 0, 1, 40, ""}', 'generic', 'tt'); ?><br>
+A text field is what it says it is. An example is given as follows: <?php hyperlight('{"name", 0, 1, 40, "", DF.TEXT}', 'generic', 'tt'); ?><br>
 Here, the key is <tt>name</tt>, it is positioned on the start of the second line of text, it is 40 characters wide (but more characters will fit less elegantly) and its default value is an empty string.
 
 <h4>(1) DF.DROPDOWN - Dropdown</h4>
@@ -434,7 +434,7 @@ Dropdowns require at least one more argument:
 	<li>An optional function that gets called whenever a selection is made from the dropdown. Think of an <tt>onchange</tt> event in HTML/JS. Gets passed the selection from the dropdown as text, and may return a substitute to fill into the input field behind the scenes.</li>
 </ul>
 <p>Basically, there's two forms: first the simpler one. In the simpler form, you only need a list of items that will appear in the dropdown, and whenever the user selects an item, the value of the input field is set to the text of the option that the user selected. This means what's readable as an option will be passed. You may want to set the default value to an option in the list.<br>
-An example: <?php hyperlight('{"drop", 0, 0, 30, "Option A", 1, {"Option A", "Option B", "Option C"}}', 'generic', 'tt'); ?><br>
+An example: <?php hyperlight('{"drop", 0, 0, 30, "Option A", DF.DROPDOWN, {"Option A", "Option B", "Option C"}}', 'generic', 'tt'); ?><br>
 The width is set to 30 because that's how wide dropdown menus are (currently). If you want a function to be called every time an option is selected in this case, there'd be two more arguments: <tt>false</tt> (as a filler for the second table) and then the function.</p>
 <p>For the second form, let's take the example of a user selecting between percentages, let's say 50%, 100% and 200%. You want to pass this as a number instead, so if the user selects 50%, you want the actual value to be <tt>0.5</tt>. When the user does select 50%, the &quot;onchange&quot; function is called, and converts the &quot;50%&quot; into <tt>0.5</tt>, and returns that. The second table that was mentioned (the one that converts a value to a displayable &quot;current selection&quot;) has this <tt>0.5</tt> background value as a key, and that maps to a value of &quot;50%&quot;.<br>
 So this is that example:</p>
@@ -459,9 +459,9 @@ So this is that example:</p>
 <h4>(2) DF.LABEL - Plain text label</h4>
 <p>This is just a bit of text that can be displayed anywhere in the dialog you want. It can therefore be used to label other input fields without having to include those labels in the dialog contents.</p>
 <p>The &quot;default value&quot; will be used as text, but it can also be a function that returns the text dynamically.</p>
-<p>An example for a plain-text label is as follows: <?php hyperlight('{"", 0, 5, 10, "Label", 2}', 'generic', 'tt'); ?><br>
+<p>An example for a plain-text label is as follows: <?php hyperlight('{"", 0, 5, 10, "Label", DF.LABEL}', 'generic', 'tt'); ?><br>
 The key is left empty, because it has not much use. But we can't set it to <tt>nil</tt>, otherwise Lua might think the table ends there. It is positioned on the start of the 6th line. The width is 10 characters, which means it will merely wrap beyond that point. Then the label is just a string, and will be displayed. <tt>2</tt> is the type.</p>
-<p>Here's an example of a label that keeps changing: <?php hyperlight('{"", 0, 5, 40, function() return love.math.random() end, 2}', 'generic', 'tt'); ?><br>
+<p>Here's an example of a label that keeps changing: <?php hyperlight('{"", 0, 5, 40, function() return love.math.random() end, DF.LABEL}', 'generic', 'tt'); ?><br>
 This will continuously display a different random number between 0 and 1. Note that the key and the table of fields are passed to the function, but it's not used here.</p>
 
 <h4>(3) DF.CHECKBOX - Checkbox</h4>
