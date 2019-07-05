@@ -119,6 +119,9 @@ h2 > a::after {
 <tr><td>27</td><td>Display/Scale settings</td></tr>
 <tr><td>28</td><td>Level stats</td></tr>
 <tr><td class="blu">29</td><td>Plural forms test</td></tr>
+<tr><td>30</td><td>Assets viewer main menu</td></tr>
+<tr><td>31</td><td>Music player/editor, sound player</td></tr>
+<tr><td>32</td><td>Graphics viewer</td></tr>
 <tr><td colspan="2">100 and further can be allocated by plugins (next paragraph)</td></tr>
 </table>
 
@@ -126,7 +129,7 @@ h2 > a::after {
 <p>In Ved 1.1.4 and higher, plugins can allocate an amount of states for their own use, without using hardcoded state numbers, making it unnecessary to think of unique state numbers that won't interfere with any other plugins or future Ved updates. The following functions can be used:</p>
 <dl>
 <dt><?php hyperlight('allocate_states(name [, amount=1])', 'generic', 'tt'); ?></dt>
-<dd>This function is used to allocate the given <tt>amount</tt> of flags with identifier <tt>name</tt>.</dd>
+<dd>This function is used to allocate the given <tt>amount</tt> of states with identifier <tt>name</tt>.</dd>
 <dt><?php hyperlight('in_astate(name [, s=0])', 'generic', 'tt'); ?></dt>
 <dd>This function returns true if the current state is <tt>s</tt> for identifier <tt>name</tt>. These state numbers start at 0.</dd>
 <dt><?php hyperlight('to_astate(name [, new=0 [, dontinitialize=false]])', 'generic', 'tt'); ?></dt>
