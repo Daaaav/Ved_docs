@@ -517,6 +517,103 @@ Dialog boxes in the system before Ved 1.4.0 can be created by calling <tt>dialog
 
 <p>It's also possible to include text boxes in dialogs, see the above part on fields in dialogs.</p>
 
+<h2><a name="showhotkey">Hotkeys</a></h2>
+<p>If you didn't know already, you can hold F9 to reveal hotkeys.</p>
+
+Since Ved 1.6.1, Ved has had a dedicated function to display any hotkey on the screen if F9 is held down, <tt>showhotkey</tt>:
+<dl>
+<dt><?php hyperlight('showhotkey(hotkey, x, y, align, topmost, dialog_obj)', 'generic', 'tt'); ?></dt>
+<dd>
+	<tt>hotkey</tt> is the code (or sequence of codes) for the hotkey in question. More on what these codes are later. <em>This is required.</em><br>
+	<tt>x</tt> is the x-position of the hotkey. <em>This is required.</em><br>
+	<tt>y</tt> is the y-position of the hotkey. <em>This is required.</em><br>
+	<tt>align</tt> can be either one of <tt>ALIGN.LEFT</tt> (default), <tt>ALIGN.CENTER</tt>, or <tt>ALIGN.RIGHT</tt>, and will align the hotkey appropriately.<br>
+If you are calling this from a dialog, you will need to pass the next two arguments (and consequently, will need to pass <tt>align</tt> as well):<br>
+	<tt>topmost</tt> is whether the given dialog is the topmost dialog or not. You should be in a <tt>cDialog</tt> drawing function and just pass the <tt>topmost</tt> from that function.<br>
+	<tt>dialog_obj</tt> is the dialog object the hotkey is located on. You should be in a <tt>cDialog</tt> drawing function and just pass the <tt>self</tt> from that function.
+</dd>
+</dl>
+
+<h3>Hotkey codes</h3>
+<p>Each symbol in the hotkey font, <tt>tinynumbersfont</tt>, is actually mapped to one specific character, and is case-sensitive.</p>
+<p>What this means is that, for example, <tt>a</tt> is Alt, but <tt>A</tt> is just the letter A. In fact, <tt>0</tt>-<tt>9</tt> and <tt>A</tt>-<tt>Z</tt> (uppercase) are all just themselves, along with a lot of other characters. You can also easily combine symbols togetter like so: <tt>aS</tt> would simply be Alt+S, and show up as such accordingly.</p>
+<p>In the following list of usable symbols, a character is simply itself if it has no text saying otherwise:</p>
+<ul>
+	<li><tt>0</tt></li>
+	<li><tt>1</tt></li>
+	<li><tt>2</tt></li>
+	<li><tt>3</tt></li>
+	<li><tt>4</tt></li>
+	<li><tt>5</tt></li>
+	<li><tt>6</tt></li>
+	<li><tt>7</tt></li>
+	<li><tt>8</tt></li>
+	<li><tt>9</tt></li>
+	<li><tt>A</tt></li>
+	<li><tt>B</tt></li>
+	<li><tt>C</tt></li>
+	<li><tt>D</tt></li>
+	<li><tt>E</tt></li>
+	<li><tt>F</tt></li>
+	<li><tt>G</tt></li>
+	<li><tt>H</tt></li>
+	<li><tt>I</tt></li>
+	<li><tt>J</tt></li>
+	<li><tt>K</tt></li>
+	<li><tt>L</tt></li>
+	<li><tt>M</tt></li>
+	<li><tt>N</tt></li>
+	<li><tt>O</tt></li>
+	<li><tt>P</tt></li>
+	<li><tt>Q</tt></li>
+	<li><tt>R</tt></li>
+	<li><tt>S</tt></li>
+	<li><tt>T</tt></li>
+	<li><tt>U</tt></li>
+	<li><tt>V</tt></li>
+	<li><tt>W</tt></li>
+	<li><tt>X</tt></li>
+	<li><tt>Y</tt></li>
+	<li><tt>Z</tt></li>
+	<li><tt>,</tt></li>
+	<li><tt>.</tt></li>
+	<li><tt>~</tt> is blank, and simply adds a bit of extra space.</li>
+	<li><tt>{</tt> is a flag, facing right.</li>
+	<li><tt>}</tt> is an arrow, pointing right. (This is different from <tt>x</tt> because this arrow's vertical position is at the top of the line.)</li>
+	<li><tt>c</tt> is Ctrl. This is the Cmd symbol on macOS, Strg if your language is set to German, and the Cmd symbol if your language is set to German on macOS.</li>
+	<li><tt>s</tt> is Shift.</li>
+	<li><tt>a</tt> is Alt.</li>
+</ul>
+The top row of letters of the QWERTY keyboard, lowercase, along with <tt>k</tt> and <tt>l</tt>, is F1-F12. Here they are for reference:
+<ul>
+	<li><tt>q</tt> is F1.</li>
+	<li><tt>w</tt> is F2.</li>
+	<li><tt>e</tt> is F3.</li>
+	<li><tt>r</tt> is F4.</li>
+	<li><tt>t</tt> is F5.</li>
+	<li><tt>y</tt> is F6.</li>
+	<li><tt>u</tt> is F7.</li>
+	<li><tt>i</tt> is F8.</li>
+	<li><tt>o</tt> is F9.</li>
+	<li><tt>p</tt> is F10.</li>
+	<li><tt>k</tt> is F11.</li>
+	<li><tt>l</tt> is F12.</li>
+</ul>
+<ul>
+	<li><tt>&lt;</tt></li>
+	<li><tt>&gt;</tt></li>
+	<li><tt>/</tt></li>
+	<li><tt>[</tt></li>
+	<li><tt>]</tt></li>
+	<li><tt>z</tt> is an arrow pointing left.</li>
+	<li><tt>x</tt> is an arrow pointing right. (This is different from <tt>}</tt> because this arrow is vertically centered in the line, as opposed to <tt>}</tt>.)</li>
+	<li><tt>n</tt> is the arrow symbol for Return, or Enter.</li>
+	<li><tt>b</tt> is Esc.</li>
+	<li><tt>f</tt> is Tab.</li>
+	<li><tt>+</tt></li>
+	<li><tt>-</tt></li>
+</ul>
+
 <h2><a name="eastereggs">Easter eggs</a></h2>
 Ved contains several easter eggs.
 
