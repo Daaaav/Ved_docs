@@ -60,7 +60,7 @@ h2 > a::after {
 <tr><td><tt>func.lua</tt></td><td>Contains many functions, especially general-purpose ones and core Ved functions.</td></tr>
 <tr><td><tt>helpfunc.lua</tt></td><td>Contains certain functions related to (editing) level notes, and the rest of the help system.</td></tr>
 <tr><td><tt>incompatmain8.lua</tt></td><td>If L&Ouml;VE 0.8 or lower is used, this is loaded from <tt>main.lua</tt>. It displays a message that outdated L&Ouml;VE is being used in all available languages.<br>Before Ved 1.4.5, this file was called <tt>incompatmain.lua</tt>.</td></tr>
-<tr><td><tt>incompatmain9.lua</tt></td><td>If L&Oum;VE 0.9.0 is used, this is loaded from <tt>main.lua</tt>. It displays a message that L&Ouml;VE 0.9.0 is no longer supported in all available languages.<br>This file was added in Ved 1.4.5.</td></tr>
+<tr><td><tt>incompatmain9.lua</tt></td><td>If L&Ouml;VE 0.9.0 is used, this is loaded from <tt>main.lua</tt>. It displays a message that L&Ouml;VE 0.9.0 is no longer supported in all available languages.<br>This file was added in Ved 1.4.5.</td></tr>
 <tr><td><tt>keyfunc.lua</tt></td><td>Handles the shortcut that can be used in the help screen to make text editable.</td></tr>
 <tr><td><tt>loadallmetadata.lua</tt></td><td>Returns level metadata for the levels list from a different thread.</td></tr>
 <tr><td><tt>loadconfig.lua</tt></td><td>Handles anything related to the settings.</td></tr>
