@@ -38,6 +38,7 @@ h2 > a::after {
 <p>First of all, the following source files are used in Ved:</p>
 <table border="1">
 <tr><th>Filename</th><th>Description</th></tr>
+<tr><td><tt>clargs.lua</tt></td></td>Stores and formats the command line help output when requested.<br>This file was added in Ved 1.1.0.</td></tr>
 <tr><td><tt>conf.lua</tt></td><td>L&Ouml;VE's configuration file, controlling default window settings and loaded L&Ouml;VE modules.</td></tr>
 <tr><td><tt>const.lua</tt></td><td>Constants - Contains tile numbers for all tilesets, known scripting commands, music names, and other lookup tables.</td></tr>
 <tr><td><tt>coordsdialog.lua</tt></td><td>Contains code related to the little room coordinates input after hitting Q in the main editor. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
@@ -59,6 +60,7 @@ h2 > a::after {
 <tr><td><tt>filefunc_win.lua</tt></td><td>Contains functions necessary for accessing the VVVVVV levels and graphics folders on Windows. As of Ved 1.5.0, this uses the Windows API for everything (including reading and writing level files, due to <tt>io.open</tt> being non-Unicode on Windows), before 1.5.0, it used command line utilities like <tt>dir</tt>.<!-- Also has a function for opening a URL with <tt>start</tt> in case L&Ouml;VE 0.9.0 is being used (where <tt>love.system.openURL(url)</tt> doesn't exist yet)--></td></tr>
 <tr><td><tt>func.lua</tt></td><td>Contains many functions, especially general-purpose ones and core Ved functions.</td></tr>
 <tr><td><tt>helpfunc.lua</tt></td><td>Contains certain functions related to (editing) level notes, and the rest of the help system.</td></tr>
+<tr><td><tt>imagefont.lua</tt><td><td>Loads and readies <tt>font.png</tt> for use inside Ved.<br>This file was added in Ved 1.4.0.</td></tr>
 <tr><td><tt>incompatmain8.lua</tt></td><td>If L&Ouml;VE 0.8 or lower is used, this is loaded from <tt>main.lua</tt>. It displays a message that outdated L&Ouml;VE is being used in all available languages.<br>Before Ved 1.4.5, this file was called <tt>incompatmain.lua</tt>.</td></tr>
 <tr><td><tt>incompatmain9.lua</tt></td><td>If L&Ouml;VE 0.9.0 is used, this is loaded from <tt>main.lua</tt>. It displays a message that L&Ouml;VE 0.9.0 is no longer supported in all available languages.<br>This file was added in Ved 1.4.5.</td></tr>
 <tr><td><tt>keyfunc.lua</tt></td><td>Handles the shortcut that can be used in the help screen to make text editable.</td></tr>
@@ -68,6 +70,8 @@ h2 > a::after {
 <tr><td><tt>love11compat.lua</tt></td><td>Loaded only when L&Ouml;VE 11.0 or higher is used, and provides compatibility with those versions. For example, this hijacks color functions so they work with 0-255 instead of 0-1.</td></tr>
 <tr><td><tt>main.lua</tt></td><td>The first file that is loaded. Loads the fonts, sets a few basic variables, and loads <tt>plugins.lua</tt>, <tt>errorhandler.lua</tt> and, most importantly, <tt>main2.lua</tt>.</td></tr>
 <tr><td><tt>main2.lua</tt></td><td>Loads most other source files and assets, and contains pretty much all <tt>love.*</tt> callbacks.</td></tr>
+<tr><td><tt>mapfunc.lua</tt></td><td>Contains functions related to rendering and updating the map overview screen.<br>This file was added in Ved 1.4.2.</td></tr>
+<tr><td><tt>music.lua</tt></td><td>Handles reading and writing <tt>vvvvvvmusic.vvv</tt>, <tt>mmmmmm.vvv</tt>, and other custom music files.<br>This file was added in Ved 1.6.0.</td></tr>
 <tr><td><tt>plugins.lua</tt></td><td>Makes sure plugins and their file edits and hooks are loaded</td></tr>
 <tr><td><tt>resizablebox.lua</tt></td><td>Has a system for a box that can be resized by dragging borders with the mouse. Was formerly used for resizing script boxes, but it was glitchy so it's now unused.</td></tr>
 <tr><td><tt>rightclickmenu.lua</tt></td><td>Contains code related to right click menus. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
