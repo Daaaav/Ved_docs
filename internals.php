@@ -354,7 +354,9 @@ In Ved 1.4.0, the dialogs system was overhauled. To create a new dialog, you can
 <tr><td><tt>DB.DISCARD</tt></td><td>7</td><td>Discard</td></tr>
 <tr><td><tt>DB.SAVE</tt></td><td>8</td><td>Save</td></tr>
 <tr><td><tt>DB.CLOSE</tt></td><td>9</td><td>Close</td></tr>
+<tr><td><tt>DB.LOAD</tt></td><td>10</td><td>Load</td></tr>
 </table>
+<p><tt>DB.LOAD</tt> was added in Ved 1.6.0.</p>
 <p>There's also built-in lists of buttons available as <tt>DBS</tt>, like <tt>DBS.YESNO</tt>, which stands for <tt>{DB.YES, DB.NO}</tt>, meaning a Yes and No button.</p>
 <table border="1">
 <tr><th>Constant</th><th>Buttons</th></tr>
@@ -365,7 +367,10 @@ In Ved 1.4.0, the dialogs system was overhauled. To create a new dialog, you can
 <tr><td><tt>DBS.OKCANCELAPPLY</tt></td><td>OK, Cancel, Apply</td></tr>
 <tr><td><tt>DBS.SAVEDISCARDCANCEL</tt></td><td>Save, Discard, Cancel</td></tr>
 <tr><td><tt>DBS.YESNOCANCEL</tt></td><td>Yes, No, Cancel</td></tr>
+<tr><td><tt>DBS.SAVECANCEL</tt></td><td>Save, Cancel</td></tr>
+<tr><td><tt>DBS.LOADCANCEL</tt></td><td>Load, Cancel</td></tr>
 </table>
+<p><tt>DBS.SAVECANCEL</tt> and <tt>DBS.LOADCANCEL</tt> were added in Ved 1.6.0.</p>
 <h3>Handler</h3>
 <!--TODO, but the handler receives a <tt>button</tt> argument first. Try checking, for example, <tt>button == DB.YES</tt>.-->
 <p>The purpose of the handler function is to take action after closing a dialog. For example, if a question is asked whether the user wants to destroy something, then that should be done if (and only if) the user chooses <tt>DB.YES</tt>.</p>
