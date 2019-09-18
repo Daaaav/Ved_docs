@@ -372,7 +372,6 @@ In Ved 1.4.0, the dialogs system was overhauled. To create a new dialog, you can
 </table>
 <p><tt>DBS.SAVECANCEL</tt> and <tt>DBS.LOADCANCEL</tt> were added in Ved 1.6.0.</p>
 <h3>Handler</h3>
-<!--TODO, but the handler receives a <tt>button</tt> argument first. Try checking, for example, <tt>button == DB.YES</tt>.-->
 <p>The purpose of the handler function is to take action after closing a dialog. For example, if a question is asked whether the user wants to destroy something, then that should be done if (and only if) the user chooses <tt>DB.YES</tt>.</p>
 <p>The handler is a function that can take up to five arguments:
 <ul>
