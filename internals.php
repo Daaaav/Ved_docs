@@ -38,12 +38,13 @@ h2 > a::after {
 <p>First of all, the following source files are used in Ved:</p>
 <table border="1">
 <tr><th>Filename</th><th>Description</th></tr>
+<tr><td><tt>clargs.lua</tt></td></td>Stores and formats the command line help output when requested.<br>This file was added in Ved 1.1.0.</td></tr>
 <tr><td><tt>conf.lua</tt></td><td>L&Ouml;VE's configuration file, controlling default window settings and loaded L&Ouml;VE modules.</td></tr>
 <tr><td><tt>const.lua</tt></td><td>Constants - Contains tile numbers for all tilesets, known scripting commands, music names, and other lookup tables.</td></tr>
 <tr><td><tt>coordsdialog.lua</tt></td><td>Contains code related to the little room coordinates input after hitting Q in the main editor. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
 <tr><td><tt>corefunc.lua</tt></td><td>Contains a few functions that are used so early in loading (and/or are used on the crash screen), they must exist before things like plugins and the error handler are loaded.</td></tr>
 <tr><td><tt>devstrings.lua</tt></td><td>Used for defining new text strings during development of a new version, before putting them in all the language files.</td></tr>
-<tr><td><tt>dialog.lua</tt></td><td>Contains code related to dialog boxes. Before 1.4.0, this also contained code for, right click menus, scrollbars and VVVVVV-style text boxes.</td></tr>
+<tr><td><tt>dialog.lua</tt></td><td>Contains code related to dialog boxes. Before 1.4.0, this also contained code for right click menus, scrollbars and VVVVVV-style text boxes, which have each been moved to their own separate files as of 1.4.0.</td></tr>
 <tr><td><tt>dialog_uses.lua</tt></td><td>Contains callback functions and definitions of fields for dialogs, which are used as arguments for <tt>dialog.create(...)</tt></td></tr>
 <tr><td><tt>drawhelp.lua</tt></td><td>Holds <tt>drawhelp()</tt>, called by <tt>love.draw()</tt> in state 15 (the help state). The help system is also used for level notes and the plugins list.</td></tr>
 <tr><td><tt>drawlevelslist.lua</tt></td><td>Holds <tt>drawlevelslist()</tt>, called by <tt>love.draw()</tt> in state 6 (the loading screen state).</td></tr>
@@ -59,6 +60,7 @@ h2 > a::after {
 <tr><td><tt>filefunc_win.lua</tt></td><td>Contains functions necessary for accessing the VVVVVV levels and graphics folders on Windows. As of Ved 1.5.0, this uses the Windows API for everything (including reading and writing level files, due to <tt>io.open</tt> being non-Unicode on Windows), before 1.5.0, it used command line utilities like <tt>dir</tt>.<!-- Also has a function for opening a URL with <tt>start</tt> in case L&Ouml;VE 0.9.0 is being used (where <tt>love.system.openURL(url)</tt> doesn't exist yet)--></td></tr>
 <tr><td><tt>func.lua</tt></td><td>Contains many functions, especially general-purpose ones and core Ved functions.</td></tr>
 <tr><td><tt>helpfunc.lua</tt></td><td>Contains certain functions related to (editing) level notes, and the rest of the help system.</td></tr>
+<tr><td><tt>imagefont.lua</tt><td><td>Loads and readies <tt>font.png</tt> for use inside Ved.<br>This file was added in Ved 1.4.0.</td></tr>
 <tr><td><tt>incompatmain8.lua</tt></td><td>If L&Ouml;VE 0.8 or lower is used, this is loaded from <tt>main.lua</tt>. It displays a message that outdated L&Ouml;VE is being used in all available languages.<br>Before Ved 1.4.5, this file was called <tt>incompatmain.lua</tt>.</td></tr>
 <tr><td><tt>incompatmain9.lua</tt></td><td>If L&Ouml;VE 0.9.0 is used, this is loaded from <tt>main.lua</tt>. It displays a message that L&Ouml;VE 0.9.0 is no longer supported in all available languages.<br>This file was added in Ved 1.4.5.</td></tr>
 <tr><td><tt>keyfunc.lua</tt></td><td>Handles the shortcut that can be used in the help screen to make text editable.</td></tr>
@@ -68,6 +70,8 @@ h2 > a::after {
 <tr><td><tt>love11compat.lua</tt></td><td>Loaded only when L&Ouml;VE 11.0 or higher is used, and provides compatibility with those versions. For example, this hijacks color functions so they work with 0-255 instead of 0-1.</td></tr>
 <tr><td><tt>main.lua</tt></td><td>The first file that is loaded. Loads the fonts, sets a few basic variables, and loads <tt>plugins.lua</tt>, <tt>errorhandler.lua</tt> and, most importantly, <tt>main2.lua</tt>.</td></tr>
 <tr><td><tt>main2.lua</tt></td><td>Loads most other source files and assets, and contains pretty much all <tt>love.*</tt> callbacks.</td></tr>
+<tr><td><tt>mapfunc.lua</tt></td><td>Contains functions related to rendering and updating the map overview screen.<br>This file was added in Ved 1.4.2.</td></tr>
+<tr><td><tt>music.lua</tt></td><td>Handles reading and writing <tt>vvvvvvmusic.vvv</tt>, <tt>mmmmmm.vvv</tt>, and other custom music files.<br>This file was added in Ved 1.6.0.</td></tr>
 <tr><td><tt>plugins.lua</tt></td><td>Makes sure plugins and their file edits and hooks are loaded</td></tr>
 <tr><td><tt>resizablebox.lua</tt></td><td>Has a system for a box that can be resized by dragging borders with the mouse. Was formerly used for resizing script boxes, but it was glitchy so it's now unused.</td></tr>
 <tr><td><tt>rightclickmenu.lua</tt></td><td>Contains code related to right click menus. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
@@ -184,7 +188,13 @@ Even though tileset information is also stored in the room metadata, the current
 The variable that keeps track of actions that can be undone is <tt>undobuffer</tt>, and the one that keeps track of the actions that have been undone (and can be redone) is <tt>redobuffer</tt>. These are tables. If an undoable action is taken, an entry is added to the end of <tt>undobuffer</tt>, and <tt>redobuffer</tt> is cleared. When undoing, the function <tt>undo()</tt> is called, which undoes the latest action appropriately, and moves the last entry in <tt>undobuffer</tt> to the end of <tt>redobuffer</tt>. When redoing, the function <tt>redo()</tt> is called, which redoes the latest action appropriately, and moves the last entry in <tt>redobuffer</tt> to the end of <tt>undobuffer</tt>. Entries in <tt>undobuffer</tt> and <tt>redobuffer</tt> are tables with different properties depending on the <tt>undotype</tt> it has.
 
 <h3>Other things</h3>
-The number of the currently selected tile is stored in <tt>selectedtile</tt>.
+<p>The number of the currently selected tile is stored in <tt>selectedtile</tt>.</p>
+<p>To edit roomtext and (re)name scripts in script boxes and terminals, Ved uses <tt>editingroomtext</tt>. The entity ID of the entity <tt>data</tt> attribute currently being edited is stored in <tt>editingroomtext</tt>. You can get the entity being edited by simply doing <tt>entitydata[editingroomtext]</tt>. Since tables in Lua are 1-indexed, <tt>editingroomtext</tt> cannot be 0, so to check if we are currently editing the roomtext, just do <tt>editingroomtext &gt; 0</tt>; to check if we are not, just do <tt>editingroomtext == 0</tt>.</p>
+<p><tt>editingroomname</tt> is a boolean that is true when the current room's roomname is being edited, and false when it isn't. However, you should use <tt>toggleeditroomname()</tt> to start and stop editing the roomname.</p>
+<p>When editing enemy and platform boundaries, Ved uses <tt>editingbounds</tt>. It is 0 when no boundaries are being edited. Its magnitude (i.e. its absolute value, i.e. ignore the negative sign if there is one) will be 1 for platform bounds, and 2 for enemy bounds. Its sign (i.e. whether it's positive or negative) will be negative when placing the first corner (the top-left corner), and will be positive when placing the second corner (the bottom-right corner). So to reiterate: when editing platform bounds, <tt>editingbounds</tt> will go from 0, to -1, to 1; and when editing enemy bounds, <tt>editingbounds</tt> will go from 0, to -2, to 2.<br>You can start a boundary edit by calling either <tt>changeplatformbounds()</tt> or <tt>changeenemybounds()</tt>.</p>
+<p>The variable that controls the eraser (i.e. whether right-clicking will erase tiles if holding a tile brush) is <tt>eraserlocked</tt>. When it is true (by default), you can erase tiles using right-click. When false, you cannot.</p>
+<p>Whether or not enemy and platform bounds are rendered is controlled by <tt>showepbounds</tt>.</p>
+<p>The tiles picker (e.g. what pops up when you click on "Show all", or press/hold Ctrl+Shift) being open or not is controlled by <tt>tilespicker</tt>. <tt>tilespicker_shortcut</tt> controls whether or not you are holding the shortcut, so Ved knows to close it when you release Ctrl+Shift. But using RCtrl+RShift will keep the tiles picker open (and mixing Left/Right Ctrl+Shift will be the same as LCtrl+LShift - that is, it won't "stick" and you have to keep holding the key combo).</p>
 <!-- TODO: expand this with editingroomtext/name, editingbounds and maybe other things -->
 
 <h2><a name="levelvarsfuncs">Level-related variables and functions</a></h2>
@@ -350,7 +360,9 @@ In Ved 1.4.0, the dialogs system was overhauled. To create a new dialog, you can
 <tr><td><tt>DB.DISCARD</tt></td><td>7</td><td>Discard</td></tr>
 <tr><td><tt>DB.SAVE</tt></td><td>8</td><td>Save</td></tr>
 <tr><td><tt>DB.CLOSE</tt></td><td>9</td><td>Close</td></tr>
+<tr><td><tt>DB.LOAD</tt></td><td>10</td><td>Load</td></tr>
 </table>
+<p><tt>DB.LOAD</tt> was added in Ved 1.6.0.</p>
 <p>There's also built-in lists of buttons available as <tt>DBS</tt>, like <tt>DBS.YESNO</tt>, which stands for <tt>{DB.YES, DB.NO}</tt>, meaning a Yes and No button.</p>
 <table border="1">
 <tr><th>Constant</th><th>Buttons</th></tr>
@@ -361,9 +373,11 @@ In Ved 1.4.0, the dialogs system was overhauled. To create a new dialog, you can
 <tr><td><tt>DBS.OKCANCELAPPLY</tt></td><td>OK, Cancel, Apply</td></tr>
 <tr><td><tt>DBS.SAVEDISCARDCANCEL</tt></td><td>Save, Discard, Cancel</td></tr>
 <tr><td><tt>DBS.YESNOCANCEL</tt></td><td>Yes, No, Cancel</td></tr>
+<tr><td><tt>DBS.SAVECANCEL</tt></td><td>Save, Cancel</td></tr>
+<tr><td><tt>DBS.LOADCANCEL</tt></td><td>Load, Cancel</td></tr>
 </table>
+<p><tt>DBS.SAVECANCEL</tt> and <tt>DBS.LOADCANCEL</tt> were added in Ved 1.6.0.</p>
 <h3>Handler</h3>
-<!--TODO, but the handler receives a <tt>button</tt> argument first. Try checking, for example, <tt>button == DB.YES</tt>.-->
 <p>The purpose of the handler function is to take action after closing a dialog. For example, if a question is asked whether the user wants to destroy something, then that should be done if (and only if) the user chooses <tt>DB.YES</tt>.</p>
 <p>The handler is a function that can take up to five arguments:
 <ul>
@@ -423,6 +437,7 @@ These are the different types of input fields:</p>
 	<tr><td>2</td><td><tt>DF.LABEL</tt></td><td>Plain text label (does not take input)</td></tr>
 	<tr><td>3</td><td><tt>DF.CHECKBOX</tt></td><td>Checkbox</td></tr>
 	<tr><td>4</td><td><tt>DF.RADIOS</tt></td><td>Radio button list</td></tr>
+	<tr><td>5</td><td><tt>DF.FILES</tt></td><td>Files list and directory navigation</td></tr>
 </table>
 <p>The <tt>DF.</tt> constants were added in Ved 1.5.0. More information about how the different types work:</p>
 <h4>(0) DF.TEXT - Text input</h4>
@@ -487,6 +502,31 @@ The default state of this checkbox is checked, since the default value is set to
 		},
 ', 'generic'); ?>
 <p>The initial value is <tt>s.new_timeformat</tt>, which is the setting for the time format, which is either 24 or 12. Selecting &quot;23:59&quot; sets the value to 24, selecting &quot;11:59pm&quot; sets the value to 12. (Note that the dialog handler should apply the change, the value that you fill in as 5th argument is merely the initial state of the 'field'.)</p>
+
+<h4>(5) DF.FILES - Files list and directory navigation</h4>
+<p>The files list type was added in Ved 1.6.0. The default value is the full path to the current directory. It takes 7 more arguments (note that despite me giving each of these arguments names, they don't actually have keys by those names, and this is only to make it easier to understand):</p>
+<ol>
+	<li><tt>menuitems</tt> - A table of files, where each file is a table of the form returned by <tt>listfiles_generic()</tt>. That is, it has the attributes of <tt>name</tt>, <tt>isdir</tt>, and <tt>lastmodified</tt>.</li>
+	<li><tt>folder_filter</tt> - If argument 7 (<tt>filter_on</tt>) is on, then the files listed will only be the ones ending in this string. Usually it'll be a file extension like <tt>.vvv</tt>. You can make this filter only directories by passing the operating system's directory separator, which should be <tt>dirsep</tt>.</li>
+	<li><tt>folder_show_hidden</tt> - Whether or not to show hidden files or not. This is passed to <tt>listfiles_generic()</tt>, which goes off of the operating system's definition of hidden.</li>
+	<li><tt>listscroll</tt> - The Y offset of the files list due to the scrollbar, as (indirectly) generated by <tt>scrollbar()</tt>.</li>
+	<li><tt>folder_error</tt> - A string for indicating errors. It should be non-empty when there's an error.</li>
+	<li><tt>list_height</tt> - The amount, in blocks of 8, of the list.</li>
+	<li><tt>filter_on</tt> - Whether or not to apply the filename-ending filter from argument 2 (<tt>folder_filter</tt>).</li>
+</ol>
+<p>Note that you need a field with the key of "name" to select a file, and you need a checkbox to toggle showing only directories, showing only files that are filtered, or showing hidden files.</p>
+<p>For this reason, it is recommended to make a full file selection dialog with <tt>dialog.form.files_make()</tt> instead. In fact, all code in Ved currently uses that function instead of making the files list manually.</p>
+<dl>
+<dt><?php hyperlight('dialog.form.files_make(startfolder, defaultname, filter, show_hidden, list_height)', 'generic', 'tt'); ?></dt>
+<dd>
+	<em>All of the arguments are required.</em><br>
+	<tt>startfolder</tt> is the full file path to the folder you start the dialog in, just like the default value for <tt>DF.FILES</tt>.<br>
+	<tt>defaultname</tt> is what to put as the default value for the "Name:" field.<br>
+	<tt>filter</tt> will filter for filenames that end in this string, unless you pass it <tt>dirsep</tt>, in which case directories will be filtered instead. A checkbox toggling the filter will be created. If you decide to filter directories, then there will no longer be a "name"-key field.<br>
+	<tt>show_hidden</tt> is whether or not to show hidden files, by the operating system's definition of hidden.<br>
+	<tt>list_height</tt> is the height (in blocks of 8) of the list.
+</dd>
+</dl>
 
 <h2>Dialogs (old, deprecated system, fully removed in Ved 1.5.2)</h2>
 Dialog boxes in the system before Ved 1.4.0 can be created by calling <tt>dialog.new</tt>:
