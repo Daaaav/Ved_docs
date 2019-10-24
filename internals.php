@@ -156,6 +156,9 @@ end', 'generic'); ?>
 <h2><a name="loveversioncompat">L&Ouml;VE version compatibility</a></h2>
 <p>Ved is compatible with all revisions of L&Ouml;VE 0.9.x, 0.10.x and 11.x (except L&Ouml;VE 0.9.0 as of Ved 1.4.2), but its code is written for 0.9.x. Compatibility with newer versions is mostly achieved by causing update changes to be undone; for example, L&Ouml;VE functions that were renamed or expect different arguments are redefined/hijacked and then called by those redefinitions if arguments or return values need to be passed differently, and callbacks that get "new-style" data from L&Ouml;VE get a bit of conversion code at the top. There are a few instances of conditionals depending on the version number in regular code, but that is not very common.</p>
 
+<h3>Checking the L&Ouml;VE version Ved is running under</h3>
+<p>Ved has a dedicated function to check if the current L&Ouml;VE version is at least a certain version or later, <tt>love_version_meets()</tt>. E.g. <tt>love_version_meets(10)</tt> means "L&Ouml;VE version is 0.10.0 or later", <tt>love_version_meets(9, 2)</tt> means "L&Ouml;VE version is 0.9.2 or later". It automatically takes care of the difference between 0.x and 11.x, too, so <tt>love_version_meets(10)</tt> means "L&Ouml;VE version is 0.10.0 or later" while <tt>love_version_meets(11)</tt> means "L&Ouml;VE version is 11.0 or later".</p>
+
 <h3>Features unsupported in older L&Ouml;VE versions</h3>
 <p>Nevertheless, there are simply some features or improved behavior added in later L&Ouml;VE versions, which Ved takes advantage of, that simply can't be backported to previous L&Ouml;VE versions. None of these are particularly important features for Ved's main purpose of editing levels, but it is still good to document them.</p>
 
