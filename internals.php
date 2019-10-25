@@ -156,6 +156,33 @@ end', 'generic'); ?>
 <h2><a name="loveversioncompat">L&Ouml;VE version compatibility</a></h2>
 <p>Ved is compatible with all revisions of L&Ouml;VE 0.9.x, 0.10.x and 11.x (except L&Ouml;VE 0.9.0 as of Ved 1.4.2), but its code is written for 0.9.x. Compatibility with newer versions is mostly achieved by causing update changes to be undone; for example, L&Ouml;VE functions that were renamed or expect different arguments are redefined/hijacked and then called by those redefinitions if arguments or return values need to be passed differently, and callbacks that get "new-style" data from L&Ouml;VE get a bit of conversion code at the top. There are a few instances of conditionals depending on the version number in regular code, but that is not very common.</p>
 
+<h3>Checking the L&Ouml;VE version Ved is running under</h3>
+<p>Ved has a dedicated function to check if the current L&Ouml;VE version is at least a certain version or later, <tt>love_version_meets()</tt>. E.g. <tt>love_version_meets(10)</tt> means "L&Ouml;VE version is 0.10.0 or later", <tt>love_version_meets(9, 2)</tt> means "L&Ouml;VE version is 0.9.2 or later". It automatically takes care of the difference between 0.x and 11.x, too, so <tt>love_version_meets(10)</tt> means "L&Ouml;VE version is 0.10.0 or later" while <tt>love_version_meets(11)</tt> means "L&Ouml;VE version is 11.0 or later".</p>
+
+<h3>Features unsupported in older L&Ouml;VE versions</h3>
+<p>Nevertheless, there are simply some features or improved behavior added in later L&Ouml;VE versions, which Ved takes advantage of, that simply can't be backported to previous L&Ouml;VE versions. None of these are particularly important features for Ved's main purpose of editing levels, but it is still good to document them.</p>
+
+<p><strong>Being able to use <tt>font.png</tt> from the VVVVVV graphics folder as the main font</strong><br>
+<em>This feature is only supported in L&Ouml;VE versions <strong>0.10.0 and up</strong>.</em></p>
+
+<p>This is because in L&Ouml;VE versions previous to 0.10.0, the font returned by <a href="https://love2d.org/wiki/love.graphics.newImageFont"><tt>love.graphics.newImageFont()</tt></a> automatically had 1 pixel of extra horizontal spacing, and there was no way to change this. If you used a custom <tt>font.png</tt> with 1 pixel of extra spacing for each glyph, it would look really ugly, partly because you wouldn't be used to it being rendered that way, but mostly because Ved prints text assuming there's no 1 pixel of extra space for each glyph.</p>
+<p>This problem is fixed in L&Ouml;VE 0.10.0+ because it added an optional third argument to <tt>love.graphics.newImageFont()</tt> to specify the spacing, which also lets you use negative values.</p>
+<p>On a side note, <tt>tinynumbers</tt>, Ved's F9 hotkey font, doesn't have this problem. This is because of a semi-hacky workaround: the font image is intentionally made with 1 less pixel of space per glyph, and then when it gets passed to <tt>love.graphics.newImageFont()</tt>, it gets 1 pixel of extra spacing either because it's below L&Ouml;VE 0.10.0 and it's forced or because we've specified 1 pixel of spacing in L&Ouml;VE 0.10.0+.</p>
+
+<p><strong>Having the F9 hotkey font change depending on operating system, language, etc.</strong><br>
+<em>This feature is only supported in L&Ouml;VE versions <strong>0.10.0 and up</strong></em>.</p>
+
+<p>This is referring to the feature where the characters on the hotkeys that show up when you hold down F9 will change to match your operating system and language. This means that, for example, Ctrl will change to Cmd on macOS, and Ctrl will change to Strg if your language is German. (If you're a German macOS user then it will still be Cmd.)</p>
+<p>This feature depends on <a href="https://love2d.org/wiki/Font:setFallbacks"><tt>Font:setFallbacks()</tt></a>, which was only added in L&Ouml;VE 0.10.0. Not much we can do without it.</p>
+
+<p><strong>Basically anything to do with jumping around the track of the currently playing audio in the music and sound effect viewers</strong><br>
+<em>This feature is only supported in L&Ouml;VE versions <strong>0.10.0 and up</strong></em>.</p>
+
+<p>In L&Ouml;VE versions before 0.10.0, you can't jump around the track of the currently playing music or sound effect. That means you cannot click on the track to go to a certain position, nor can you use (Shift)+(kp)Left/Right to move 5 or 10 seconds forwards or backwards.</p>
+<p>The reason is simple: we need to know the duration of the currently playing audio. The only function that does this is <a href="https://love2d.org/wiki/Source:getDuration"><tt>Source:getDuration()</tt></a>, and it only exists starting in L&Ouml;VE 0.10.0.</p>
+<p>Without knowing the duration of the audio, clicking on the track becomes meaningless, because one end is supposed to be the start of the audio (time t=0) and the other end is supposed to be the end of the audio (time t&#61;&lt;<!-- probably shouldn't use '=' next to '&lt;' here directly, because PHP -->duration of audio&gt;). Without the duration, we don't know what timecode the other end should be. So if one song is, let's say, 2:30 long and the other is 5:00 long, then in the 5:00-long song the middle of the track is 2:30, and in the 2:30-long song the middle of the track is 1:15 - but without knowing the duration of each we don't know where each timecode is supposed to be placed on the track for each song.</p>
+<p>Another consequence of not knowing the duration is that we can't make sure that you don't go past the end of the track when you use (Shift)+(kp)Left/Right to jump around. The end of the track is determined by its duration, which we don't know. So we wouldn't know if you went past the end or not without knowing the duration of the audio.</p>
+
 <h2><a name="debugmode">Debug mode</a></h2>
 <p>Debug mode is a special mode used to access certain features and information that can be useful for debugging and developing Ved. Enabling debug mode has the following effects:</p>
 <ul>
