@@ -188,8 +188,8 @@ $hooks = array(
 		N => 'love_filedropped',
 		S => 'main2',
 		F => 'love.filedropped',
-		D => 'This is called in love.filedropped(path). Note that this was added in L&Ouml;VE 0.10.0, so in 0.9.x this hook will never be called.',
-		A => 'path',
+		D => 'This is called in love.filedropped(file). Note that this was added in L&Ouml;VE 0.10.0, so in 0.9.x this hook will never be called.',
+		A => '<a href="https://love2d.org/wiki/DroppedFile" target="_blank">file</a>',
 		VA => '1.4.3'
 	),
 	array(
