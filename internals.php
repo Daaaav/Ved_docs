@@ -21,6 +21,14 @@ h2 {
 	border-bottom: 1px solid #333;
 }
 
+.unsupported_bg {
+	background-color: tomato;
+}
+
+.supported_bg {
+	background-color: lightGreen;
+}
+
 /*
 h2 > a::after {
 	content: "<a href=\"#" attr(name) "\">#</a>";
@@ -155,6 +163,31 @@ end', 'generic'); ?>
 
 <h2><a name="loveversioncompat">L&Ouml;VE version compatibility</a></h2>
 <p>Ved is compatible with all revisions of L&Ouml;VE 0.9.x, 0.10.x and 11.x (except L&Ouml;VE 0.9.0 as of Ved 1.4.2), but its code is written for 0.9.x. Compatibility with newer versions is mostly achieved by causing update changes to be undone; for example, L&Ouml;VE functions that were renamed or expect different arguments are redefined/hijacked and then called by those redefinitions if arguments or return values need to be passed differently, and callbacks that get "new-style" data from L&Ouml;VE get a bit of conversion code at the top. There are a few instances of conditionals depending on the version number in regular code, but that is not very common.</p>
+
+<p>In summary: (the unsupported features per version are more detailed below)</p>
+
+<table border="1">
+<tr><th>L&Ouml;VE</th><th>Ved support</th></tr>
+<tr><td class="unsupported_bg">0.8.0-</td><td>Has never been supported, but a message is shown</td></tr>
+<tr><td class="unsupported_bg">0.9.0</td><td>Support dropped in 1.4.5 (broken since 1.4.2)</td></tr>
+<tr><td class="supported_bg">0.9.1</td><td rowspan="2">
+	Supported, with the following restrictions:
+	<ul>
+		<li><tt>font.png</tt> from the VVVVVV graphics folder cannot be used</li>
+		<li>F9 to display hotkeys never displays &#x2318; on Mac and never translates keys</li>
+		<li>The music player can't show song durations</li>
+		<li>The plugin hooks love_filedropped and love_directorydropped are never called</li>
+	</ul>
+</td></tr>
+<tr><td class="supported_bg">0.9.2</td></tr>
+<tr><td class="supported_bg">0.10.0</td><td rowspan="3">Supported since a42</td></tr>
+<tr><td class="supported_bg">0.10.1</td></tr>
+<tr><td class="supported_bg">0.10.2</td></tr>
+<tr><td class="supported_bg">11.0</td><td rowspan="4">Supported since 1.3.3</td></tr>
+<tr><td class="supported_bg">11.1</td></tr>
+<tr><td class="supported_bg">11.2</td></tr>
+<tr><td class="supported_bg">11.3</td></tr>
+</table>
 
 <h3>Checking the L&Ouml;VE version Ved is running under</h3>
 <p>Ved has a dedicated function to check if the current L&Ouml;VE version is at least a certain version or later, <tt>love_version_meets()</tt>. E.g. <tt>love_version_meets(10)</tt> means "L&Ouml;VE version is 0.10.0 or later", <tt>love_version_meets(9, 2)</tt> means "L&Ouml;VE version is 0.9.2 or later". It automatically takes care of the difference between 0.x and 11.x, too, so <tt>love_version_meets(10)</tt> means "L&Ouml;VE version is 0.10.0 or later" while <tt>love_version_meets(11)</tt> means "L&Ouml;VE version is 11.0 or later".</p>
