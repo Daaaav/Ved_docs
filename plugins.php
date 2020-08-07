@@ -26,10 +26,15 @@ body {
 	border: 1px solid black;
 	padding: 2px;
 } */
+
+a#page_plugins {
+	font-weight: bold;
+}
 </style>
 <link rel="stylesheet" type="text/css" href="colors/customizedstyle.css?020217" id="theme">
 </head>
 <body>
+<?php include('links.php'); ?>
 <h1>Ved plugins</h1>
 <p>This page details how to install or develop plugins for Ved.</p>
 <p>Last updated: <strong><?php echo date('l j F Y H:i (T)', filemtime('ved_docs/plugins.php')); /* previously getlastmod() */ ?></strong> (this is the last edit date of the file)</p>
@@ -301,5 +306,6 @@ It does not matter whether your plugin files use Unix-style (LF) line endings, W
 
 <h2><a name="technicaldocumentation">Technical documentation</a></h2>
 <p>There's a technical documentation of Ved that can be found <a href="internals.php" target="_blank">here</a>.</p>
+<?php include('links.php'); ?>
 </body>
 </html>

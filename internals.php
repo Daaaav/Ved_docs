@@ -34,10 +34,15 @@ h2 > a::after {
 	content: "<a href=\"#" attr(name) "\">#</a>";
 }
 */
+
+a#page_internals {
+	font-weight: bold;
+}
 </style>
 <link rel="stylesheet" type="text/css" href="colors/customizedstyle.css?020217" id="theme">
 </head>
 <body>
+<?php include('links.php'); ?>
 <h1>Ved technical documentation</h1>
 <p>This page is intended to document Ved's internals as well as possible. The page is still being worked on, and more things are being added over time. If you'd like to know more about anything specific in Ved that I haven't explained yet here, or not well enough (except for the easter eggs :P), feel free to ask! If you'd like more information on how to make plugins, check <a href="plugins.php" target="_blank">this page</a>. The repository is <a href="https://gitgud.io/Dav999/ved" target="_blank">here</a>.</p>
 <p>Last updated: <strong><?php echo date('l j F Y H:i (T)', filemtime('ved_docs/internals.php')); /* previously getlastmod() */ ?></strong> (this is the last edit date of the file)</p>
@@ -792,5 +797,6 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 <h2><a name="eastereggs">Easter eggs</a></h2>
 Ved contains several easter eggs.
 
+<?php include('links.php'); ?>
 </body>
 </html>
