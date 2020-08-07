@@ -89,6 +89,8 @@ h2 > a::after {
 <tr><td><tt>scrollbar.lua</tt></td><td>Contains code related to scrollbars. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
 <tr><td><tt>searchfunc.lua</tt></td><td>Contains functions related to searching levels.</td></tr>
 <tr><td><tt>slider.lua</tt></td><td>Used for the number control in the options screen, holds the function <tt>int_control</tt></td></tr>
+<tr><td><tt>ui_elements.lua</tt></td><td>Contains all the <a href="#guielements">GUI elements</a></td></tr>
+<tr><td><tt>uis/</tt></td><td>Folder with UI files for each state (see below)</td></tr>
 <tr><td><tt>updatecheck.lua</tt></td><td>Checks what the latest version of Ved is via HTTP, and reports back. This is run inside a separate thread.</td></tr>
 <tr><td><tt>vvvvvv_textbox.lua</tt></td><td>Contains code related to VVVVVV-style text boxes. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
 <tr><td><tt>vvvvvvxml.lua</tt></td><td>Loads and parses levels from .vvvvvv level files, and creates and saves them. Also has a function for &quot;loading&quot; a blank level.</td></tr>
@@ -96,45 +98,46 @@ h2 > a::after {
 
 <h2><a name="states">States</a></h2>
 <p>Ved uses state numbers to represent different screens, menus and interfaces. <!--(note about state and oldstate and functions)--> Blue state numbers are not normally used anymore, and/or are not normally accessible, and many of them are leftover testing states.</p>
+<p>As of 1.8.2, most of the code specific to each state can be found in the <tt>uis/</tt> directory. States have their own versions of L&Ouml;VE callbacks (such as <?php hyperlight('ui.update(dt)', 'generic', 'tt'); ?>, <?php hyperlight('ui.keypressed(key)', 'generic', 'tt'); ?>, <?php hyperlight('ui.mousepressed(x, y, button)', 'generic', 'tt'); ?>, etc). Furthermore, user interfaces can be built up of &quot;Elements&quot; which may automatically implement their own callbacks based on their parameters and position. For example, buttons can be defined to automatically be drawn at the correct position, and to execute the same action when it is clicked and when a given shortcut is pressed. For more information, see the <a href="#guielements">GUI elements</a> section.</p>
 <table border="1">
-<tr><th>#</th><th>Description</th></tr>
-<tr><td class="blu">-3</td><td>Black screen</td></tr>
-<tr><td>-2</td><td>tostate 6</td></tr>
-<tr><td>-1</td><td>Display error (expected: errormsg)</td></tr>
-<tr><td class="blu">0</td><td>Temp main menu (enter state). Can be accessed in debug mode by pressing F12.</td></tr>
-<tr><td>1</td><td>The editor (will expect things to have been loaded)</td></tr>
-<tr><td class="blu">2</td><td>Syntax highlighting test</td></tr>
-<tr><td>3</td><td>Scripting editor</td></tr>
-<tr><td class="blu">4</td><td>Some XML testing</td></tr>
-<tr><td class="blu">5</td><td>Filesystem testing</td></tr>
-<tr><td>6</td><td>Listing of all files in the levels folder, and load a level from here (loading screen)</td></tr>
-<tr><td class="blu">7</td><td>Display all sprites from sprites.png where you can get the number of the sprite you're hovering over</td></tr>
-<tr><td class="blu">8</td><td>Ancient save screen (you can type in a name and press enter)</td></tr>
-<tr><td class="blu">9</td><td>Dialog test, and right click menu test</td></tr>
-<tr><td>10</td><td>List of scripts, and enter one to load</td></tr>
-<tr><td>11</td><td>Search</td></tr>
-<tr><td>12</td><td>Map</td></tr>
-<tr><td>13</td><td>Options screen</td></tr>
-<tr><td class="blu">14</td><td>Enemy picker preview</td></tr>
-<tr><td>15</td><td>Help/Level notes/Plugins list</td></tr>
-<tr><td class="blu">16</td><td>Scroll bar test</td></tr>
-<tr><td class="blu">17</td><td>folderopendialog utility</td></tr>
-<tr><td class="blu">18</td><td>Show undo/redo stacks</td></tr>
-<tr><td>19</td><td>Flags list</td></tr>
-<tr><td class="blu">20</td><td>Resizable box test</td></tr>
-<tr><td class="blu">21</td><td>Display overlapping entities (may be a visible function later) (maybe doesn't work properly)</td></tr>
-<tr><td class="blu">22</td><td>Load a script file in the 3DS format (lines separated by dollars)</td></tr>
-<tr><td class="blu">23</td><td>Load a script file NOT in the 3DS format (lines separated by \r\n or \n)</td></tr>
-<tr><td class="blu">24</td><td>Simple plugins list (already not used)</td></tr>
-<tr><td>25</td><td>Syntax highlighting color settings</td></tr>
-<tr><td class="blu">26</td><td>Font test</td></tr>
-<tr><td>27</td><td>Display/Scale settings</td></tr>
-<tr><td>28</td><td>Level stats</td></tr>
-<tr><td class="blu">29</td><td>Plural forms test</td></tr>
-<tr><td>30</td><td>Assets viewer main menu</td></tr>
-<tr><td>31</td><td>Music player/editor, sound player</td></tr>
-<tr><td>32</td><td>Graphics viewer</td></tr>
-<tr><td colspan="2">100 and further can be allocated by plugins (next paragraph)</td></tr>
+<tr><th>#</th><th>UI name</th><th>Description</th></tr>
+<tr><td class="blu">-3</td><td></td><td>Black screen</td></tr>
+<tr><td>-2</td><td></td><td>tostate 6</td></tr>
+<tr><td>-1</td><td></td><td>Display error (expected: errormsg)</td></tr>
+<tr><td class="blu">0</td><td>state0</td><td>Temp main menu (enter state). Can be accessed in debug mode by pressing F12.</td></tr>
+<tr><td>1</td><td></td><td>The editor (will expect things to have been loaded)</td></tr>
+<tr><td class="blu">2</td><td></td><td>Syntax highlighting test</td></tr>
+<tr><td>3</td><td></td><td>Scripting editor</td></tr>
+<tr><td class="blu">4</td><td></td><td>Some XML testing</td></tr>
+<tr><td class="blu">5</td><td></td><td>Filesystem testing</td></tr>
+<tr><td>6</td><td></td><td>Listing of all files in the levels folder, and load a level from here (loading screen)</td></tr>
+<tr><td class="blu">7</td><td></td><td>Display all sprites from sprites.png where you can get the number of the sprite you're hovering over</td></tr>
+<tr><td class="blu">8</td><td></td><td>Ancient save screen (you can type in a name and press enter)</td></tr>
+<tr><td class="blu">9</td><td></td><td>Dialog test, and right click menu test</td></tr>
+<tr><td>10</td><td></td><td>List of scripts, and enter one to load</td></tr>
+<tr><td>11</td><td></td><td>Search</td></tr>
+<tr><td>12</td><td>map</td><td>Map</td></tr>
+<tr><td>13</td><td></td><td>Options screen</td></tr>
+<tr><td class="blu">14</td><td></td><td>Enemy picker preview</td></tr>
+<tr><td>15</td><td></td><td>Help/Level notes/Plugins list</td></tr>
+<tr><td class="blu">16</td><td></td><td>Scroll bar test</td></tr>
+<tr><td class="blu">17</td><td></td><td>folderopendialog utility</td></tr>
+<tr><td class="blu">18</td><td></td><td>Show undo/redo stacks</td></tr>
+<tr><td>19</td><td></td><td>Flags list</td></tr>
+<tr><td class="blu">20</td><td></td><td>Resizable box test</td></tr>
+<tr><td class="blu">21</td><td></td><td>Display overlapping entities (may be a visible function later) (maybe doesn't work properly)</td></tr>
+<tr><td class="blu">22</td><td></td><td>Load a script file in the 3DS format (lines separated by dollars)</td></tr>
+<tr><td class="blu">23</td><td></td><td>Load a script file NOT in the 3DS format (lines separated by \r\n or \n)</td></tr>
+<tr><td class="blu">24</td><td></td><td>Simple plugins list (already not used)</td></tr>
+<tr><td>25</td><td></td><td>Syntax highlighting color settings</td></tr>
+<tr><td class="blu">26</td><td></td><td>Font test</td></tr>
+<tr><td>27</td><td></td><td>Display/Scale settings</td></tr>
+<tr><td>28</td><td></td><td>Level stats</td></tr>
+<tr><td class="blu">29</td><td></td><td>Plural forms test</td></tr>
+<tr><td>30</td><td></td><td>Assets viewer main menu</td></tr>
+<tr><td>31</td><td></td><td>Music player/editor, sound player</td></tr>
+<tr><td>32</td><td></td><td>Graphics viewer</td></tr>
+<tr><td colspan="3">100 and further can be allocated by plugins (next paragraph)</td></tr>
 </table>
 
 <h2><a name="stateallocation">State allocation</a></h2>
@@ -480,19 +483,19 @@ end', 'generic'); ?>
 You can find more examples in <tt>dialog_uses.lua</tt> in Ved, no-close checkers are generally prefixed <tt>_validate</tt>.
 
 <h3>Fields</h3>
-Each dialog can have a list of input fields that will be shown in the dialog. Each input field starts with the following sequential properties:
-<ul>
+Each dialog can have a list (a table) of input fields that will be shown in the dialog. Each input field is a table with sequential properties that always start with the following:
+<ol>
 	<li>Key (its identifier, like <tt>name</tt> in a HTML input field)</li>
 	<li>X position in characters (blocks of 8)</li>
 	<li>Y position in characters (blocks of 8)</li>
 	<li>Width of input field in characters (so in blocks of 8 again)</li>
 	<li>Default value (like <tt>value</tt> in HTML)</li>
 	<li>Type (for example, use <tt>DF.TEXT</tt> for a text field)</li>
-</ul>
+</ol>
 <p>The X and Y positions for the field both start at 0, which is the position the regular dialog text also starts.<br>
 These are the different types of input fields:</p>
 <table border="1">
-	<tr><td>0</td><td><tt>DF.TEXT</tt></td><td>Text input (this is the default)</td></tr>
+	<tr><td>0</td><td><tt>DF.TEXT</tt></td><td>Text input</td></tr>
 	<tr><td>1</td><td><tt>DF.DROPDOWN</tt></td><td>Dropdown</td></tr>
 	<tr><td>2</td><td><tt>DF.LABEL</tt></td><td>Plain text label (does not take input)</td></tr>
 	<tr><td>3</td><td><tt>DF.CHECKBOX</tt></td><td>Checkbox</td></tr>
@@ -502,15 +505,15 @@ These are the different types of input fields:</p>
 <p>The <tt>DF.</tt> constants were added in Ved 1.5.0. More information about how the different types work:</p>
 <h4>(0) DF.TEXT - Text input</h4>
 A text field is what it says it is. An example is given as follows: <?php hyperlight('{"name", 0, 1, 40, "", DF.TEXT}', 'generic', 'tt'); ?><br>
-Here, the key is <tt>name</tt>, it is positioned on the start of the second line of text, it is 40 characters wide (but more characters will fit less elegantly) and its default value is an empty string.
+Here, the key is <tt>name</tt>, it is positioned on the start of the second line of text, it is 40 characters wide (but more characters will fit) and its default value is an empty string.
 
 <h4>(1) DF.DROPDOWN - Dropdown</h4>
 Dropdowns require at least one more argument:
-<ul>
+<ol start="7">
 	<li>A list of items shown in the dropdown menu</li>
 	<li>An optional table that converts a value to a displayable &quot;current selection&quot; if you want to hide how the value is passed. If not given, set this to <tt>false</tt> if you also want to supply the next argument.</li>
 	<li>An optional function that gets called whenever a selection is made from the dropdown. Think of an <tt>onchange</tt> event in HTML/JS. Gets passed the selection from the dropdown as text, and may return a substitute to fill into the input field behind the scenes.</li>
-</ul>
+</ol>
 <p>Basically, there's two forms: first the simpler one. In the simpler form, you only need a list of items that will appear in the dropdown, and whenever the user selects an item, the value of the input field is set to the text of the option that the user selected. This means what's readable as an option will be passed. You may want to set the default value to an option in the list.<br>
 An example: <?php hyperlight('{"drop", 0, 0, 30, "Option A", DF.DROPDOWN, {"Option A", "Option B", "Option C"}}', 'generic', 'tt'); ?><br>
 The width is set to 30 because that's how wide dropdown menus are (currently). If you want a function to be called every time an option is selected in this case, there'd be two more arguments: <tt>false</tt> (as a filler for the second table) and then the function.</p>
@@ -565,7 +568,7 @@ The default state of this checkbox is checked, since the default value is set to
 
 <h4>(5) DF.FILES - Files list and directory navigation</h4>
 <p>The files list type was added in Ved 1.6.0. The default value is the full path to the current directory. It takes 7 more arguments (note that despite me giving each of these arguments names, they don't actually have keys by those names, and this is only to make it easier to understand):</p>
-<ol>
+<ol start="7">
 	<li><tt>menuitems</tt> - A table of files, where each file is a table of the form returned by <tt>listfiles_generic()</tt>. That is, it has the attributes of <tt>name</tt>, <tt>isdir</tt>, and <tt>lastmodified</tt>.</li>
 	<li><tt>folder_filter</tt> - If argument 7 (<tt>filter_on</tt>) is on, then the files listed will only be the ones ending in this string. Usually it'll be a file extension like <tt>.vvv</tt>. You can make this filter only directories by passing the operating system's directory separator, which should be <tt>dirsep</tt>.</li>
 	<li><tt>folder_show_hidden</tt> - Whether or not to show hidden files or not. This is passed to <tt>listfiles_generic()</tt>, which goes off of the operating system's definition of hidden.</li>
@@ -713,6 +716,78 @@ The top row of letters of the QWERTY keyboard, lowercase, along with <tt>k</tt> 
 	<li><tt>+</tt></li>
 	<li><tt>-</tt></li>
 </ul>
+
+<h2><a name="guielements">GUI elements</a></h2>
+Each <a href="#states">state</a> can have a list of elements in their file in <tt>uis/</tt>, which is a table <tt>ui.elements</tt>. These elements are drawn in order, and their callbacks are called when that state is active. The internal functioning of the different classes of UI elements can be found in <tt>ui_elements.lua</tt>. There are certain element <strong>classes</strong> such as <tt>elButton</tt> with all sorts of parameters controlling their behavior (for example, whether it's a button with text on it, or whether it's an icon), which actually implement the callbacks (documenting which is TODO). Then there are easy <strong>constructor functions</strong> which actually create and &quot;configure&quot; these classes depending on what you want (for example, a <tt>LabelButton</tt> constructor has an argument for the text to display on the button, which an <tt>ImageButton</tt> doesn't need because it has arguments to do with displaying a clickable image). The following constructors for UI elements exist:
+
+<dl>
+<dt><?php hyperlight('DrawingFunction(func)', 'generic', 'tt'); ?></dt>
+<dd>
+	This element simply calls a drawing function <tt>func</tt>.
+</dd>
+<dt><?php hyperlight('FloatContainer(el, fx, fy, maxw, maxh)', 'generic', 'tt'); ?></dt>
+<dd>
+	Container that puts a sub-element at completely custom coordinates.
+</dd>
+<dt><?php hyperlight('AlignContainer(el, calign, cvalign)', 'generic', 'tt'); ?></dt>
+<dd>
+	Aligns its sub-element left/center/right and top/center/bottom depending on parent <tt>maxw</tt> and <tt>maxh</tt>.<br>
+	<tt>calign</tt>: One of <tt>ALIGN.LEFT</tt>, <tt>ALIGN.CENTER</tt> or <tt>ALIGN.RIGHT</tt><br>
+	<tt>cvalign</tt>: One of <tt>VALIGN.TOP</tt>, <tt>VALIGN.CENTER</tt> or <tt>VALIGN.BOTTOM</tt>
+</dd>
+<dt><?php hyperlight('ScreenContainer(els, cw, ch)', 'generic', 'tt'); ?></dt>
+<dd>
+	Simply holds more elements as though this is another root.<br>
+	<tt>cw</tt> / <tt>ch</tt>: container width and height. <tt>nil</tt> to fill the remaining parent width/height.
+</dd>
+<dt><?php hyperlight('ListContainer(els_top, els_bot, cw, ch, starty, spacing, starty_bot, spacing_bot)', 'generic', 'tt'); ?></dt>
+<dd>
+	Vertical list container.
+	Elements from the top are displayed at <tt>starty</tt>, elements from the bottom are <tt>starty_bot</tt> pixels away from <tt>maxh</tt> given in the draw function.
+	If the <tt>maxh</tt> given to the draw function is infinite (<tt>nil</tt>), then bottom elements are not shown.<br>
+	<tt>cw</tt> / <tt>ch</tt>: container width and height. <tt>nil</tt> to fill the remaining parent width/height.<br>
+	<tt>spacing</tt>: the spacing between each top element<br>
+	<tt>starty_bot</tt>: if not given, this defaults to <tt>starty</tt>.<br>
+	<tt>spacing_bot</tt>: if not given, this defaults to <tt>spacing</tt>.
+</dd>
+<dt><?php hyperlight('HorizontalListContainer(els_left, els_right, cw, ch, startx, spacing, startx_right, spacing_right)', 'generic', 'tt'); ?></dt>
+<dd>
+	Horizontal list container. Works the same as a vertical list container, but &quot;top&quot; and &quot;bottom&quot; correspond to &quot;left&quot; and &quot;right&quot;.
+</dd>
+<dt><?php hyperlight('RightBar(els_top, els_bot)', 'generic', 'tt'); ?></dt>
+<dd>
+	A right-aligned vertical list container with a width of 128, and <tt>starty</tt> and <tt>spacing</tt> of 8.
+</dd>
+<dt><?php hyperlight('Spacer(w, h)', 'generic', 'tt'); ?></dt>
+<dd>
+	Filler element that just takes space.
+</dd>
+<dt><?php hyperlight('LabelButtonSpacer()', 'generic', 'tt'); ?></dt>
+<dd>
+	Filler element the size of a LabelButton.
+</dd>
+<dt><?php hyperlight('LabelButton(label, action, hotkey_text, hotkey_func, status_func, action_r, hotkey_r_func)', 'generic', 'tt'); ?></dt>
+<dd>
+	A clickable button with a text label. If clicked or the hotkey is used, the function <tt>action</tt> is run.<br>
+	<tt>hotkey_text</tt>: The displayed hotkey when holding F9. Displayed in the tiny numbers font.<br>
+	<tt>hotkey_func</tt>: A function that takes a key as argument (from <tt>love.keypressed(key)</tt>) and returns true if this button's hotkey is pressed (so that <tt>action</tt> will run).<br>
+	<tt>status_func</tt>: A function that can have three return values indicating the button's status: <tt>shown</tt>, <tt>enabled</tt>, <tt>yellow</tt>. If nil, <tt>shown</tt> and <tt>enabled</tt> default to true, <tt>yellow</tt> defaults to false.<br>
+	<tt>action_r</tt>: A function to run when the button is right-clicked.<br>
+	<tt>hotkey_r_func</tt>: Similar to <tt>hotkey_func</tt>, but returns true if the hotkey is pressed for executing the &quot;right-click&quot; action.
+</dd>
+<dt><?php hyperlight('ImageButton(image, scale, action, hotkey_text, hotkey_func, status_func, action_r, hotkey_r_func)', 'generic', 'tt'); ?></dt>
+<dd>
+	A clickable image (scaled <tt>scale</tt> times) that will appear dimmed or normal depending on whether the cursor hovers over it. For argument descriptions, see LabelButton.
+</dd>
+<dt><?php hyperlight('InvisibleButton(w, h, action, hotkey_text, hotkey_func, status_func, action_r, hotkey_r_func)', 'generic', 'tt'); ?></dt>
+<dd>
+	A clickable button that is not displayed. For argument descriptions, see LabelButton.
+</dd>
+<dt><?php hyperlight('EditorIconBar()', 'generic', 'tt'); ?></dt>
+<dd>
+	A horizontal list container with image buttons for undo, redo, cut, copy and paste.
+</dd>
+</dl>
 
 <h2><a name="eastereggs">Easter eggs</a></h2>
 Ved contains several easter eggs.
