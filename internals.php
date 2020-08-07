@@ -647,42 +647,8 @@ If you are calling this from a dialog, you will need to pass the next two argume
 <p>What this means is that, for example, <tt>a</tt> is Alt, but <tt>A</tt> is just the letter A. In fact, <tt>0</tt>-<tt>9</tt> and <tt>A</tt>-<tt>Z</tt> (uppercase) are all just themselves, along with a lot of other characters. You can also easily combine symbols togetter like so: <tt>aS</tt> would simply be Alt+S, and show up as such accordingly.</p>
 <p>In the following list of usable symbols, a character is simply itself if it has no text saying otherwise:</p>
 <ul>
-	<li><tt>0</tt></li>
-	<li><tt>1</tt></li>
-	<li><tt>2</tt></li>
-	<li><tt>3</tt></li>
-	<li><tt>4</tt></li>
-	<li><tt>5</tt></li>
-	<li><tt>6</tt></li>
-	<li><tt>7</tt></li>
-	<li><tt>8</tt></li>
-	<li><tt>9</tt></li>
-	<li><tt>A</tt></li>
-	<li><tt>B</tt></li>
-	<li><tt>C</tt></li>
-	<li><tt>D</tt></li>
-	<li><tt>E</tt></li>
-	<li><tt>F</tt></li>
-	<li><tt>G</tt></li>
-	<li><tt>H</tt></li>
-	<li><tt>I</tt></li>
-	<li><tt>J</tt></li>
-	<li><tt>K</tt></li>
-	<li><tt>L</tt></li>
-	<li><tt>M</tt></li>
-	<li><tt>N</tt></li>
-	<li><tt>O</tt></li>
-	<li><tt>P</tt></li>
-	<li><tt>Q</tt></li>
-	<li><tt>R</tt></li>
-	<li><tt>S</tt></li>
-	<li><tt>T</tt></li>
-	<li><tt>U</tt></li>
-	<li><tt>V</tt></li>
-	<li><tt>W</tt></li>
-	<li><tt>X</tt></li>
-	<li><tt>Y</tt></li>
-	<li><tt>Z</tt></li>
+	<li><tt>0</tt> through <tt>9</tt></li>
+	<li><tt>A</tt> through <tt>Z</tt></li>
 	<li><tt>,</tt></li>
 	<li><tt>.</tt></li>
 	<li><tt>~</tt> is blank, and simply adds a bit of extra space.</li>
@@ -723,12 +689,12 @@ The top row of letters of the QWERTY keyboard, lowercase, along with <tt>k</tt> 
 </ul>
 
 <h2><a name="guielements">GUI elements</a></h2>
-Each <a href="#states">state</a> can have a list of elements in their file in <tt>uis/</tt>, which is a table <tt>ui.elements</tt>. These elements are drawn in order, and their callbacks are called when that state is active. The internal functioning of the different classes of UI elements can be found in <tt>ui_elements.lua</tt>. There are certain element <strong>classes</strong> such as <tt>elButton</tt> with all sorts of parameters controlling their behavior (for example, whether it's a button with text on it, or whether it's an icon), which actually implement the callbacks (documenting which is TODO). Then there are easy <strong>constructor functions</strong> which actually create and &quot;configure&quot; these classes depending on what you want (for example, a <tt>LabelButton</tt> constructor has an argument for the text to display on the button, which an <tt>ImageButton</tt> doesn't need because it has arguments to do with displaying a clickable image). The following constructors for UI elements exist:
+Each <a href="#states">state</a> can have a list of elements in their file in <tt>uis/</tt>, which is a table <tt>ui.elements</tt>. Each of these elements at the root is drawn in order - all being given a position of 0,0 and remaining width and height as the window dimensions - and their callbacks are called when that state is active. The internal functioning of the different classes of UI elements can be found in <tt>ui_elements.lua</tt>. There are certain element <strong>classes</strong> such as <tt>elButton</tt> with all sorts of parameters controlling their behavior (for example, whether it's a button with text on it, or whether it's an icon), which actually implement the callbacks (documenting which is TODO). Then there are easy <strong>constructor functions</strong> which actually create and &quot;configure&quot; these classes depending on what you want (for example, a <tt>LabelButton</tt> constructor has an argument for the text to display on the button, which an <tt>ImageButton</tt> doesn't need because it has arguments to do with displaying a clickable image). The following constructors for UI elements exist:
 
 <dl>
 <dt><?php hyperlight('DrawingFunction(func)', 'generic', 'tt'); ?></dt>
 <dd>
-	This element simply calls a drawing function <tt>func</tt>.
+	This element simply calls a drawing function <tt>func(x, y, maxw, maxh)</tt>. This function may return its actual width and height, and must do so if it's in a container that expects width and height.
 </dd>
 <dt><?php hyperlight('FloatContainer(el, fx, fy, maxw, maxh)', 'generic', 'tt'); ?></dt>
 <dd>
