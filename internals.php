@@ -13,6 +13,10 @@ td, th {
 	color: blue;
 }
 
+.dred {
+	color: red;
+}
+
 tr.cellborders > td {
 	border: 1px solid black;
 }
@@ -102,28 +106,28 @@ a#page_internals {
 </table>
 
 <h2><a name="states">States</a></h2>
-<p>Ved uses state numbers to represent different screens, menus and interfaces. <!--(note about state and oldstate and functions)--> Blue state numbers are not normally used anymore, and/or are not normally accessible, and many of them are leftover testing states.</p>
-<p>As of 1.8.2, most of the code specific to each state can be found in the <tt>uis/</tt> directory. States have their own versions of L&Ouml;VE callbacks (such as <?php hyperlight('ui.update(dt)', 'generic', 'tt'); ?>, <?php hyperlight('ui.keypressed(key)', 'generic', 'tt'); ?>, <?php hyperlight('ui.mousepressed(x, y, button)', 'generic', 'tt'); ?>, etc). Furthermore, user interfaces can be built up of &quot;Elements&quot; which may automatically implement their own callbacks based on their parameters and position. For example, buttons can be defined to automatically be drawn at the correct position, and to execute the same action when it is clicked and when a given shortcut is pressed. For more information, see the <a href="#guielements">GUI elements</a> section.</p>
+<p>Ved uses state numbers to represent different screens, menus and interfaces. <!--(note about state and oldstate and functions)--> <span class="blu">Blue</span> state numbers are not normally used anymore, and/or are not normally accessible, and many of them are leftover testing states. <span class="dred">Red</span> state numbers have been removed from Ved altogether (and won't be reused).</p>
+<p>As of 1.8.2, most of the code specific to each state can be found in the <tt>uis/</tt> directory. States have their own versions of L&Ouml;VE callbacks (such as <?php hyperlight('ui.update(dt)', 'generic', 'tt'); ?>, <?php hyperlight('ui.keypressed(key)', 'generic', 'tt'); ?>, <?php hyperlight('ui.mousepressed(x, y, button)', 'generic', 'tt'); ?>, etc). Furthermore, user interfaces can be built up of &quot;Elements&quot; which may automatically implement their own callbacks based on their parameters and position. For example, buttons can be defined to automatically be drawn at the correct position, and to execute the same action when it is clicked and when a given shortcut is pressed. For more information, see the <a href="#guielements">GUI elements</a> section. It should be noted that states can also implement <?php hyperlight('ui.draw()', 'generic', 'tt'); ?>, which is called before the Elements are drawn.</p>
 <table border="1">
 <tr><th>#</th><th>UI name</th><th>Description</th></tr>
 <tr><td class="blu">-3</td><td></td><td>Black screen</td></tr>
 <tr><td>-2</td><td></td><td>tostate 6</td></tr>
-<tr><td>-1</td><td></td><td>Display error (expected: errormsg)</td></tr>
+<tr><td class="dred">-1</td><td></td><td>Display error (expected: errormsg)</td></tr>
 <tr><td class="blu">0</td><td>state0</td><td>Temp main menu (enter state). Can be accessed in debug mode by pressing F12.</td></tr>
 <tr><td>1</td><td></td><td>The editor (will expect things to have been loaded)</td></tr>
-<tr><td class="blu">2</td><td></td><td>Syntax highlighting test</td></tr>
-<tr><td>3</td><td></td><td>Scripting editor</td></tr>
-<tr><td class="blu">4</td><td></td><td>Some XML testing</td></tr>
-<tr><td class="blu">5</td><td></td><td>Filesystem testing</td></tr>
-<tr><td>6</td><td></td><td>Listing of all files in the levels folder, and load a level from here (loading screen)</td></tr>
-<tr><td class="blu">7</td><td></td><td>Display all sprites from sprites.png where you can get the number of the sprite you're hovering over</td></tr>
-<tr><td class="blu">8</td><td></td><td>Ancient save screen (you can type in a name and press enter)</td></tr>
-<tr><td class="blu">9</td><td></td><td>Dialog test, and right click menu test</td></tr>
-<tr><td>10</td><td></td><td>List of scripts, and enter one to load</td></tr>
-<tr><td>11</td><td></td><td>Search</td></tr>
+<tr><td class="dred">2</td><td></td><td>Syntax highlighting test</td></tr>
+<tr><td>3</td><td>scripteditor</td><td>Scripting editor</td></tr>
+<tr><td class="dred">4</td><td></td><td>Some XML testing</td></tr>
+<tr><td class="blu">5</td><td>fsinfo</td><td>Filesystem info</td></tr>
+<tr><td>6</td><td>levelslist</td><td>Listing of all files in the levels folder, and load a level from here (loading screen)</td></tr>
+<tr><td class="blu">7</td><td>spriteview</td><td>Display all sprites from sprites.png where you can get the number of the sprite you're hovering over</td></tr>
+<tr><td class="dred">8</td><td></td><td>Ancient save screen (you can type in a name and press enter)</td></tr>
+<tr><td class="blu">9</td><td>dialogtest</td><td>Dialog test, and right click menu test</td></tr>
+<tr><td>10</td><td>scriptlist</td><td>List of scripts, and enter one to load</td></tr>
+<tr><td>11</td><td>search</td><td>Search</td></tr>
 <tr><td>12</td><td>map</td><td>Map</td></tr>
-<tr><td>13</td><td></td><td>Options screen</td></tr>
-<tr><td class="blu">14</td><td></td><td>Enemy picker preview</td></tr>
+<tr><td>13</td><td>options</td><td>Options screen</td></tr>
+<tr><td class="blu">14</td><td>enemypickertest</td><td>Enemy picker preview</td></tr>
 <tr><td>15</td><td></td><td>Help/Level notes/Plugins list</td></tr>
 <tr><td class="blu">16</td><td></td><td>Scroll bar test</td></tr>
 <tr><td class="blu">17</td><td></td><td>folderopendialog utility</td></tr>
@@ -142,6 +146,8 @@ a#page_internals {
 <tr><td>30</td><td></td><td>Assets viewer main menu</td></tr>
 <tr><td>31</td><td></td><td>Music player/editor, sound player</td></tr>
 <tr><td>32</td><td></td><td>Graphics viewer</td></tr>
+<tr><td>33</td><td></td><td>Language screen</td></tr>
+<tr><td class="blu">34</td><td></td><td>New input system test</td></tr>
 <tr><td colspan="3">100 and further can be allocated by plugins (next paragraph)</td></tr>
 </table>
 
@@ -158,7 +164,7 @@ a#page_internals {
 <p>For example, take a plugin called My First Plugin, which uses three states. Upon startup, like in hook <tt>love_load_start</tt> or <tt>love_load_end</tt>, the plugin calls <?php hyperlight('allocate_states("my_1st_plug", 3)', 'generic', 'tt'); ?>. If this is the only plugin, or the first plugin to call <tt>allocate_states()</tt>, the allocated states will now, internally, be 100, 101 and 102. Let's say My First Plugin has three buttons to go to each of the allocated states. The first button, when clicked, would call <?php hyperlight('to_astate("my_1st_plug", 0)', 'generic', 'tt'); ?>, the second would call <?php hyperlight('to_astate("my_1st_plug", 1)', 'generic', 'tt'); ?> and the third would call <?php hyperlight('to_astate("my_1st_plug", 2)', 'generic', 'tt'); ?>. Hook <tt>love_draw_state</tt>, would contain something like this:</p>
 <?php hyperlight('if in_astate("my_1st_plug", 0) then
 	-- Insert drawing code for first state!
-	statecaught = true
+	statecaught = true -- <- only necessary in 1.8.1 and older!
 elseif in_astate("my_1st_plug", 1) then
 	-- Insert drawing code for second state!
 	statecaught = true
@@ -166,7 +172,7 @@ elseif in_astate("my_1st_plug", 2) then
 	-- Insert drawing code for third state!
 	statecaught = true
 end', 'generic'); ?>
-<p>The hook <tt>func_loadstate</tt> could contain something similar for initialization code for all the states (but without <?php hyperlight('statecaught = true', 'generic', 'tt'); ?>)</p>
+<p>The hook <tt>func_loadstate</tt> could contain something similar for initialization code for all the states (but without <?php hyperlight('statecaught = true', 'generic', 'tt'); ?>). Speaking about <?php hyperlight('statecaught = true', 'generic', 'tt'); ?>, this variable was used to prevent an &quot;Unknown state&quot; screen from showing, but this screen has been removed in 1.8.2, and thus setting the variable is no longer necessary.</p>
 <p>The identifying name can be anything, but this name should be unique to one plugin. It's also possible to allocate multiple blocks of state numbers within the same plugin, if you use different names. If your plugin only has one state, you can leave out the number (<?php hyperlight('allocate_states("my_1st_plug")', 'generic', 'tt'); ?>, <?php hyperlight('in_astate("my_1st_plug")', 'generic', 'tt'); ?>, <?php hyperlight('to_astate("my_1st_plug")', 'generic', 'tt'); ?>). And of course, this means you can have multiple states that are only referred to by string names (I can see how <?php hyperlight('in_astate("my_1st_plug_menu")', 'generic', 'tt'); ?> and <?php hyperlight('in_astate("my_1st_plug_display")', 'generic', 'tt'); ?> can be more pleasing than <?php hyperlight('in_astate("my_1st_plug", 0)', 'generic', 'tt'); ?> and <?php hyperlight('in_astate("my_1st_plug", 1)', 'generic', 'tt'); ?>). It's up to you to choose whatever you like most, or whatever works best for your plugin.</p> 
 
 <h2><a name="loveversioncompat">L&Ouml;VE version compatibility</a></h2>
@@ -642,6 +648,19 @@ If you are calling this from a dialog, you will need to pass the next two argume
 </dd>
 </dl>
 
+<h3><a name="hotkeyfunc">Hotkey check function</a></h3>
+<p>The following function can be used in button UI elements, to easily add a functioning hotkey to a button. This function will return an anonymous function which returns true if the given hotkey, in combination with a modifier key if specified, is pressed.</p>
+<dl>
+<dt><?php hyperlight('hotkey(checkkey, checkmod)', 'generic', 'tt'); ?></dt>
+<dd>
+	<tt>checkkey</tt>: The <a href="https://love2d.org/wiki/KeyConstant" target="_blank">key constant</a> to check.<br>
+	<tt>checkmod</tt>: Optional. If specified, the key constant to additionally check. <u>This is passed to <tt>keyboard_eitherIsDown</tt></u>, which means 'l' and 'r' variants are checked.
+</dd>
+</dl>
+
+<h3>keyboard_eitherIsDown(...)</h3>
+In order to avoid needing to use <?php hyperlight('love.keyboard.isDown("lshift", "rshift")', 'generic', 'tt'); ?> or even <?php hyperlight('love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift")', 'generic', 'tt'); ?>, the function <tt>keyboard_eitherIsDown(...)</tt> exists. This works similarly to <tt>love.keyboard.isDown(...)</tt>, except for each key passed, it checks 'l' and 'r' variants of that key. It therefore only makes sense to use this with modifier keys that actually have (or may have) both left and right variants that are named as such. Example: <?php hyperlight('keyboard_eitherIsDown("shift")', 'generic', 'tt'); ?>
+
 <h3>Hotkey codes</h3>
 <p>Each symbol in the hotkey font, <tt>tinynumbersfont</tt>, is actually mapped to one specific character, and is case-sensitive.</p>
 <p>What this means is that, for example, <tt>a</tt> is Alt, but <tt>A</tt> is just the letter A. In fact, <tt>0</tt>-<tt>9</tt> and <tt>A</tt>-<tt>Z</tt> (uppercase) are all just themselves, along with a lot of other characters. You can also easily combine symbols togetter like so: <tt>aS</tt> would simply be Alt+S, and show up as such accordingly.</p>
@@ -741,7 +760,7 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 <dd>
 	A clickable button with a text label. If clicked or the hotkey is used, the function <tt>action</tt> is run.<br>
 	<tt>hotkey_text</tt>: The displayed hotkey when holding F9. Displayed in the tiny numbers font.<br>
-	<tt>hotkey_func</tt>: A function that takes a key as argument (from <tt>love.keypressed(key)</tt>) and returns true if this button's hotkey is pressed (so that <tt>action</tt> will run).<br>
+	<tt>hotkey_func</tt>: A function that takes a key as argument (from <tt>love.keypressed(key)</tt>) and returns true if this button's hotkey is pressed (so that <tt>action</tt> will run). There is a convenience function <?php hyperlight('hotkey(checkkey, checkmod)', 'generic', 'tt'); ?>. For more about that, see <a href="#hotkeyfunc">the section</a> about it above. Example: <?php hyperlight('hotkey("escape")', 'generic', 'tt'); ?><br>
 	<tt>status_func</tt>: A function that can have three return values indicating the button's status: <tt>shown</tt>, <tt>enabled</tt>, <tt>yellow</tt>. If nil, <tt>shown</tt> and <tt>enabled</tt> default to true, <tt>yellow</tt> defaults to false.<br>
 	<tt>action_r</tt>: A function to run when the button is right-clicked.<br>
 	<tt>hotkey_r_func</tt>: Similar to <tt>hotkey_func</tt>, but returns true if the hotkey is pressed for executing the &quot;right-click&quot; action.
