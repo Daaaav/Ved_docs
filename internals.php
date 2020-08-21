@@ -15,6 +15,7 @@ td, th {
 
 .dred {
 	color: red;
+	text-decoration: line-through;
 }
 
 tr.cellborders > td {
@@ -106,14 +107,14 @@ a#page_internals {
 </table>
 
 <h2><a name="states">States</a></h2>
-<p>Ved uses state numbers to represent different screens, menus and interfaces. <!--(note about state and oldstate and functions)--> <span class="blu">Blue</span> state numbers are not normally used anymore, and/or are not normally accessible, and many of them are leftover testing states. <span class="dred">Red</span> state numbers have been removed from Ved altogether (and won't be reused).</p>
+<p>Ved uses state numbers to represent different screens, menus and interfaces. <!--(note about state and oldstate and functions)--> <span class="blu">Blue</span> state numbers are not normally used anymore, and/or are not normally accessible, and many of them are leftover testing states. <span class="dred">Red, striked-through</span> state numbers have been removed from Ved altogether (and won't be reused).</p>
 <p>As of 1.8.2, most of the code specific to each state can be found in the <tt>uis/</tt> directory. States have their own versions of L&Ouml;VE callbacks (such as <?php hyperlight('ui.update(dt)', 'generic', 'tt'); ?>, <?php hyperlight('ui.keypressed(key)', 'generic', 'tt'); ?>, <?php hyperlight('ui.mousepressed(x, y, button)', 'generic', 'tt'); ?>, etc). Furthermore, user interfaces can be built up of &quot;Elements&quot; which may automatically implement their own callbacks based on their parameters and position. For example, buttons can be defined to automatically be drawn at the correct position, and to execute the same action when it is clicked and when a given shortcut is pressed. For more information, see the <a href="#guielements">GUI elements</a> section. It should be noted that states can also implement <?php hyperlight('ui.draw()', 'generic', 'tt'); ?>, which is called before the Elements are drawn.</p>
 <table border="1">
 <tr><th>#</th><th>UI name</th><th>Description</th></tr>
 <tr><td class="blu">-3</td><td></td><td>Black screen</td></tr>
 <tr><td>-2</td><td></td><td>tostate 6</td></tr>
 <tr><td class="dred">-1</td><td></td><td>Display error (expected: errormsg)</td></tr>
-<tr><td class="blu">0</td><td>state0</td><td>Temp main menu (enter state). Can be accessed in debug mode by pressing F12.</td></tr>
+<tr><td class="blu">0</td><td>state0</td><td>Jump to any state number you want. Can be accessed in debug mode by pressing F12.</td></tr>
 <tr><td>1</td><td></td><td>The editor (will expect things to have been loaded)</td></tr>
 <tr><td class="dred">2</td><td></td><td>Syntax highlighting test</td></tr>
 <tr><td>3</td><td>scripteditor</td><td>Scripting editor</td></tr>
@@ -128,17 +129,17 @@ a#page_internals {
 <tr><td>12</td><td>map</td><td>Map</td></tr>
 <tr><td>13</td><td>options</td><td>Options screen</td></tr>
 <tr><td class="blu">14</td><td>enemypickertest</td><td>Enemy picker preview</td></tr>
-<tr><td>15</td><td></td><td>Help/Level notes/Plugins list</td></tr>
-<tr><td class="blu">16</td><td></td><td>Scroll bar test</td></tr>
-<tr><td class="blu">17</td><td></td><td>folderopendialog utility</td></tr>
-<tr><td class="blu">18</td><td></td><td>Show undo/redo stacks</td></tr>
-<tr><td>19</td><td></td><td>Flags list</td></tr>
-<tr><td class="blu">20</td><td></td><td>Resizable box test</td></tr>
-<tr><td class="blu">21</td><td></td><td>Display overlapping entities (may be a visible function later) (maybe doesn't work properly)</td></tr>
-<tr><td class="blu">22</td><td></td><td>Load a script file in the 3DS format (lines separated by dollars)</td></tr>
-<tr><td class="blu">23</td><td></td><td>Load a script file NOT in the 3DS format (lines separated by \r\n or \n)</td></tr>
-<tr><td class="blu">24</td><td></td><td>Simple plugins list (already not used)</td></tr>
-<tr><td>25</td><td></td><td>Syntax highlighting color settings</td></tr>
+<tr><td>15</td><td>help</td><td>Help/Level notes/Plugins list</td></tr>
+<tr><td class="dred">16</td><td></td><td>Reserved for scroll bar test, never used</td></tr>
+<tr><td class="dred">17</td><td></td><td>Reserved for folderopendialog utility, never used</td></tr>
+<tr><td class="blu">18</td><td>unreinfo</td><td>Show main editor undo/redo stacks</td></tr>
+<tr><td>19</td><td>scriptflags</td><td>Flags list</td></tr>
+<tr><td class="blu">20</td><td>resizableboxtest</td><td>Resizable box test</td></tr>
+<tr><td class="blu">21</td><td>overlapentinfo</td><td>Display overlapping entities (may be a visible function later) (maybe doesn't work properly)</td></tr>
+<tr><td class="dred">22</td><td></td><td>Load a script file in the 3DS format (lines separated by dollars)</td></tr>
+<tr><td class="dred">23</td><td></td><td>Load a script file NOT in the 3DS format (lines separated by \r\n or \n)</td></tr>
+<tr><td class="dred">24</td><td></td><td>Simple plugins list (already never used)</td></tr>
+<tr><td>25</td><td>syntaxoptions</td><td>Syntax highlighting color settings</td></tr>
 <tr><td class="blu">26</td><td></td><td>Font test</td></tr>
 <tr><td>27</td><td></td><td>Display/Scale settings</td></tr>
 <tr><td>28</td><td></td><td>Level stats</td></tr>
