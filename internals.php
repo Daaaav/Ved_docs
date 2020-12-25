@@ -107,12 +107,12 @@ a#page_internals {
 </table>
 
 <h2><a name="states">States</a></h2>
-<p>Ved uses state numbers to represent different screens, menus and interfaces. <!--(note about state and oldstate and functions)--> <span class="blu">Blue</span> state numbers are not normally used anymore, and/or are not normally accessible, and many of them are leftover testing states. <span class="dred">Red, striked-through</span> state numbers have been removed from Ved altogether (and won't be reused).</p>
+<p>Ved uses state numbers to represent different screens, menus and interfaces. <!--(note about state and oldstate and functions)--> <span class="blu">Blue</span> state numbers are not normally used anymore, and/or are not normally accessible, and many of them are leftover testing states. <span class="dred">Red, struck-through</span> state numbers have been removed from Ved altogether (and won't be reused).</p>
 <p>As of 1.8.2, most of the code specific to each state can be found in the <tt>uis/</tt> directory. States have their own versions of L&Ouml;VE callbacks (such as <?php hyperlight('ui.update(dt)', 'generic', 'tt'); ?>, <?php hyperlight('ui.keypressed(key)', 'generic', 'tt'); ?>, <?php hyperlight('ui.mousepressed(x, y, button)', 'generic', 'tt'); ?>, etc). Furthermore, user interfaces can be built up of &quot;Elements&quot; which may automatically implement their own callbacks based on their parameters and position. For example, buttons can be defined to automatically be drawn at the correct position, and to execute the same action when it is clicked and when a given shortcut is pressed. For more information, see the <a href="#guielements">GUI elements</a> section. It should be noted that states can also implement <?php hyperlight('ui.draw()', 'generic', 'tt'); ?>, which is called before the Elements are drawn.</p>
 <table border="1">
 <tr><th>#</th><th>UI name</th><th>Description</th></tr>
 <tr><td class="blu">-3</td><td></td><td>Black screen</td></tr>
-<tr><td>-2</td><td></td><td>tostate 6</td></tr>
+<tr><td>-2</td><td>init</td><td>tostate 6</td></tr>
 <tr><td class="dred">-1</td><td></td><td>Display error (expected: errormsg)</td></tr>
 <tr><td class="blu">0</td><td>state0</td><td>Jump to any state number you want. Can be accessed in debug mode by pressing F12.</td></tr>
 <tr><td>1</td><td></td><td>The editor (will expect things to have been loaded)</td></tr>
@@ -140,15 +140,15 @@ a#page_internals {
 <tr><td class="dred">23</td><td></td><td>Load a script file NOT in the 3DS format (lines separated by \r\n or \n)</td></tr>
 <tr><td class="dred">24</td><td></td><td>Simple plugins list (already never used)</td></tr>
 <tr><td>25</td><td>syntaxoptions</td><td>Syntax highlighting color settings</td></tr>
-<tr><td class="blu">26</td><td></td><td>Font test</td></tr>
-<tr><td>27</td><td></td><td>Display/Scale settings</td></tr>
-<tr><td>28</td><td></td><td>Level stats</td></tr>
-<tr><td class="blu">29</td><td></td><td>Plural forms test</td></tr>
-<tr><td>30</td><td></td><td>Assets viewer main menu</td></tr>
-<tr><td>31</td><td></td><td>Music player/editor, sound player</td></tr>
-<tr><td>32</td><td></td><td>Graphics viewer</td></tr>
-<tr><td>33</td><td></td><td>Language screen</td></tr>
-<tr><td class="blu">34</td><td></td><td>New input system test</td></tr>
+<tr><td class="blu">26</td><td>fonttest</td><td>Font test</td></tr>
+<tr><td>27</td><td>displayoptions</td><td>Display/Scale settings</td></tr>
+<tr><td>28</td><td>levelstats</td><td>Level stats</td></tr>
+<tr><td class="blu">29</td><td>pluralformstest</td><td>Plural forms test</td></tr>
+<tr><td>30</td><td>assetsmenu</td><td>Assets viewer main menu</td></tr>
+<tr><td>31</td><td>audioplayer</td><td>Music player/editor, sound player</td></tr>
+<tr><td>32</td><td>graphicsviewer</td><td>Graphics viewer</td></tr>
+<tr><td>33</td><td>language</td><td>Language screen</td></tr>
+<tr><td class="blu">34</td><td>inputtest</td><td>New input system test</td></tr>
 <tr><td colspan="3">100 and further can be allocated by plugins (next paragraph)</td></tr>
 </table>
 
@@ -240,7 +240,7 @@ end', 'generic'); ?>
 	<li>You can access the lua_debug console by pressing Ctrl+PageUp. Make sure you do have a console attached, this blocks the entire Ved window until you type <tt>cont</tt> in the console. This shortcut is always available on a crash screen, by the way, even outside debug mode.</li>
 	<li>You can limit the framerate to 60, 30 or 15 by pressing Ctrl+PageDown</li>
 	<li>Entity IDs/table keys are shown in the raw entity properties dialog</li>
-	<li>The hidden tileset creator can be accessed by pressing LCtrl+\ in the main editor (I'm pretty sure I've written an explanation of it somewhere, but I may document it here as well</li>
+	<li><s>The hidden tileset creator can be accessed by pressing LCtrl+\ in the main editor (I'm pretty sure I've written an explanation of it somewhere, but I may document it here as well)</s> (removed in 1.8.3)</li>
 	<li>Pressing LCtrl+' in the main editor will print all tileset and tilecol numbers to the console</li>
 	<li>Pressing F11 will print all global variables to the console</li>
 	<li>Holding / in the main editor would display <img src="entity.png"> instead of all entities, but that key now jumps to the script editor.</li>
