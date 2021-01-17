@@ -57,11 +57,12 @@ a#page_internals {
 <table border="1">
 <tr><th>Filename</th><th>Description</th></tr>
 <tr><td><tt>callback_*.lua</tt></td><td>Contain all <tt>love.*</tt> callbacks. For example, <tt>callback_load.lua</tt> loads most other source files and assets.</td></tr>
-<tr><td><tt>clargs.lua</tt></td><td>Stores and formats the command line help output when requested.<br>This file was added in Ved 1.1.0.</td></tr>
+<tr><td><tt>clargs.lua</tt></td><td>Stores and formats the command line help output when requested.</td></tr>
 <tr><td><tt>conf.lua</tt></td><td>L&Ouml;VE's configuration file, controlling default window settings and loaded L&Ouml;VE modules.</td></tr>
 <tr><td><tt>const.lua</tt></td><td>Constants - Contains tile numbers for all tilesets, known scripting commands, music names, and other lookup tables.</td></tr>
 <tr><td><tt>coordsdialog.lua</tt></td><td>Contains code related to the little room coordinates input after hitting Q in the main editor. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
 <tr><td><tt>corefunc.lua</tt></td><td>Contains a few functions that are used so early in loading (and/or are used on the crash screen), they must exist before things like plugins and the error handler are loaded.</td></tr>
+<tr><td><tt>coretext.lua</tt></td><td>Contains functions for loading fonts, language files, and printing text.</td></tr>
 <tr><td><tt>devstrings.lua</tt></td><td>Used for defining new text strings during development of a new version, before putting them in all the language files.</td></tr>
 <tr><td><tt>dialog.lua</tt></td><td>Contains code related to dialog boxes. Before 1.4.0, this also contained code for right click menus, scrollbars and VVVVVV-style text boxes, which have each been moved to their own separate files as of 1.4.0.</td></tr>
 <tr><td><tt>dialog_uses.lua</tt></td><td>Contains callback functions and definitions of fields for dialogs, which are used as arguments for <tt>dialog.create(...)</tt></td></tr>
@@ -78,9 +79,11 @@ a#page_internals {
 <tr><td><tt>filefunc_win.lua</tt></td><td>Contains functions necessary for accessing the VVVVVV levels and graphics folders on Windows. As of Ved 1.5.0, this uses the Windows API for everything (including reading and writing level files, due to <tt>io.open</tt> being non-Unicode on Windows), before 1.5.0, it used command line utilities like <tt>dir</tt>.</td></tr>
 <tr><td><tt>func.lua</tt></td><td>Contains many functions, especially general-purpose ones and core Ved functions.</td></tr>
 <tr><td><tt>helpfunc.lua</tt></td><td>Contains certain functions related to (editing) level notes, and the rest of the help system.</td></tr>
+<tr><td><tt>https_win.lua</tt></td><td>Contains a function for making HTTPS requests on Windows using WinINet.<br>This file was added in Ved 1.8.3.</td></tr>
 <tr><td><tt>imagefont.lua</tt></td><td>Loads and readies <tt>font.png</tt> for use inside Ved.<br>This file was added in Ved 1.4.0.</td></tr>
 <tr><td><tt>incompatmain8.lua</tt></td><td>If L&Ouml;VE 0.8 or lower is used, this is loaded from <tt>main.lua</tt>. It displays a message that outdated L&Ouml;VE is being used in all available languages.<br>Before Ved 1.4.5, this file was called <tt>incompatmain.lua</tt>.</td></tr>
 <tr><td><tt>incompatmain9.lua</tt></td><td>If L&Ouml;VE 0.9.0 is used, this is loaded from <tt>main.lua</tt>. It displays a message that L&Ouml;VE 0.9.0 is no longer supported in all available languages.<br>This file was added in Ved 1.4.5.</td></tr>
+<tr><td><tt>input.lua</tt></td><td>Contains <a href="https://gitgud.io/Dav999/ved/merge_requests/31" target="_blank">the new input system</a>.</td></tr>
 <tr><td><tt>keyfunc.lua</tt></td><td>Handles the shortcut that can be used in the help screen to make text editable.</td></tr>
 <tr><td><tt>loadallmetadata.lua</tt></td><td>Returns level metadata for the levels list from a different thread.</td></tr>
 <tr><td><tt>loadconfig.lua</tt></td><td>Handles anything related to the settings.</td></tr>
@@ -90,6 +93,8 @@ a#page_internals {
 <tr><td><tt>main2.lua</tt></td><td>Removed in Ved 1.8.4, contained all the L&Ouml;VE callbacks that are now split into <tt>callback_*.lua</tt> files.</td></tr>
 <tr><td><tt>mapfunc.lua</tt></td><td>Contains functions related to rendering and updating the map overview screen.<br>This file was added in Ved 1.4.2.</td></tr>
 <tr><td><tt>music.lua</tt></td><td>Handles reading and writing <tt>vvvvvvmusic.vvv</tt>, <tt>mmmmmm.vvv</tt>, and other custom music files.<br>This file was added in Ved 1.6.0.</td></tr>
+<tr><td><tt>playtesting.lua</tt></td><td>Contains code relevant to playtesting in VVVVVV.</td></tr>
+<tr><td><tt>playtestthread.lua</tt></td><td>The thread that starts up VVVVVV (dependent on OS of course) and waits for it to be closed.</td></tr>
 <tr><td><tt>plugins.lua</tt></td><td>Makes sure plugins and their file edits and hooks are loaded</td></tr>
 <tr><td><tt>resizablebox.lua</tt></td><td>Has a system for a box that can be resized by dragging borders with the mouse. Was formerly used for resizing script boxes, but it was glitchy so it's now unused.</td></tr>
 <tr><td><tt>rightclickmenu.lua</tt></td><td>Contains code related to right click menus. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
@@ -98,10 +103,12 @@ a#page_internals {
 <tr><td><tt>scriptfunc.lua</tt></td><td>Contains functions related to scripts.</td></tr>
 <tr><td><tt>scrollbar.lua</tt></td><td>Contains code related to scrollbars. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
 <tr><td><tt>searchfunc.lua</tt></td><td>Contains functions related to searching levels.</td></tr>
-<tr><td><tt>slider.lua</tt></td><td>Used for the number control in the options screen, holds the function <tt>int_control</tt></td></tr>
+<tr><td><tt>slider.lua</tt></td><td>Used for the number controls like in the options screen</td></tr>
 <tr><td><tt>ui_elements.lua</tt></td><td>Contains all the <a href="#guielements">GUI elements</a></td></tr>
 <tr><td><tt>uis/</tt></td><td>Folder with UI files for each state (see below)</td></tr>
-<tr><td><tt>updatecheck.lua</tt></td><td>Checks what the latest version of Ved is via HTTP, and reports back. This is run inside a separate thread.</td></tr>
+<tr><td><tt>updatecheck.lua</tt></td><td>Checks what the latest version of Ved is via HTTP(S), and reports back. This is run inside a separate thread.</td></tr>
+<tr><td><tt>utf8lib_*.lua</tt></td><td>Implements or supplements necessary parts of the Lua <tt>utf8</tt> module, depending on L&Ouml;VE version</td></tr>
+<tr><td><tt>vvvvvvfunc.lua</tt></td><td>Implements some code from VVVVVV in Lua, mostly for displaying accurate colors.</td></tr>
 <tr><td><tt>vvvvvv_textbox.lua</tt></td><td>Contains code related to VVVVVV-style text boxes. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
 <tr><td><tt>vvvvvvxml.lua</tt></td><td>Loads and parses levels from .vvvvvv level files, and creates and saves them. Also has a function for &quot;loading&quot; a blank level.</td></tr>
 </table>
