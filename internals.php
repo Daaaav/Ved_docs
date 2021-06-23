@@ -744,19 +744,20 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 	Simply holds more elements as though this is another root.<br>
 	<tt>cw</tt> / <tt>ch</tt>: container width and height. <tt>nil</tt> to fill the remaining parent width/height.
 </dd>
-<dt><?php hyperlight('ListContainer(els_top, els_bot, cw, ch, starty, spacing, starty_bot, spacing_bot)', 'generic', 'tt'); ?></dt>
+<dt><?php hyperlight('ListContainer(els_top, els_bot, cw, ch, align, starty, spacing, starty_bot, spacing_bot)', 'generic', 'tt'); ?></dt>
 <dd>
 	Vertical list container.
 	Elements from the top are displayed at <tt>starty</tt>, elements from the bottom are <tt>starty_bot</tt> pixels away from <tt>maxh</tt> given in the draw function.
 	If the <tt>maxh</tt> given to the draw function is infinite (<tt>nil</tt>), then bottom elements are not shown.<br>
 	<tt>cw</tt> / <tt>ch</tt>: container width and height. <tt>nil</tt> to fill the remaining parent width/height.<br>
+	<tt>align</tt>: the horizontal alignment of the elements. Can be <tt>ALIGN.LEFT</tt>, <tt>ALIGN.CENTER</tt> or <tt>ALIGN.RIGHT</tt>. Centered by default. This argument was added in Ved 1.8.5.<br>
 	<tt>spacing</tt>: the spacing between each top element<br>
 	<tt>starty_bot</tt>: if not given, this defaults to <tt>starty</tt>.<br>
 	<tt>spacing_bot</tt>: if not given, this defaults to <tt>spacing</tt>.
 </dd>
-<dt><?php hyperlight('HorizontalListContainer(els_left, els_right, cw, ch, startx, spacing, startx_right, spacing_right)', 'generic', 'tt'); ?></dt>
+<dt><?php hyperlight('HorizontalListContainer(els_left, els_right, cw, ch, align, startx, spacing, startx_right, spacing_right)', 'generic', 'tt'); ?></dt>
 <dd>
-	Horizontal list container. Works the same as a vertical list container, but &quot;top&quot; and &quot;bottom&quot; correspond to &quot;left&quot; and &quot;right&quot;.
+	Horizontal list container. Works the same as a vertical list container, but &quot;top&quot; and &quot;bottom&quot; correspond to &quot;left&quot; and &quot;right&quot;, and <tt>align</tt> is the vertical alignment of the elements (can be <tt>VALIGN.TOP</tt>, <tt>VALIGN.CENTER</tt> or <tt>VALIGN.BOTTOM</tt>)
 </dd>
 <dt><?php hyperlight('RightBar(els_top, els_bot)', 'generic', 'tt'); ?></dt>
 <dd>
@@ -823,6 +824,19 @@ Numbers at the start of list items indicate relevant pre-versions in which the c
 		<li>[13] Most <tt>Image</tt> objects created in <tt>love.load()</tt> are now prefixed <tt>image.</tt> (like <tt>image.undobtn</tt> instead of <tt>undobtn</tt>).<br>
 			Some were also renamed: [<tt>un</tt>]<tt>selectedtoolborder</tt> &rarr; <tt>image.</tt>[<tt>un</tt>]<tt>selectedtool</tt>, <tt>solid</tt>[<tt>half</tt>]<tt>img</tt> &rarr; <tt>image.solid</tt>[<tt>half</tt>].<br>
 			<tt>platformimg</tt> and <tt>platformpart</tt> were removed, these were used in Vis
+		</li>
+	</ul>
+</dd>
+<dt><strong>1.8.5</strong></dt>
+<dd>
+	<ul>
+		<li>[01] Some random identifiers were changed from justconcatenatedtogethercase to snake_case, but probably not extensively-used ones (like <tt>uniquenotename</tt> &rarr; <tt>unique_note_name</tt> or <tt>getalllanguages</tt> &rarr; <tt>get_all_languages</tt>)</li>
+		<li>[03] <tt>ListContainer</tt> and <tt>HorizontalListContainer</tt> elements now have an <tt>align</tt> argument added after <tt>ch</tt>. Before this, elements in list containers were always horizontally/vertically centered, now this is just the default.<br>
+			Old vs new signatures:<br>
+			<?php hyperlight('ListContainer(els_top, els_bot, cw, ch, starty, spacing, starty_bot, spacing_bot)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('ListContainer(els_top, els_bot, cw, ch, align, starty, spacing, starty_bot, spacing_bot)', 'generic', 'tt'); ?> (new)<br>
+			<?php hyperlight('HorizontalListContainer(els_left, els_right, cw, ch, startx, spacing, startx_right, spacing_right)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('HorizontalListContainer(els_left, els_right, cw, ch, align, startx, spacing, startx_right, spacing_right)', 'generic', 'tt'); ?> (new)
 		</li>
 	</ul>
 </dd>
