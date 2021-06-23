@@ -59,7 +59,7 @@ a#page_internals {
 <tr><td><tt>callback_*.lua</tt></td><td>Contain all <tt>love.*</tt> callbacks. For example, <tt>callback_load.lua</tt> loads most other source files and assets.</td></tr>
 <tr><td><tt>clargs.lua</tt></td><td>Stores and formats the command line help output when requested.</td></tr>
 <tr><td><tt>conf.lua</tt></td><td>L&Ouml;VE's configuration file, controlling default window settings and loaded L&Ouml;VE modules.</td></tr>
-<tr><td><tt>const.lua</tt></td><td>Constants - Contains tile numbers for all tilesets, known scripting commands, music names, and other lookup tables.</td></tr>
+<tr><td><tt>const.lua</tt></td><td>Constants - Contains known scripting commands, music names, and other lookup tables. Also contained tileset data before 1.8.4.</td></tr>
 <tr><td><tt>coordsdialog.lua</tt></td><td>Contains code related to the little room coordinates input after hitting Q in the main editor. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
 <tr><td><tt>corefunc.lua</tt></td><td>Contains a few functions that are used so early in loading (and/or are used on the crash screen), they must exist before things like plugins and the error handler are loaded.</td></tr>
 <tr><td><tt>coretext.lua</tt></td><td>Contains functions for loading fonts, language files, and printing text.</td></tr>
@@ -79,12 +79,13 @@ a#page_internals {
 <tr><td><tt>filefunc_win.lua</tt></td><td>Contains functions necessary for accessing the VVVVVV levels and graphics folders on Windows. As of Ved 1.5.0, this uses the Windows API for everything (including reading and writing level files, due to <tt>io.open</tt> being non-Unicode on Windows), before 1.5.0, it used command line utilities like <tt>dir</tt>.</td></tr>
 <tr><td><tt>func.lua</tt></td><td>Contains many functions, especially general-purpose ones and core Ved functions.</td></tr>
 <tr><td><tt>helpfunc.lua</tt></td><td>Contains certain functions related to (editing) level notes, and the rest of the help system.</td></tr>
-<tr><td><tt>https_win.lua</tt></td><td>Contains a function for making HTTPS requests on Windows using WinINet.<br>This file was added in Ved 1.8.3.</td></tr>
+<tr><td><tt>https_*.lua</tt></td><td>Contains platform-specific code for making HTTPS requests.<br>These files were added in Ved 1.8.3 and 1.8.4.</td></tr>
 <tr><td><tt>imagefont.lua</tt></td><td>Loads and readies <tt>font.png</tt> for use inside Ved.<br>This file was added in Ved 1.4.0.</td></tr>
 <tr><td><tt>incompatmain8.lua</tt></td><td>If L&Ouml;VE 0.8 or lower is used, this is loaded from <tt>main.lua</tt>. It displays a message that outdated L&Ouml;VE is being used in all available languages.<br>Before Ved 1.4.5, this file was called <tt>incompatmain.lua</tt>.</td></tr>
 <tr><td><tt>incompatmain9.lua</tt></td><td>If L&Ouml;VE 0.9.0 is used, this is loaded from <tt>main.lua</tt>. It displays a message that L&Ouml;VE 0.9.0 is no longer supported in all available languages.<br>This file was added in Ved 1.4.5.</td></tr>
 <tr><td><tt>input.lua</tt></td><td>Contains <a href="https://gitgud.io/Dav999/ved/merge_requests/31" target="_blank">the new input system</a>.</td></tr>
-<tr><td><tt>keyfunc.lua</tt></td><td>Handles the shortcut that can be used in the help screen to make text editable.</td></tr>
+<tr><td><tt>konami.lua</tt></td><td>Handles the shortcut that can be used in the help screen to make text editable. Before Ved 1.8.4, this file was called <tt>keyfunc.lua</tt>.</td></tr>
+<tr><td><tt>libs/</tt></td><td>Folder containing some C and Objective-C support libraries for Linux and macOS, and C header files for those libraries and parts of the Windows API, for use with LuaJIT FFI.</td></tr>
 <tr><td><tt>loadallmetadata.lua</tt></td><td>Returns level metadata for the levels list from a different thread.</td></tr>
 <tr><td><tt>loadconfig.lua</tt></td><td>Handles anything related to the settings.</td></tr>
 <tr><td><tt>love10compat.lua</tt></td><td>Loaded only when L&Ouml;VE 0.10.0 or higher is used, and provides compatibility with those versions. Contains the new <tt>love.wheelmoved</tt> callback.</td></tr>
@@ -104,9 +105,11 @@ a#page_internals {
 <tr><td><tt>scrollbar.lua</tt></td><td>Contains code related to scrollbars. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
 <tr><td><tt>searchfunc.lua</tt></td><td>Contains functions related to searching levels.</td></tr>
 <tr><td><tt>slider.lua</tt></td><td>Used for the number controls like in the options screen</td></tr>
+<tr><td><tt>tileset_data.lua</tt></td><td>Contains tile numbers for all tilesets.</td></tr>
 <tr><td><tt>ui_elements.lua</tt></td><td>Contains all the <a href="#guielements">GUI elements</a></td></tr>
 <tr><td><tt>uis/</tt></td><td>Folder with UI files for each state (see below)</td></tr>
-<tr><td><tt>updatecheck.lua</tt></td><td>Checks what the latest version of Ved is via HTTP(S), and reports back. This is run inside a separate thread.</td></tr>
+<tr><td><tt>updatecheck.lua</tt></td><td>Contains functionality for the update check.<br>This file was added in Ved 1.8.4-pre14. Before, this filename was used for the actual update checking thread (see <tt>updatecheckthread.lua</tt>)</td></tr>
+<tr><td><tt>updatecheckthread.lua</tt></td><td>Checks what the latest version of Ved is via HTTPS, and reports back. This is run inside a separate thread.<br>Before Ved 1.8.4-pre14, <em>this</em> file was called <tt>updatecheck.lua</tt>.</td></tr>
 <tr><td><tt>utf8lib_*.lua</tt></td><td>Implements or supplements necessary parts of the Lua <tt>utf8</tt> module, depending on L&Ouml;VE version</td></tr>
 <tr><td><tt>vvvvvvfunc.lua</tt></td><td>Implements some code from VVVVVV in Lua, mostly for displaying accurate colors.</td></tr>
 <tr><td><tt>vvvvvv_textbox.lua</tt></td><td>Contains code related to VVVVVV-style text boxes. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
@@ -142,7 +145,7 @@ a#page_internals {
 <tr><td class="blu">18</td><td>unreinfo</td><td>Show main editor undo/redo stacks</td></tr>
 <tr><td>19</td><td>scriptflags</td><td>Flags list</td></tr>
 <tr><td class="blu">20</td><td>resizableboxtest</td><td>Resizable box test</td></tr>
-<tr><td class="blu">21</td><td>overlapentinfo</td><td>Display overlapping entities (may be a visible function later) (maybe doesn't work properly)</td></tr>
+<tr><td class="dred">21</td><td>overlapentinfo</td><td>Display overlapping entities (may be a visible function later) (maybe doesn't work properly)</td></tr>
 <tr><td class="dred">22</td><td></td><td>Load a script file in the 3DS format (lines separated by dollars)</td></tr>
 <tr><td class="dred">23</td><td></td><td>Load a script file NOT in the 3DS format (lines separated by \r\n or \n)</td></tr>
 <tr><td class="dred">24</td><td></td><td>Simple plugins list (already never used)</td></tr>
@@ -156,6 +159,7 @@ a#page_internals {
 <tr><td>32</td><td>graphicsviewer</td><td>Graphics viewer</td></tr>
 <tr><td>33</td><td>language</td><td>Language screen</td></tr>
 <tr><td class="blu">34</td><td>inputtest</td><td>New input system test</td></tr>
+<tr><td>35</td><td>vvvvvvsetupoptions</td><td>&quot;VVVVVV setup&quot; options</td></tr>
 <tr><td colspan="3">100 and further can be allocated by plugins (next paragraph)</td></tr>
 </table>
 
@@ -199,6 +203,7 @@ end', 'generic'); ?>
 		<li>F9 to display hotkeys never displays &#x2318; on Mac and never translates keys</li>
 		<li>The music player can't show song durations</li>
 		<li>The plugin hooks love_filedropped and love_directorydropped are never called</li>
+		<li>(Playtesting was broken in versions of Ved below 1.8.4, now fixed)</li>
 	</ul>
 </td></tr>
 <tr><td class="supported_bg">0.9.2</td></tr>
@@ -716,6 +721,7 @@ The top row of letters of the QWERTY keyboard, lowercase, along with <tt>k</tt> 
 </ul>
 
 <h2><a name="guielements">GUI elements</a></h2>
+TODO: Update this for 1.8.4, each state now has a folder, not a single file.<br><br>
 Each <a href="#states">state</a> can have a list of elements in their file in <tt>uis/</tt>, which is a table <tt>ui.elements</tt>. Each of these elements at the root is drawn in order - all being given a position of 0,0 and remaining width and height as the window dimensions - and their callbacks are called when that state is active. The internal functioning of the different classes of UI elements can be found in <tt>ui_elements.lua</tt>. There are certain element <strong>classes</strong> such as <tt>elButton</tt> with all sorts of parameters controlling their behavior (for example, whether it's a button with text on it, or whether it's an icon), which actually implement the callbacks (documenting which is TODO). Then there are easy <strong>constructor functions</strong> which actually create and &quot;configure&quot; these classes depending on what you want (for example, a <tt>LabelButton</tt> constructor has an argument for the text to display on the button, which an <tt>ImageButton</tt> doesn't need because it has arguments to do with displaying a clickable image). The following constructors for UI elements exist:
 
 <dl>
@@ -784,6 +790,41 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 <dt><?php hyperlight('EditorIconBar()', 'generic', 'tt'); ?></dt>
 <dd>
 	A horizontal list container with image buttons for undo, redo, cut, copy and paste.
+</dd>
+<dt><?php hyperlight('Text(text, color_func, sx, sy)', 'generic', 'tt'); ?></dt>
+<dd>
+	This was added in Ved 1.8.5.<br>
+	A text displayed via <tt>ved_print</tt>. <tt>text</tt> can be either a string, or a function returning a string. <tt>color_func</tt> may be a function that returns R, G, B, and optionally A values (0-255). <tt>sx</tt> and <tt>sy</tt> are horizontal and vertical scale values (default 1).<br>
+	All arguments are optional except <tt>text</tt>.
+</dd>
+<dt><?php hyperlight('WrappedText(text, maxwidth, align, color_func, sx, sy)', 'generic', 'tt'); ?></dt>
+<dd>
+	This was added in Ved 1.8.5.<br>
+	A text displayed via <tt>ved_printf</tt>. <tt>text</tt> can be either a string, or a function returning a string. If <tt>maxwidth</tt> is not given, the remaining parent width will be filled. <tt>align</tt> is passed to <tt>ved_printf</tt>/<tt>love.graphics.printf</tt>. <tt>color_func</tt> may be a function that returns R, G, B, and optionally A values (0-255). <tt>sx</tt> and <tt>sy</tt> are horizontal and vertical scale values (default 1).<br>
+	All arguments are optional except <tt>text</tt>.
+</dd>
+</dl>
+
+<h2><a name="codechangelog">Changelog of breaking codebase changes</a></h2>
+Ved 1.8.4 introduced some pretty major changes in the code, which probably broke a lot of plugins. I thought it might be a good idea to finally start documenting breaking &quot;API&quot; changes at this point, instead of having everyone figure them out as commits go by and new versions get released. So this log starts at 1.8.4 and is intended to give an overview of changes that are likely to break plugins.<br>
+Numbers at the start of list items indicate relevant pre-versions in which the changes were introduced.
+<dl>
+<dt><strong>1.8.4</strong></dt>
+<dd>
+	<ul>
+		<li>[01] <tt>main2.lua</tt> has been removed, now all L&Ouml;VE callbacks are in appropriately-named <tt>callback_*.lua</tt> files.</li>
+		<li>[03] UI code (in <tt>uis/</tt>) is now no longer one file per UI, but one folder per UI. <tt>ui.load()</tt>, <tt>ui.elements</tt>, et cetera are now in dedicated files that return those callbacks/the elements table: <tt>uis/NAME/load.lua</tt>, <tt>uis/NAME/elements.lua</tt>, ...</li>
+		<li>[03] <tt>drawhelp.lua</tt> &rarr; <tt>uis/help/draw.lua</tt></li>
+		<li>[03] <tt>drawlevelslist.lua</tt> &rarr; <tt>uis/levelslist/draw.lua</tt></li>
+		<li>[03] <tt>drawmaineditor.lua</tt> &rarr; <tt>uis/maineditor/draw.lua</tt></li>
+		<li>[03] <tt>drawmap.lua</tt> &rarr; <tt>uis/map/draw.lua</tt></li>
+		<li>[03] <tt>drawscripteditor.lua</tt> &rarr; <tt>uis/scripteditor/draw.lua</tt></li>
+		<li>[03] <tt>drawsearch.lua</tt> &rarr; <tt>uis/search/draw.lua</tt></li>
+		<li>[13] Most <tt>Image</tt> objects created in <tt>love.load()</tt> are now prefixed <tt>image.</tt> (like <tt>image.undobtn</tt> instead of <tt>undobtn</tt>).<br>
+			Some were also renamed: [<tt>un</tt>]<tt>selectedtoolborder</tt> &rarr; <tt>image.</tt>[<tt>un</tt>]<tt>selectedtool</tt>, <tt>solid</tt>[<tt>half</tt>]<tt>img</tt> &rarr; <tt>image.solid</tt>[<tt>half</tt>].<br>
+			<tt>platformimg</tt> and <tt>platformpart</tt> were removed, these were used in Vis
+		</li>
+	</ul>
 </dd>
 </dl>
 
