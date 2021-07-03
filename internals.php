@@ -258,6 +258,7 @@ end', 'generic'); ?>
 	<li>Holding / in the main editor would display <img src="entity.png"> instead of all entities, but that key now jumps to the script editor.</li>
 	<li>A visual indicator is added that displays when text input is being taken.</li>
 	<li>On the loading screen, you can add a fake level to the list of levels by pressing Shift+F2, and (visually) remove the last level from the list by pressing Shift+F3. This is for testing the scrolling area and such.</li>
+	<li>You can see outlines for all GUI elements (see <a href="#guielements">below</a>) by holding F8</li>
 </ul>
 <p>Debug mode is enabled by the boolean variable <tt>allowdebug</tt>. It is possible to enable it in-app by going from the load screen to the Ved options, clicking and holding the OK button, and "dragging" over the Send Feedback button holding the right mouse button as well.</p>
 
@@ -525,8 +526,11 @@ These are the different types of input fields:</p>
 	<tr><td>3</td><td><tt>DF.CHECKBOX</tt></td><td>Checkbox</td></tr>
 	<tr><td>4</td><td><tt>DF.RADIOS</tt></td><td>Radio button list</td></tr>
 	<tr><td>5</td><td><tt>DF.FILES</tt></td><td>Files list and directory navigation</td></tr>
+	<tr><td>6</td><td><tt>DF.HIDDEN</tt></td><td>Hidden field</td></tr>
 </table>
-<p>The <tt>DF.</tt> constants were added in Ved 1.5.0. More information about how the different types work:</p>
+<p>The <tt>DF.</tt> constants were added in Ved 1.5.0.</p>
+<p><tt>dialog_uses.lua</tt> has some complete forms (but mostly functions that generate forms) under <tt>dialog.form</tt>. One general-purpose example is <tt>dialog.form.simplename</tt>, which has a single text field at position 0,1 to be used to fill in a name (for example a name for a new script or note), and <tt>dialog.form.simplename_make(default)</tt> to generate a similar form but with a value pre-filled.</p>
+<p>More information about how the different types work:</p>
 <h4>(0) DF.TEXT - Text input</h4>
 A text field is what it says it is. An example is given as follows: <?php hyperlight('{"name", 0, 1, 40, "", DF.TEXT}', 'generic', 'tt'); ?><br>
 Here, the key is <tt>name</tt>, it is positioned on the start of the second line of text, it is 40 characters wide (but more characters will fit) and its default value is an empty string.
@@ -614,6 +618,14 @@ The default state of this checkbox is checked, since the default value is set to
 	<tt>list_height</tt> is the height (in blocks of 8) of the list.
 </dd>
 </dl>
+
+<h4>(6) DF.HIDDEN - Hidden field</h4>
+<p>Hidden fields were added in Ved 1.8.5. A hidden field can be used to carry data from dialog creation to dialog submission, without accepting user changes. For example, if you have a confirmation dialog to delete a certain script, you want to still know what script it was when the user presses &quot;Yes&quot;. The type of the value can be anything you need, as long as it is not <tt>nil</tt> (again, Lua limitation, unless we changed dialog fields to have string keys for named arguments). <tt>nil</tt> values could instead be encoded as having the field be missing altogether, which will have the same effect, because for the handler, <tt>fields.the_missing_field</tt> would yield <tt>nil</tt> anyway. Position and width has no meaning for this field, so for example: <?php hyperlight('{"key", 0, 0, 0, "value", DF.HIDDEN}', 'generic', 'tt'); ?></p>
+<p>There is a convenience function to make a form with hidden fields from a table where the keys and values correspond to the field keys and values: <?php hyperlight('dialog.form.hidden_make(values, existing_form)', 'generic', 'tt'); ?>. <tt>existing_form</tt> can be filled in if you already have a form, and simply want to add one or more hidden fields to it.<br>
+For example:<br>
+<?php hyperlight('dialog.form.hidden_make({script="applebapple"})', 'generic', 'tt'); ?> or<br>
+<?php hyperlight('dialog.form.hidden_make({script="applebapple"}, dialog.form.simplename)', 'generic', 'tt'); ?>
+</p>
 
 <h2>Dialogs (old, deprecated system, fully removed in Ved 1.5.2)</h2>
 Dialog boxes in the system before Ved 1.4.0 can be created by calling <tt>dialog.new</tt>:
@@ -807,8 +819,9 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 </dl>
 
 <h2><a name="codechangelog">Changelog of breaking codebase changes</a></h2>
-Ved 1.8.4 introduced some pretty major changes in the code, which probably broke a lot of plugins. I thought it might be a good idea to finally start documenting breaking &quot;API&quot; changes at this point, instead of having everyone figure them out as commits go by and new versions get released. So this log starts at 1.8.4 and is intended to give an overview of changes that are likely to break plugins.<br>
-Numbers at the start of list items indicate relevant pre-versions in which the changes were introduced.
+<p>Ved 1.8.4 introduced some pretty major changes in the code, which probably broke a lot of plugins. I thought it might be a good idea to finally start documenting breaking &quot;API&quot; changes at this point, instead of having everyone figure them out as commits go by and new versions get released. So this log starts at 1.8.4 and is intended to give an overview of changes that are likely to break plugins.</p>
+<p>Depending on how likely I think changes are to break plugins and depending on the weather<!--actually depending on my mood but I thought this was funnier-->, changes may or may not get listed here. I'll probably list a lot that isn't necessary, and on the other hand there will probably be some changes I didn't imagine would affect anyone but turn out they do (especially when plugins find-and-replace too large blocks of code or something).</p>
+<p>Numbers at the start of list items indicate relevant pre-versions in which the changes were introduced.</p>
 <dl>
 <dt><strong>1.8.4</strong></dt>
 <dd>
@@ -838,6 +851,7 @@ Numbers at the start of list items indicate relevant pre-versions in which the c
 			<?php hyperlight('HorizontalListContainer(els_left, els_right, cw, ch, startx, spacing, startx_right, spacing_right)', 'generic', 'tt'); ?> (old)<br>
 			<?php hyperlight('HorizontalListContainer(els_left, els_right, cw, ch, align, startx, spacing, startx_right, spacing_right)', 'generic', 'tt'); ?> (new)
 		</li>
+		<li>[05] All instances of <tt>rvnum</tt> have been replaced by <tt>script_i</tt> (or in the help system, <tt>article_i</tt></li>
 	</ul>
 </dd>
 </dl>
