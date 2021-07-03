@@ -304,6 +304,9 @@ metadata["levmusic"]', 'generic'); ?>
 <h3>Room tiles</h3>
 <tt>roomdata</tt> is a big table of tables that stores all the tiles in a level. <?php hyperlight('roomdata[roomy][roomx]', 'generic', 'tt'); ?> is a 1D array with all the tiles for the current room (the variables <tt>roomx</tt> and <tt>roomy</tt> are the current room's coordinates, and they start at 0). The tiles in the room are numbered starting at 1, so the 3rd tile from the left and top is <?php hyperlight('roomdata[roomy][roomx][(2*40)+(2+1)]', 'generic', 'tt'); ?>.
 
+<p>To <strong>get</strong> a tile in a room, use <?php hyperlight('roomdata_get(x, y, altst, tx, ty)', 'generic', 'tt'); ?> (<tt>altst</tt> shall be removed in 1.9.0!). To get all of a room's tiles, use <?php hyperlight('roomdata_get(x, y)', 'generic', 'tt'); ?>.</p>
+<p>To <strong>set</strong> a tile, use <?php hyperlight('roomdata_set(x, y, altst, tx, ty, value)', 'generic', 'tt'); ?> (<tt>altst</tt> shall be removed in 1.9.0!). To set all of a room's tiles, use <?php hyperlight('roomdata_set(x, y, altst, values)', 'generic', 'tt'); ?> (<tt>altst</tt> shall be removed in 1.9.0!)</p>
+
 <h3>Entities</h3>
 <tt>entitydata</tt> contains all the entities in a level. Each element of <tt>entitydata</tt> is structured as follows:
 <?php hyperlight('{
@@ -320,7 +323,7 @@ metadata["levmusic"]', 'generic'); ?>
 }', 'generic'); ?>
 
 <h3>Room metadata</h3>
-<tt>levelmetadata</tt> is the table containing room metadata, or, looking at the VVVVVV level format, each <tt>edLevelClass</tt> inside the <tt>levelMetaData</tt> tags. Indexes for this table start at 1 (because Lua, as you may know). So the metadata for the current room is <tt>levelmetadata[roomy*20 + roomx+1]</tt>, since <tt>roomx</tt> and <tt>roomy</tt> start at 0. Each element is structured as follows:
+<tt>levelmetadata</tt> is the table containing room metadata, or, looking at the VVVVVV level format, each <tt>edLevelClass</tt> inside the <tt>levelMetaData</tt> tags. Since 1.7.1, this table is indexed by the room's X and Y coordinate separately: <tt>levelmetadata[roomy][roomx]</tt> (Before 1.7.1 this was one index from 1-400). Each element is structured as follows:
 <?php hyperlight('{
 	tileset = 0,
 	tilecol = 0,
@@ -340,6 +343,9 @@ metadata["levmusic"]', 'generic'); ?>
 	auto2mode = 0,
 }', 'generic'); ?>
 <tt>directmode</tt> is always present, even after a VVVVVV 2.0 level is loaded. If <tt>auto2mode == 1</tt> then multi-tileset mode is used for that room, and in that case <tt>directmode</tt> should be <tt>0</tt>. However, when saving, <tt>directmode</tt> is set to <tt>1</tt> in the level file because <tt>auto2mode</tt> is not saved to it.
+
+<p>To <strong>get</strong> a room's metadata, use <?php hyperlight('levelmetadata_get(x, y)', 'generic', 'tt'); ?>.</p>
+<p>To <strong>set</strong> an attribute of metadata, use <?php hyperlight('levelmetadata_set(x, y, attribute, value)', 'generic', 'tt'); ?>. It's also possible to use <?php hyperlight('levelmetadata_set(x, y, attribute_table)', 'generic', 'tt'); ?> to replace the entire room's metadata table.</p>
 
 <h3>Scripts</h3>
 Two tables for this one: <tt>scriptnames</tt> which is a simple table of all the script names with numeric keys in the correct order, and <tt>scripts</tt> which contain the actual scripts, with script names as keys. Each element of <tt>scripts</tt> is a table itself, with all the lines in that script. An example population can be given as follows:
