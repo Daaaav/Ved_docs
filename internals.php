@@ -857,7 +857,9 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 			<?php hyperlight('HorizontalListContainer(els_left, els_right, cw, ch, startx, spacing, startx_right, spacing_right)', 'generic', 'tt'); ?> (old)<br>
 			<?php hyperlight('HorizontalListContainer(els_left, els_right, cw, ch, align, startx, spacing, startx_right, spacing_right)', 'generic', 'tt'); ?> (new)
 		</li>
+		<li>[05] Using <tt>input</tt> to carry state in dialogs is now strongly discouraged in favor of <tt>DF.HIDDEN</tt> fields (with <tt>dialog.form.hidden_make(...)</tt>)</li>
 		<li>[05] All instances of <tt>rvnum</tt> have been replaced by <tt>script_i</tt> (or in the help system, <tt>article_i</tt></li>
+		<li>[08] The help system no longer reserves the first article for the Return button, and the formatting code <tt>)</tt> has been removed</li>
 	</ul>
 </dd>
 </dl>
