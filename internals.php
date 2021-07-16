@@ -43,6 +43,11 @@ h2 > a::after {
 a#page_internals {
 	font-weight: bold;
 }
+
+.br_bigger {
+	display: block;
+	margin-bottom: 0.5em;
+}
 </style>
 <link rel="stylesheet" type="text/css" href="colors/customizedstyle.css?020217" id="theme">
 </head>
@@ -304,8 +309,10 @@ metadata["levmusic"]', 'generic'); ?>
 <h3>Room tiles</h3>
 <tt>roomdata</tt> is a big table of tables that stores all the tiles in a level. <?php hyperlight('roomdata[roomy][roomx]', 'generic', 'tt'); ?> is a 1D array with all the tiles for the current room (the variables <tt>roomx</tt> and <tt>roomy</tt> are the current room's coordinates, and they start at 0). The tiles in the room are numbered starting at 1, so the 3rd tile from the left and top is <?php hyperlight('roomdata[roomy][roomx][(2*40)+(2+1)]', 'generic', 'tt'); ?>.
 
-<p>To <strong>get</strong> a tile in a room, use <?php hyperlight('roomdata_get(x, y, altst, tx, ty)', 'generic', 'tt'); ?> (<tt>altst</tt> shall be removed in 1.9.0!). To get all of a room's tiles, use <?php hyperlight('roomdata_get(x, y)', 'generic', 'tt'); ?>.</p>
-<p>To <strong>set</strong> a tile, use <?php hyperlight('roomdata_set(x, y, altst, tx, ty, value)', 'generic', 'tt'); ?> (<tt>altst</tt> shall be removed in 1.9.0!). To set all of a room's tiles, use <?php hyperlight('roomdata_set(x, y, altst, values)', 'generic', 'tt'); ?> (<tt>altst</tt> shall be removed in 1.9.0!)</p>
+<p>To <strong>get</strong> a tile in a room, use <?php hyperlight('roomdata_get(x, y, tx, ty)', 'generic', 'tt'); ?>. To get all of a room's tiles, use <?php hyperlight('roomdata_get(x, y)', 'generic', 'tt'); ?>.</p>
+<p>To <strong>set</strong> a tile, use <?php hyperlight('roomdata_set(x, y, tx, ty, value)', 'generic', 'tt'); ?>. To set all of a room's tiles, use <?php hyperlight('roomdata_set(x, y, values)', 'generic', 'tt'); ?>.</p>
+
+<p>From <a href="https://gitgud.io/Dav999/ved/-/commit/3cd21a86026fbc3842d0b82853883e475df30d8e" target="_blank">1.8.0-pre22</a> until <a href="https://gitgud.io/Dav999/ved/-/commit/7977e21ecd825b11c0bc9adbf38b9985e98c3853" target="_blank">1.9.0-pre05</a>, these functions had an altstate argument for VVVVVV-CE. See the <a href="#codechangelog">Changelog of breaking codebase changes</a> for 1.9.0 for more info.</p>
 
 <h3>Entities</h3>
 <tt>entitydata</tt> contains all the entities in a level. Each element of <tt>entitydata</tt> is structured as follows:
@@ -853,13 +860,48 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 		<li>[03] <tt>ListContainer</tt> and <tt>HorizontalListContainer</tt> elements now have an <tt>align</tt> argument added after <tt>ch</tt>. Before this, elements in list containers were always horizontally/vertically centered, now this is just the default.<br>
 			Old vs new signatures:<br>
 			<?php hyperlight('ListContainer(els_top, els_bot, cw, ch, starty, spacing, starty_bot, spacing_bot)', 'generic', 'tt'); ?> (old)<br>
-			<?php hyperlight('ListContainer(els_top, els_bot, cw, ch, align, starty, spacing, starty_bot, spacing_bot)', 'generic', 'tt'); ?> (new)<br>
+			<?php hyperlight('ListContainer(els_top, els_bot, cw, ch, align, starty, spacing, starty_bot, spacing_bot)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
 			<?php hyperlight('HorizontalListContainer(els_left, els_right, cw, ch, startx, spacing, startx_right, spacing_right)', 'generic', 'tt'); ?> (old)<br>
-			<?php hyperlight('HorizontalListContainer(els_left, els_right, cw, ch, align, startx, spacing, startx_right, spacing_right)', 'generic', 'tt'); ?> (new)
+			<?php hyperlight('HorizontalListContainer(els_left, els_right, cw, ch, align, startx, spacing, startx_right, spacing_right)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
 		</li>
 		<li>[05] Using <tt>input</tt> to carry state in dialogs is now strongly discouraged in favor of <tt>DF.HIDDEN</tt> fields (with <tt>dialog.form.hidden_make(...)</tt>)</li>
 		<li>[05] All instances of <tt>rvnum</tt> have been replaced by <tt>script_i</tt> (or in the help system, <tt>article_i</tt></li>
 		<li>[08] The help system no longer reserves the first article for the Return button, and the formatting code <tt>)</tt> has been removed</li>
+	</ul>
+</dd>
+<dt><strong>1.9.0</strong></dt>
+<dd>
+	<ul>
+		<li>VVVVVV-CE support has been removed, so any functions accepting arguments like altstate, custom graphics sets, etc will lack that argument:<br>
+			[02]<br>
+			<?php hyperlight('tileset_image(themetadata, chosentileset, customtileset)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('tileset_image(themetadata, chosentileset)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
+			[04]<br>
+			<?php hyperlight('drawentitysprite(tile, atx, aty, customspritesheet, small)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('drawentitysprite(tile, atx, aty, small)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
+			<?php hyperlight('displaysmalltilespicker(offsetx, offsety, chosentileset, chosencolor, customtileset, scale)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('displaysmalltilespicker(offsetx, offsety, chosentileset, chosencolor, scale)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
+			<?php hyperlight('insert_entity_full(rx, ry, astate, intower, subx, suby, atx, aty, t, p1, p2, p3, p4, data)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('insert_entity_full(rx, ry, atx, aty, t, p1, p2, p3, p4, data)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
+			[05]<br>
+			<?php hyperlight('displayentities(offsetx, offsety, myroomx, myroomy, altst, bottom2rowstext)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('displayentities(offsetx, offsety, myroomx, myroomy, bottom2rowstext)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
+			<?php hyperlight('getroomcopydata(rx, ry, altst)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('getroomcopydata(rx, ry)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
+			<?php hyperlight('setroomfromcopy(data, rx, ry, altst, skip_undo)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('setroomfromcopy(data, rx, ry, skip_undo)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
+			<?php hyperlight('rotateroom180(rx, ry, altst, undoing)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('rotateroom180(rx, ry, undoing)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
+			<?php hyperlight('gotoroom(rx, ry, altst)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('gotoroom(rx, ry)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
+			<?php hyperlight('roomdata_get(rx, ry, altst, tx, ty, uselevel2)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('roomdata_get(rx, ry, tx, ty, uselevel2)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
+			<?php hyperlight('roomdata_set(rx, ry, altst, tx, ty, value)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('roomdata_set(rx, ry, tx, ty, value)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
+			<?php hyperlight('roomdata_set(rx, ry, altst, values)', 'generic', 'tt'); ?> (old)<br>
+			<?php hyperlight('roomdata_set(rx, ry, values)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
+		</li>
+		<li>[05] <tt>next_key(t, c)</tt> was removed, but I'm willing to bet no plugin was using it. (&quot;Return the lowest key in table t that is higher than c. If not found, return nil.&quot;)</li>
 	</ul>
 </dd>
 </dl>
