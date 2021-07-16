@@ -883,7 +883,7 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 			<?php hyperlight('displaysmalltilespicker(offsetx, offsety, chosentileset, chosencolor, scale)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
 			<?php hyperlight('insert_entity_full(rx, ry, astate, intower, subx, suby, atx, aty, t, p1, p2, p3, p4, data)', 'generic', 'tt'); ?> (old)<br>
 			<?php hyperlight('insert_entity_full(rx, ry, atx, aty, t, p1, p2, p3, p4, data)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
-			[05]<br>
+			[05] focused on altstates, which were originally added in <a href="https://gitgud.io/Dav999/ved/-/commit/3cd21a86026fbc3842d0b82853883e475df30d8e" target="_blank">1.8.0-pre22</a> and <a href="https://gitgud.io/Dav999/ved/-/commit/855e0b6f822c188a5ff62e2509c129e5f97ec97f" target="_blank">1.8.0-pre23</a>. The altstate arguments were optional and defaulted to the main state if nil/not specified.<br>
 			<?php hyperlight('displayentities(offsetx, offsety, myroomx, myroomy, altst, bottom2rowstext)', 'generic', 'tt'); ?> (old)<br>
 			<?php hyperlight('displayentities(offsetx, offsety, myroomx, myroomy, bottom2rowstext)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
 			<?php hyperlight('getroomcopydata(rx, ry, altst)', 'generic', 'tt'); ?> (old)<br>
