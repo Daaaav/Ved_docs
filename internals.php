@@ -58,67 +58,71 @@ a#page_internals {
 <p>Last updated: <strong><?php echo date('l j F Y H:i (T)', filemtime('ved_docs/internals.php')); /* previously getlastmod() */ ?></strong> (this is the last edit date of the file)</p>
 
 <h2><a name="files">Files</a></h2>
-<p>First of all, the following source files are used in Ved:</p>
+<p>The following source files are used in Ved. Note that this table may not be entirely accurate - the &quot;Added&quot; column may not always be filled in even if a file didn't exist since the early days of Ved for example, some files may have been removed from the list altogether when they were removed, some changes may not yet have been documented here, and some files may have had more complicated overhauls. Version numbers in parentheses indicate that basically, the file had either been renamed, or something else is the matter that should be explained in the description.</p>
 <table border="1">
-<tr><th>Filename</th><th>Description</th></tr>
-<tr><td><tt>callback_*.lua</tt></td><td>Contain all <tt>love.*</tt> callbacks. For example, <tt>callback_load.lua</tt> loads most other source files and assets.</td></tr>
-<tr><td><tt>clargs.lua</tt></td><td>Stores and formats the command line help output when requested.</td></tr>
-<tr><td><tt>conf.lua</tt></td><td>L&Ouml;VE's configuration file, controlling default window settings and loaded L&Ouml;VE modules.</td></tr>
-<tr><td><tt>const.lua</tt></td><td>Constants - Contains known scripting commands, music names, and other lookup tables. Also contained tileset data before 1.8.4.</td></tr>
-<tr><td><tt>coordsdialog.lua</tt></td><td>Contains code related to the little room coordinates input after hitting Q in the main editor. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
-<tr><td><tt>corefunc.lua</tt></td><td>Contains a few functions that are used so early in loading (and/or are used on the crash screen), they must exist before things like plugins and the error handler are loaded.</td></tr>
-<tr><td><tt>coretext.lua</tt></td><td>Contains functions for loading fonts, language files, and printing text.</td></tr>
-<tr><td><tt>devstrings.lua</tt></td><td>Used for defining new text strings during development of a new version, before putting them in all the language files.</td></tr>
-<tr><td><tt>dialog.lua</tt></td><td>Contains code related to dialog boxes. Before 1.4.0, this also contained code for right click menus, scrollbars and VVVVVV-style text boxes, which have each been moved to their own separate files as of 1.4.0.</td></tr>
-<tr><td><tt>dialog_uses.lua</tt></td><td>Contains callback functions and definitions of fields for dialogs, which are used as arguments for <tt>dialog.create(...)</tt></td></tr>
-<tr><td><tt>drawhelp.lua</tt></td><td>Holds <tt>drawhelp()</tt>, called by <tt>love.draw()</tt> in state 15 (the help state). The help system is also used for level notes and the plugins list.</td></tr>
-<tr><td><tt>drawlevelslist.lua</tt></td><td>Holds <tt>drawlevelslist()</tt>, called by <tt>love.draw()</tt> in state 6 (the loading screen state).</td></tr>
-<tr><td><tt>drawmaineditor.lua</tt></td><td>Holds <tt>drawmaineditor()</tt>, called by <tt>love.draw()</tt> in state 1 (the main editor state).</td></tr>
-<tr><td><tt>drawmap.lua</tt></td><td>Holds <tt>drawmap()</tt>, called by <tt>love.draw()</tt> in state 12 (the map state).</td></tr>
-<tr><td><tt>drawscripteditor.lua</tt></td><td>Holds <tt>drawscripteditor()</tt>, called by <tt>love.draw()</tt> in state 3 (the script editor state).</td></tr>
-<tr><td><tt>drawsearch.lua</tt></td><td>Holds <tt>drawsearch()</tt>, called by <tt>love.draw()</tt> in state 11 (the search state).</td></tr>
-<tr><td><tt>errorhandler.lua</tt></td><td>Contains code for both the crash screen and the plugin error screen.</td></tr>
-<tr><td><tt>filefunc_linmac.lua</tt></td><td>Since Ved 1.5.0, this contains functions necessary for accessing the VVVVVV levels and graphics folders on Linux and macOS. This uses the <tt>vedlib_filefunc_*</tt> library found in the <tt>libs</tt> folder via LuaJIT FFI. Also see <tt>love.load()</tt> in <tt>main2.lua</tt>: On Linux this library is compiled locally, if unsuccessful (due to missing <tt>gcc</tt>) we'll fallback to <tt>filefunc_lin_fallback.lua</tt> instead. On Mac, an already compiled version of the library is used.<br>Before Ved 1.5.0, this was split in <tt>filefunc_lin.lua</tt> and <tt>filefunc_mac.lua</tt> and used terminal utilities to list level files.</td></tr>
-<tr><td><tt>filefunc_lin_fallback.lua</tt></td><td>Contains functions necessary for accessing the VVVVVV levels and graphics folders on Linux, if compiling the filefunc library was not successful (due to missing <tt>gcc</tt>). This uses command line utilities like <tt>ls</tt> to list level files and some other file-related things.</td></tr>
-<tr><td><tt>filefunc_luv.lua</tt></td><td>Contains fallback <tt>love.filesystem</tt> functions for accessing fallback levels and graphics folders if the operating system is something other than Windows, macOS or Linux.</td></tr>
-<tr><td><tt>filefunc_win.lua</tt></td><td>Contains functions necessary for accessing the VVVVVV levels and graphics folders on Windows. As of Ved 1.5.0, this uses the Windows API for everything (including reading and writing level files, due to <tt>io.open</tt> being non-Unicode on Windows), before 1.5.0, it used command line utilities like <tt>dir</tt>.</td></tr>
-<tr><td><tt>func.lua</tt></td><td>Contains many functions, especially general-purpose ones and core Ved functions.</td></tr>
-<tr><td><tt>helpfunc.lua</tt></td><td>Contains certain functions related to (editing) level notes, and the rest of the help system.</td></tr>
-<tr><td><tt>https_*.lua</tt></td><td>Contains platform-specific code for making HTTPS requests.<br>These files were added in Ved 1.8.3 and 1.8.4.</td></tr>
-<tr><td><tt>imagefont.lua</tt></td><td>Loads and readies <tt>font.png</tt> for use inside Ved.<br>This file was added in Ved 1.4.0.</td></tr>
-<tr><td><tt>incompatmain8.lua</tt></td><td>If L&Ouml;VE 0.8 or lower is used, this is loaded from <tt>main.lua</tt>. It displays a message that outdated L&Ouml;VE is being used in all available languages.<br>Before Ved 1.4.5, this file was called <tt>incompatmain.lua</tt>.</td></tr>
-<tr><td><tt>incompatmain9.lua</tt></td><td>If L&Ouml;VE 0.9.0 is used, this is loaded from <tt>main.lua</tt>. It displays a message that L&Ouml;VE 0.9.0 is no longer supported in all available languages.<br>This file was added in Ved 1.4.5.</td></tr>
-<tr><td><tt>input.lua</tt></td><td>Contains <a href="https://gitgud.io/Dav999/ved/merge_requests/31" target="_blank">the new input system</a>.</td></tr>
-<tr><td><tt>konami.lua</tt></td><td>Handles the shortcut that can be used in the help screen to make text editable. Before Ved 1.8.4, this file was called <tt>keyfunc.lua</tt>.</td></tr>
-<tr><td><tt>libs/</tt></td><td>Folder containing some C and Objective-C support libraries for Linux and macOS, and C header files for those libraries and parts of the Windows API, for use with LuaJIT FFI.</td></tr>
-<tr><td><tt>loadallmetadata.lua</tt></td><td>Returns level metadata for the levels list from a different thread.</td></tr>
-<tr><td><tt>loadconfig.lua</tt></td><td>Handles anything related to the settings.</td></tr>
-<tr><td><tt>love10compat.lua</tt></td><td>Loaded only when L&Ouml;VE 0.10.0 or higher is used, and provides compatibility with those versions. Contains the new <tt>love.wheelmoved</tt> callback.</td></tr>
-<tr><td><tt>love11compat.lua</tt></td><td>Loaded only when L&Ouml;VE 11.0 or higher is used, and provides compatibility with those versions. For example, this hijacks color functions so they work with 0-255 instead of 0-1.</td></tr>
-<tr><td><tt>main.lua</tt></td><td>The first file that is loaded. Loads the fonts, sets a few basic variables, and loads <tt>plugins.lua</tt>, <tt>errorhandler.lua</tt> and, most importantly, <tt>main2.lua</tt>.</td></tr>
-<tr><td><tt>main2.lua</tt></td><td>Removed in Ved 1.8.4, contained all the L&Ouml;VE callbacks that are now split into <tt>callback_*.lua</tt> files.</td></tr>
-<tr><td><tt>mapfunc.lua</tt></td><td>Contains functions related to rendering and updating the map overview screen.<br>This file was added in Ved 1.4.2.</td></tr>
-<tr><td><tt>music.lua</tt></td><td>Handles reading and writing <tt>vvvvvvmusic.vvv</tt>, <tt>mmmmmm.vvv</tt>, and other custom music files.<br>This file was added in Ved 1.6.0.</td></tr>
-<tr><td><tt>playtesting.lua</tt></td><td>Contains code relevant to playtesting in VVVVVV.</td></tr>
-<tr><td><tt>playtestthread.lua</tt></td><td>The thread that starts up VVVVVV (dependent on OS of course) and waits for it to be closed.</td></tr>
-<tr><td><tt>plugins.lua</tt></td><td>Makes sure plugins and their file edits and hooks are loaded</td></tr>
-<tr><td><tt>resizablebox.lua</tt></td><td>Has a system for a box that can be resized by dragging borders with the mouse. Was formerly used for resizing script boxes, but it was glitchy so it's now unused.</td></tr>
-<tr><td><tt>rightclickmenu.lua</tt></td><td>Contains code related to right click menus. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
-<tr><td><tt>roomfunc.lua</tt></td><td>Contains functions related to rooms in levels, tiles and such.</td></tr>
-<tr><td><tt>scaling.lua</tt></td><td>Hijacks/Decorates a couple of L&Ouml;VE functions to make scaling work perfectly</td></tr>
-<tr><td><tt>scriptfunc.lua</tt></td><td>Contains functions related to scripts.</td></tr>
-<tr><td><tt>scrollbar.lua</tt></td><td>Contains code related to scrollbars. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
-<tr><td><tt>searchfunc.lua</tt></td><td>Contains functions related to searching levels.</td></tr>
-<tr><td><tt>slider.lua</tt></td><td>Used for the number controls like in the options screen</td></tr>
-<tr><td><tt>tileset_data.lua</tt></td><td>Contains tile numbers for all tilesets.</td></tr>
-<tr><td><tt>ui_elements.lua</tt></td><td>Contains all the <a href="#guielements">GUI elements</a></td></tr>
-<tr><td><tt>uis/</tt></td><td>Folder with UI files for each state (see below)</td></tr>
-<tr><td><tt>updatecheck.lua</tt></td><td>Contains functionality for the update check.<br>This file was added in Ved 1.8.4-pre14. Before, this filename was used for the actual update checking thread (see <tt>updatecheckthread.lua</tt>)</td></tr>
-<tr><td><tt>updatecheckthread.lua</tt></td><td>Checks what the latest version of Ved is via HTTPS, and reports back. This is run inside a separate thread.<br>Before Ved 1.8.4-pre14, <em>this</em> file was called <tt>updatecheck.lua</tt>.</td></tr>
-<tr><td><tt>utf8lib_*.lua</tt></td><td>Implements or supplements necessary parts of the Lua <tt>utf8</tt> module, depending on L&Ouml;VE version</td></tr>
-<tr><td><tt>vvvvvvfunc.lua</tt></td><td>Implements some code from VVVVVV in Lua, mostly for displaying accurate colors.</td></tr>
-<tr><td><tt>vvvvvv_textbox.lua</tt></td><td>Contains code related to VVVVVV-style text boxes. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
-<tr><td><tt>vvvvvvxml.lua</tt></td><td>Loads and parses levels from .vvvvvv level files, and creates and saves them. Also has a function for &quot;loading&quot; a blank level.</td></tr>
+<tr><th>Filename</th><th>Added</th><th>Rem'd</th><th>Description</th></tr>
+<tr><td><tt>callback_*.lua</tt></td><td>1.8.4</td><td></td><td>Contain all <tt>love.*</tt> callbacks. For example, <tt>callback_load.lua</tt> loads most other source files and assets.</td></tr>
+<tr><td><tt>clargs.lua</tt></td><td></td><td></td><td>Stores and formats the command line help output when requested.</td></tr>
+<tr><td><tt>conf.lua</tt></td><td></td><td></td><td>L&Ouml;VE's configuration file, controlling default window settings and loaded L&Ouml;VE modules.</td></tr>
+<tr><td><tt>const.lua</tt></td><td></td><td></td><td>Constants - Contains known scripting commands, music names, and other lookup tables. Also contained tileset data before 1.8.4.</td></tr>
+<tr><td><tt>coordsdialog.lua</tt></td><td>1.4.0</td><td></td><td>Contains code related to the little room coordinates input after hitting Q in the main editor. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
+<tr><td><tt>corefunc.lua</tt></td><td></td><td></td><td>Contains a few functions that are used so early in loading (and/or are used on the crash screen), they must exist before things like plugins and the error handler are loaded.</td></tr>
+<tr><td><tt>coretext.lua</tt></td><td></td><td></td><td>Contains functions for loading fonts, language files, and printing text.</td></tr>
+<tr><td><tt>devstrings.lua</tt></td><td></td><td></td><td>Used for defining new text strings during development of a new version, before putting them in all the language files.</td></tr>
+<tr><td><tt>dialog.lua</tt></td><td></td><td></td><td>Contains code related to dialog boxes. Before 1.4.0, this also contained code for right click menus, scrollbars and VVVVVV-style text boxes, which have each been moved to their own separate files as of 1.4.0.</td></tr>
+<tr><td><tt>dialog_uses.lua</tt></td><td></td><td></td><td>Contains callback functions and definitions of fields for dialogs, which are used as arguments for <tt>dialog.create(...)</tt></td></tr>
+<tr><td class="dred"><tt>drawhelp.lua</tt></td><td></td><td>1.8.4</td><td>Holds <tt>drawhelp()</tt>, called by <tt>love.draw()</tt> in state 15 (the help state). The help system is also used for level notes and the plugins list.<br>As of 1.8.4, this code was moved to <tt>uis/help/draw.lua</tt>.</td></tr>
+<tr><td class="dred"><tt>drawlevelslist.lua</tt></td><td></td><td>1.8.4</td><td>Holds <tt>drawlevelslist()</tt>, called by <tt>love.draw()</tt> in state 6 (the loading screen state).<br>As of 1.8.4, this code was moved to <tt>uis/levelslist/draw.lua</tt>.</td></tr>
+<tr><td class="dred"><tt>drawmaineditor.lua</tt></td><td></td><td>1.8.4</td><td>Holds <tt>drawmaineditor()</tt>, called by <tt>love.draw()</tt> in state 1 (the main editor state).<br>As of 1.8.4, this code was moved to <tt>uis/maineditor/draw.lua</tt>.</td></tr>
+<tr><td class="dred"><tt>drawmap.lua</tt></td><td></td><td>1.8.4</td><td>Holds <tt>drawmap()</tt>, called by <tt>love.draw()</tt> in state 12 (the map state).<br>As of 1.8.4, this code was moved to <tt>uis/map/draw.lua</tt>.</td></tr>
+<tr><td class="dred"><tt>drawscripteditor.lua</tt></td><td></td><td>1.8.4</td><td>Holds <tt>drawscripteditor()</tt>, called by <tt>love.draw()</tt> in state 3 (the script editor state).<br>As of 1.8.4, this code was moved to <tt>uis/scripteditor/draw.lua</tt>.</td></tr>
+<tr><td class="dred"><tt>drawsearch.lua</tt></td><td></td><td>1.8.4</td><td>Holds <tt>drawsearch()</tt>, called by <tt>love.draw()</tt> in state 11 (the search state).<br>As of 1.8.4, this code was moved to <tt>uis/search/draw.lua</tt>.</td></tr>
+<tr><td><tt>entity_mousedown.lua</tt></td><td>1.9.0</td><td></td><td>Contains <tt>handle_entity_mousedown()</tt>. Handles (right) clicking on entities and creating right click menus for them.</td></tr>
+<tr><td><tt>errorhandler.lua</tt></td><td></td><td></td><td>Contains code for both the crash screen and the plugin error screen.</td></tr>
+<tr><td><tt>filefunc_linmac.lua</tt></td><td>1.5.0</td><td></td><td>Since Ved 1.5.0, this contains functions necessary for accessing the VVVVVV levels and graphics folders on Linux and macOS. This uses the <tt>vedlib_filefunc_*</tt> library found in the <tt>libs</tt> folder via LuaJIT FFI. Also see <tt>love.load()</tt> in <tt>main2.lua</tt>: On Linux this library is compiled locally, if unsuccessful (due to missing <tt>gcc</tt>) we'll fallback to <tt>filefunc_lin_fallback.lua</tt> instead. On Mac, an already compiled version of the library is used.<br>Before Ved 1.5.0, this was split in <tt>filefunc_lin.lua</tt> and <tt>filefunc_mac.lua</tt> and used terminal utilities to list level files.</td></tr>
+<tr><td><tt>filefunc_lin_fallback.lua</tt></td><td>(1.5.0)</td><td></td><td>Contains functions necessary for accessing the VVVVVV levels and graphics folders on Linux, if compiling the filefunc library was not successful (due to missing <tt>gcc</tt>). This uses command line utilities like <tt>ls</tt> to list level files and some other file-related things.<br>Before 1.5.0, this file was called <tt>filefunc_lin.lua</tt>, because this was the only method that existed.</td></tr>
+<tr><td><tt>filefunc_luv.lua</tt></td><td></td><td></td><td>Contains fallback <tt>love.filesystem</tt> functions for accessing fallback levels and graphics folders if the operating system is something other than Windows, macOS or Linux.</td></tr>
+<tr><td class="dred"><tt>filefunc_mac.lua</tt></td><td></td><td>1.5.0</td><td>Contained functions necessary for accessing the VVVVVV levels and graphics folders on macOS. Used command line utilities like <tt>ls</tt> to list level files and some other file-related things.</td></tr>
+<tr><td><tt>filefunc_win.lua</tt></td><td></td><td></td><td>Contains functions necessary for accessing the VVVVVV levels and graphics folders on Windows. As of Ved 1.5.0, this uses the Windows API for everything (including reading and writing level files, due to <tt>io.open</tt> being non-Unicode on Windows), before 1.5.0, it used command line utilities like <tt>dir</tt>.</td></tr>
+<tr><td><tt>func.lua</tt></td><td></td><td></td><td>Contains many functions, especially general-purpose ones and core Ved functions.</td></tr>
+<tr><td><tt>helpfunc.lua</tt></td><td></td><td></td><td>Contains certain functions related to (editing) level notes, and the rest of the help system.</td></tr>
+<tr><td><tt>https_*.lua</tt></td><td>1.8.3<br>1.8.4</td><td></td><td>Contains platform-specific code for making HTTPS requests.<br>These files were added in Ved 1.8.3 and 1.8.4.</td></tr>
+<tr><td><tt>imagefont.lua</tt></td><td>1.4.0</td><td></td><td>Loads and readies <tt>font.png</tt> for use inside Ved.</td></tr>
+<tr><td><tt>incompatmain8.lua</tt></td><td>(1.4.5)</td><td></td><td>If L&Ouml;VE 0.8 or lower is used, this is loaded from <tt>main.lua</tt>. It displays a message that outdated L&Ouml;VE is being used in all available languages.<br>Before Ved 1.4.5, this file was called <tt>incompatmain.lua</tt>.</td></tr>
+<tr><td><tt>incompatmain9.lua</tt></td><td>1.4.5</td><td></td><td>If L&Ouml;VE 0.9.0 is used, this is loaded from <tt>main.lua</tt>. It displays a message that L&Ouml;VE 0.9.0 is no longer supported in all available languages.</td></tr>
+<tr><td><tt>input.lua</tt></td><td>1.8.0</td><td></td><td>Contains <a href="https://gitgud.io/Dav999/ved/merge_requests/31" target="_blank">the new input system</a>.</td></tr>
+<tr><td><tt>konami.lua</tt></td><td>(1.8.4)</td><td></td><td>Handles the shortcut that can be used in the help screen to make text editable. Before Ved 1.8.4, this file was called <tt>keyfunc.lua</tt>.</td></tr>
+<tr><td><tt>libs/</tt></td><td></td><td></td><td>Folder containing some C and Objective-C support libraries for Linux and macOS, and C header files for those libraries and parts of the Windows API, for use with LuaJIT FFI.</td></tr>
+<tr><td><tt>loadallmetadata.lua</tt></td><td></td><td></td><td>Returns level metadata for the levels list from a different thread.</td></tr>
+<tr><td><tt>loadconfig.lua</tt></td><td></td><td></td><td>Handles anything related to the settings.</td></tr>
+<tr><td><tt>love10compat.lua</tt></td><td></td><td></td><td>Loaded only when L&Ouml;VE 0.10.0 or higher is used, and provides compatibility with those versions. Contains the new <tt>love.wheelmoved</tt> callback.</td></tr>
+<tr><td><tt>love11compat.lua</tt></td><td></td><td></td><td>Loaded only when L&Ouml;VE 11.0 or higher is used, and provides compatibility with those versions. For example, this hijacks color functions so they work with 0-255 instead of 0-1.</td></tr>
+<tr><td><tt>main.lua</tt></td><td></td><td></td><td>The first file that is loaded. Loads the fonts, sets a few basic variables, and loads <tt>plugins.lua</tt>, <tt>errorhandler.lua</tt> and, most importantly, all the <tt>callback_*.lua</tt> files (or <tt>main2.lua</tt> before 1.8.4).</td></tr>
+<tr><td class="dred"><tt>main2.lua</tt></td><td></td><td>1.8.4</td><td>Contained all the L&Ouml;VE callbacks that are now split into <tt>callback_*.lua</tt> files.</td></tr>
+<tr><td><tt>mapfunc.lua</tt></td><td>1.4.2</td><td></td><td>Contains functions related to rendering and updating the map overview screen.</td></tr>
+<tr><td><tt>music.lua</tt></td><td>1.6.0</td><td></td><td>Handles reading and writing <tt>vvvvvvmusic.vvv</tt>, <tt>mmmmmm.vvv</tt>, and other custom music files.</td></tr>
+<tr><td><tt>ogg_vorbis_metadata.lua</tt></td><td>1.9.0</td><td></td><td>Decodes some metadata from Ogg Vorbis files, like sample rate, and Vorbis comments (for loop points).</td></tr>
+<tr><td><tt>playtesting.lua</tt></td><td>1.8.0</td><td></td><td>Contains code relevant to playtesting in VVVVVV.</td></tr>
+<tr><td><tt>playtestthread.lua</tt></td><td>1.8.0</td><td></td><td>The thread that starts up VVVVVV (dependent on OS of course) and waits for it to be closed.</td></tr>
+<tr><td><tt>plugins.lua</tt></td><td></td><td></td><td>Makes sure plugins and their file edits and hooks are loaded</td></tr>
+<tr><td><tt>resizablebox.lua</tt></td><td></td><td></td><td>Has a system for a box that can be resized by dragging borders with the mouse. Was formerly used for resizing script boxes, but it was glitchy so it's now unused.</td></tr>
+<tr><td><tt>rightclickmenu.lua</tt></td><td>1.4.0</td><td></td><td>Contains code related to right click menus. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
+<tr><td><tt>roomfunc.lua</tt></td><td></td><td></td><td>Contains functions related to rooms in levels, tiles and such.</td></tr>
+<tr><td><tt>scaling.lua</tt></td><td></td><td></td><td>Hijacks/Decorates a couple of L&Ouml;VE functions to make scaling work perfectly</td></tr>
+<tr><td><tt>scriptfunc.lua</tt></td><td></td><td></td><td>Contains functions related to scripts.</td></tr>
+<tr><td><tt>scrollbar.lua</tt></td><td>1.4.0</td><td></td><td>Contains code related to scrollbars. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
+<tr><td><tt>searchfunc.lua</tt></td><td></td><td></td><td>Contains functions related to searching levels.</td></tr>
+<tr><td><tt>slider.lua</tt></td><td></td><td></td><td>Used for the number controls like in the options screen</td></tr>
+<tr><td><tt>tileset_data.lua</tt></td><td></td><td></td><td>Contains tile numbers for all tilesets.</td></tr>
+<tr><td><tt>tool_mousedown.lua</tt></td><td>1.9.0</td><td></td><td>Contains <tt>handle_tool_mousedown()</tt>. Handles general clicking on the canvas in the main editor, including all the tools, and placing down moved entities. Excludes (right) clicking on entities, see <tt>handle_entity_mousedown()</tt> (<tt>entity_mousedown.lua</tt>) for that.</td></tr>
+<tr><td><tt>ui_elements.lua</tt></td><td>1.7.0</td><td></td><td>Contains all the <a href="#guielements">GUI elements</a></td></tr>
+<tr><td><tt>uis/</tt></td><td>1.7.0</td><td></td><td>Folder with UI files for each state (see below).<br>Note that in 1.8.4, each state was changed from a single file to a folder with each callback in its own file.</td></tr>
+<tr><td><tt>updatecheck.lua</tt></td><td>(1.8.4)</td><td></td><td>Contains functionality for the update check.<br>This file was added in Ved 1.8.4-pre14. Before, this filename was used for the actual update checking thread (see <tt>updatecheckthread.lua</tt>)</td></tr>
+<tr><td><tt>updatecheckthread.lua</tt></td><td>(1.8.4)</td><td></td><td>Checks what the latest version of Ved is via HTTPS, and reports back. This is run inside a separate thread.<br>Before Ved 1.8.4-pre14, <em>this</em> file was called <tt>updatecheck.lua</tt>.</td></tr>
+<tr><td><tt>utf8lib_*.lua</tt></td><td></td><td></td><td>Implements or supplements necessary parts of the Lua <tt>utf8</tt> module, depending on L&Ouml;VE version</td></tr>
+<tr><td><tt>vvvvvvfunc.lua</tt></td><td></td><td></td><td>Implements some code from VVVVVV in Lua, mostly for displaying accurate colors.</td></tr>
+<tr><td><tt>vvvvvv_textbox.lua</tt></td><td>1.4.0</td><td></td><td>Contains code related to VVVVVV-style text boxes. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
+<tr><td><tt>vvvvvvxml.lua</tt></td><td></td><td></td><td>Loads and parses levels from .vvvvvv level files, and creates and saves them. Also has a function for &quot;loading&quot; a blank level.</td></tr>
 </table>
 
 <h2><a name="states">States</a></h2>
@@ -902,6 +906,45 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 			<?php hyperlight('roomdata_set(rx, ry, values)', 'generic', 'tt'); ?> (new)<span class="br_bigger"></span>
 		</li>
 		<li>[05] <tt>next_key(t, c)</tt> was removed, but I'm willing to bet no plugin was using it. (&quot;Return the lowest key in table t that is higher than c. If not found, return nil.&quot;)</li>
+		<li>[19] <tt>hoverrectangle(...)</tt> now returns whether the rectangle was hovered over, for convenience</li>
+		<li>[19] Due to the script editor switching to the new input system, <tt>scriptlines</tt> and <tt>editingline</tt> are now no longer used. Instead, <tt>inputs.script_lines</tt> is the input, and when it's not appropriate to edit that directly, a copy of the table is made instead.<br><tt>processflaglabels()</tt> and <tt>processflaglabelsreverse()</tt> now both take the script as argument: <?php hyperlight('processflaglabels(raw_script)', 'generic', 'tt'); ?> and <?php hyperlight('processflaglabelsreverse(readable_script)', 'generic', 'tt'); ?>.<br><tt>processflaglabels</tt> now returns the &quot;human-readable&quot; script (<tt>readable_script</tt>).<br><tt>processflaglabelsreverse</tt> used to return true if it failed due to running out of flags to allocate, now it returns <tt>success</tt> as a first argument and the &quot;raw&quot;/&quot;VVVVVV-parser-readable&quot; script as the second argument (<tt>raw_script</tt>). <tt>success</tt> can be false if it ran out of flags, or splitting internal scripts failed.</li>
+		<li>[20] In addition to the above, <tt>processflaglabels</tt> is now called <tt>script_decompile</tt>, and <tt>processflaglabelsreverse</tt> is now called <tt>script_compile</tt>.</tt>
+		<li>[27] Tilesets have been refactored a little:<br>
+			<tt>tilesets[file].tileswidth</tt> and <tt>tilesets[file].tilesheight</tt> have been snake_cased to <tt>.tiles_width</tt> and <tt>.tiles_height</tt>.<br>
+			<tt>.total_tiles</tt> has been added. This is <tt>.tiles_width * .tiles_height</tt>.<br>
+			<tt>.tiles_width_picker</tt> and <tt>.tiles_height_picker</tt> have been added to indicate what the dimensions should be in the tiles picker (only different from <tt>.tiles_width</tt> and <tt>.tiles_height</tt> if <tt>.tiles_width</tt> is higher than 40.)<br>
+			Note that <tt>.total_tiles</tt> may be less than <tt>.tiles_width_picker * .tiles_height_picker</tt>.
+		</li>
+		<li>[27] The <tt>tilesetnames</tt> table has been replaced by <tt>tileset_names</tt> and now works differently. <tt>tilesetnames</tt> mapped from tileset <strong>file</strong> number 1, 2 or 3 to the filename of that tileset file. It was never used without the <tt>usedtilesets</tt> table, which maps from chooseable tileset numbers (Space Station, Outside, ... being 0, 1, ...) to tileset file number 1, 2 or 3. <tt>tileset_names</tt> now maps directly from chooseable tileset number to the corresponding filename. Thus, the hellish <?php hyperlight('tilesets[tilesetnames[usedtilesets[selectedtileset]]]', 'generic', 'tt'); ?> can be written a little shorter as <?php hyperlight('tilesets[tileset_names[selectedtileset]]', 'generic', 'tt'); ?>.</li>
+		<li>[38] Various names of tables and functions have been snake_cased:<br>
+			<tt>listmusicnamesids</tt> &rarr; <tt>list_music_names_ids</tt><br>
+			<tt>listmusicnames</tt> &rarr; <tt>list_music_names</tt><br>
+			<tt>listmusicids</tt> &rarr; <tt>list_music_ids</tt><br>
+			<tt>listmusiccommandsnamesids</tt> &rarr; <tt>list_music_commands_names_ids</tt><br>
+			<tt>listmusiccommandsids</tt> &rarr; <tt>list_music_commands_ids</tt><br>
+			<tt>musicsimplifiedtointernal</tt> &rarr; <tt>music_simplified_to_internal</tt><br>
+			<tt>listsoundids</tt> &rarr; <tt>list_sound_ids</tt><br>
+			<tt>returnusedflags(...)</tt> &rarr; <tt>return_used_flags(...)</tt><br>
+			<tt>syntaxhl(...)</tt> &rarr; <tt>syntax_hl(...)</tt><br>
+			<tt>justtext(...)</tt> &rarr; <tt>just_text(...)</tt><br>
+			<tt>scriptcontext(...)</tt> &rarr; <tt>script_context(...)</tt><br>
+			<tt>findscriptreferences(...)</tt> &rarr; <tt>find_script_references(...)</tt><br>
+			<tt>findusedscripts(...)</tt> &rarr; <tt>find_used_scripts(...)</tt><br>
+		</li>
+		<li>[39] The big block of code at the top of <tt>uis/maineditor/draw.lia</tt> that handled using the mouse buttons in the main editor (so, all the tools) has been moved to its own file and function, <tt>handle_tool_mousedown()</tt> in <tt>tool_mousedown.lua</tt>.</li>
+		<li>[39] Entity right-clicking/(shift+)alt+clicking (so, including creating right click menus for entities) has been taken out of entity drawing code (<tt>displayentities(...)</tt> and <tt>displayentity(...)</tt>) and moved to its own file and function, <tt>handle_entity_mousedown()</tt> in <tt>entity_mousedown.lua</tt>.</li>
+		<li>[39] <tt>entityrightclick(x, y, menuitems, newmenuid[, sel_w, sel_h[, sel_x, sel_y]])</tt> has been split into <tt>entity_highlight(x, y[, sel_w, sel_h[, sel_x, sel_y]])</tt> (for the visual entity border) and <tt>entity_interactable(k, x, y, menuitems, newmenuid)</tt> (for the right click menus in <tt>handle_entity_mousedown()</tt>.</li>
+		<li>[46] Fixed plugin code changes being double-escaped on changing language/font (not a breaking change but may be good to know anyway</li>
+		<li>[50] .vvv metadata in the music table is now <tt>.vvv_metadata</tt> instead of <tt>.meta</tt>. Some music player functions were renamed:<br>
+			<tt>getmusicmeta_file</tt> &rarr; <tt>music_get_file_vvv_metadata</tt><br>
+			<tt>setmusicmeta_file</tt> &rarr; <tt>music_set_file_vvv_metadata</tt><br>
+			<tt>getmusicmeta_song</tt> &rarr; <tt>music_get_song_vvv_metadata</tt><br>
+			<tt>setmusicmeta_song</tt> &rarr; <tt>music_get_song_vvv_metadata</tt><br>
+			<tt>getmusicfiledata</tt> &rarr; <tt>music_get_filedata</tt><br>
+			<tt>getmusicaudio</tt> &rarr; <tt>music_get_audio</tt><br>
+			<tt>getmusicaudioplaying</tt> &rarr; <tt>music_get_audio_playing</tt><br>
+			<tt>getmusicedited</tt> &rarr; <tt>music_get_edited</tt><br>
+		</li>
 	</ul>
 </dd>
 </dl>
