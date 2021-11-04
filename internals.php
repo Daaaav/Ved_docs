@@ -203,9 +203,14 @@ end', 'generic'); ?>
 
 <table border="1">
 <tr><th>L&Ouml;VE</th><th>Ved support</th></tr>
-<tr><td class="unsupported_bg">0.8.0-</td><td>Has never been supported, but a message is shown</td></tr>
-<tr><td class="unsupported_bg">0.9.0</td><td>Support dropped in 1.4.5 (broken since 1.4.2)</td></tr>
-<tr><td class="supported_bg">0.9.1</td><td rowspan="2">
+<tr><td class="supported_bg">11.3</td><td rowspan="4">Supported since 1.3.3</td></tr>
+<tr><td class="supported_bg">11.2</td></tr>
+<tr><td class="supported_bg">11.1</td></tr>
+<tr><td class="supported_bg">11.0</td></tr>
+<tr><td class="supported_bg">0.10.2</td><td rowspan="3">Supported since a42</td></tr>
+<tr><td class="supported_bg">0.10.1</td></tr>
+<tr><td class="supported_bg">0.10.0</td></tr>
+<tr><td class="supported_bg">0.9.2</td><td rowspan="2">
 	Supported, with the following restrictions:
 	<ul>
 		<li><tt>font.png</tt> from the VVVVVV graphics folder cannot be used</li>
@@ -215,14 +220,9 @@ end', 'generic'); ?>
 		<li>(Playtesting was broken in versions of Ved below 1.8.4, now fixed)</li>
 	</ul>
 </td></tr>
-<tr><td class="supported_bg">0.9.2</td></tr>
-<tr><td class="supported_bg">0.10.0</td><td rowspan="3">Supported since a42</td></tr>
-<tr><td class="supported_bg">0.10.1</td></tr>
-<tr><td class="supported_bg">0.10.2</td></tr>
-<tr><td class="supported_bg">11.0</td><td rowspan="4">Supported since 1.3.3</td></tr>
-<tr><td class="supported_bg">11.1</td></tr>
-<tr><td class="supported_bg">11.2</td></tr>
-<tr><td class="supported_bg">11.3</td></tr>
+<tr><td class="supported_bg">0.9.1</td></tr>
+<tr><td class="unsupported_bg">0.9.0</td><td>Support dropped in 1.4.5 (broken since 1.4.2)</td></tr>
+<tr><td class="unsupported_bg">0.8.0-</td><td>Has never been supported, but a message is shown</td></tr>
 </table>
 
 <h3>Checking the L&Ouml;VE version Ved is running under</h3>
