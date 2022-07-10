@@ -34,6 +34,10 @@ h2 {
 	background-color: lightGreen;
 }
 
+.warnsupported_bg {
+	background-color: gold;
+}
+
 /*
 h2 > a::after {
 	content: "<a href=\"#" attr(name) "\">#</a>";
@@ -79,19 +83,20 @@ a#page_internals {
 <tr><td class="dred"><tt>drawsearch.lua</tt></td><td></td><td>1.8.4</td><td>Holds <tt>drawsearch()</tt>, called by <tt>love.draw()</tt> in state 11 (the search state).<br>As of 1.8.4, this code was moved to <tt>uis/search/draw.lua</tt>.</td></tr>
 <tr><td><tt>entity_mousedown.lua</tt></td><td>1.9.0</td><td></td><td>Contains <tt>handle_entity_mousedown()</tt>. Handles (right) clicking on entities and creating right click menus for them.</td></tr>
 <tr><td><tt>errorhandler.lua</tt></td><td></td><td></td><td>Contains code for both the crash screen and the plugin error screen.</td></tr>
-<tr><td><tt>filefunc_linmac.lua</tt></td><td>1.5.0</td><td></td><td>Since Ved 1.5.0, this contains functions necessary for accessing the VVVVVV levels and graphics folders on Linux and macOS. This uses the <tt>vedlib_filefunc_*</tt> library found in the <tt>libs</tt> folder via LuaJIT FFI. Also see <tt>love.load()</tt> in <tt>main2.lua</tt>: On Linux this library is compiled locally, if unsuccessful (due to missing <tt>gcc</tt>) we'll fallback to <tt>filefunc_lin_fallback.lua</tt> instead. On Mac, an already compiled version of the library is used.<br>Before Ved 1.5.0, this was split in <tt>filefunc_lin.lua</tt> and <tt>filefunc_mac.lua</tt> and used terminal utilities to list level files.</td></tr>
-<tr><td><tt>filefunc_lin_fallback.lua</tt></td><td>(1.5.0)</td><td></td><td>Contains functions necessary for accessing the VVVVVV levels and graphics folders on Linux, if compiling the filefunc library was not successful (due to missing <tt>gcc</tt>). This uses command line utilities like <tt>ls</tt> to list level files and some other file-related things.<br>Before 1.5.0, this file was called <tt>filefunc_lin.lua</tt>, because this was the only method that existed.</td></tr>
+<tr><td><tt>filefunc_linmac.lua</tt></td><td>1.5.0</td><td></td><td>Since Ved 1.5.0, this contains functions necessary for accessing the VVVVVV levels and graphics folders on Linux and macOS. This uses the <tt>vedlib_filefunc_*</tt> library found in the <tt>libs</tt> folder via LuaJIT FFI.<br>Before Ved 1.5.0, this was split in <tt>filefunc_lin.lua</tt> and <tt>filefunc_mac.lua</tt> and used terminal utilities to list level files.<br>Before Ved 1.10.0, on Linux this library was only ever compiled locally. If unsuccessful (due to missing <tt>gcc</tt>) we'd fallback to <tt>filefunc_lin_fallback.lua</tt> instead. Now a compiled Linux version is provided (just like for macOS), with local compilation as a fallback.</td></tr>
+<tr><td class="dred"><tt>filefunc_lin_fallback.lua</tt></td><td>(1.5.0)</td><td>1.10.0</td><td>Contained functions necessary for accessing the VVVVVV levels and graphics folders on Linux, if compiling the filefunc library was not successful (due to missing <tt>gcc</tt>). This used command line utilities like <tt>ls</tt> to list level files and some other file-related things.<br>Before 1.5.0, this file was called <tt>filefunc_lin.lua</tt>, because this was the only method that existed.</td></tr>
 <tr><td><tt>filefunc_luv.lua</tt></td><td></td><td></td><td>Contains fallback <tt>love.filesystem</tt> functions for accessing fallback levels and graphics folders if the operating system is something other than Windows, macOS or Linux.</td></tr>
 <tr><td class="dred"><tt>filefunc_mac.lua</tt></td><td></td><td>1.5.0</td><td>Contained functions necessary for accessing the VVVVVV levels and graphics folders on macOS. Used command line utilities like <tt>ls</tt> to list level files and some other file-related things.</td></tr>
 <tr><td><tt>filefunc_win.lua</tt></td><td></td><td></td><td>Contains functions necessary for accessing the VVVVVV levels and graphics folders on Windows. As of Ved 1.5.0, this uses the Windows API for everything (including reading and writing level files, due to <tt>io.open</tt> being non-Unicode on Windows), before 1.5.0, it used command line utilities like <tt>dir</tt>.</td></tr>
 <tr><td><tt>func.lua</tt></td><td></td><td></td><td>Contains many functions, especially general-purpose ones and core Ved functions.</td></tr>
 <tr><td><tt>helpfunc.lua</tt></td><td></td><td></td><td>Contains certain functions related to (editing) level notes, and the rest of the help system.</td></tr>
 <tr><td><tt>https_*.lua</tt></td><td>1.8.3<br>1.8.4</td><td></td><td>Contains platform-specific code for making HTTPS requests.<br>These files were added in Ved 1.8.3 and 1.8.4.</td></tr>
-<tr><td><tt>imagefont.lua</tt></td><td>1.4.0</td><td></td><td>Loads and readies <tt>font.png</tt> for use inside Ved.</td></tr>
+<tr><td class="dred"><tt>imagefont.lua</tt></td><td>1.4.0</td><td>1.10.0</td><td>Loads and readies <tt>font.png</tt> for use inside Ved.<br>In Ved 1.10.0, this was superseded by <tt>vedfont.lua</tt>.</td></tr>
 <tr><td><tt>incompatmain8.lua</tt></td><td>(1.4.5)</td><td></td><td>If L&Ouml;VE 0.8 or lower is used, this is loaded from <tt>main.lua</tt>. It displays a message that outdated L&Ouml;VE is being used in all available languages.<br>Before Ved 1.4.5, this file was called <tt>incompatmain.lua</tt>.</td></tr>
 <tr><td><tt>incompatmain9.lua</tt></td><td>1.4.5</td><td></td><td>If L&Ouml;VE 0.9.0 is used, this is loaded from <tt>main.lua</tt>. It displays a message that L&Ouml;VE 0.9.0 is no longer supported in all available languages.</td></tr>
 <tr><td><tt>input.lua</tt></td><td>1.8.0</td><td></td><td>Contains <a href="https://gitgud.io/Dav999/ved/merge_requests/31" target="_blank">the new input system</a>.</td></tr>
 <tr><td><tt>konami.lua</tt></td><td>(1.8.4)</td><td></td><td>Handles the shortcut that can be used in the help screen to make text editable. Before Ved 1.8.4, this file was called <tt>keyfunc.lua</tt>.</td></tr>
+<tr><td><tt>librarian.lua</tt></td><td>1.10.0</td><td></td><td>Provides <tt>prepare_library</tt> and <tt>load_library</tt>, which make sure necessary libraries are ready for use, and can load them.</td></tr>
 <tr><td><tt>libs/</tt></td><td></td><td></td><td>Folder containing some C and Objective-C support libraries for Linux and macOS, and C header files for those libraries and parts of the Windows API, for use with LuaJIT FFI.</td></tr>
 <tr><td><tt>loadallmetadata.lua</tt></td><td></td><td></td><td>Returns level metadata for the levels list from a different thread.</td></tr>
 <tr><td><tt>loadconfig.lua</tt></td><td></td><td></td><td>Handles anything related to the settings.</td></tr>
@@ -120,6 +125,7 @@ a#page_internals {
 <tr><td><tt>updatecheck.lua</tt></td><td>(1.8.4)</td><td></td><td>Contains functionality for the update check.<br>This file was added in Ved 1.8.4-pre14. Before, this filename was used for the actual update checking thread (see <tt>updatecheckthread.lua</tt>)</td></tr>
 <tr><td><tt>updatecheckthread.lua</tt></td><td>(1.8.4)</td><td></td><td>Checks what the latest version of Ved is via HTTPS, and reports back. This is run inside a separate thread.<br>Before Ved 1.8.4-pre14, <em>this</em> file was called <tt>updatecheck.lua</tt>.</td></tr>
 <tr><td><tt>utf8lib_*.lua</tt></td><td></td><td></td><td>Implements or supplements necessary parts of the Lua <tt>utf8</tt> module, depending on L&Ouml;VE version</td></tr>
+<tr><td><tt>vedfont.lua</tt></td><td>1.10.0</td><td></td><td>Contains the font class implementing text rendering (instead of using <tt>love.graphics</tt> <tt>Font</tt> objects.)</td></tr>
 <tr><td><tt>vvvvvvfunc.lua</tt></td><td></td><td></td><td>Implements some code from VVVVVV in Lua, mostly for displaying accurate colors.</td></tr>
 <tr><td><tt>vvvvvv_textbox.lua</tt></td><td>1.4.0</td><td></td><td>Contains code related to VVVVVV-style text boxes. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
 <tr><td><tt>vvvvvvxml.lua</tt></td><td></td><td></td><td>Loads and parses levels from .vvvvvv level files, and creates and saves them. Also has a function for &quot;loading&quot; a blank level.</td></tr>
@@ -203,11 +209,18 @@ end', 'generic'); ?>
 
 <table border="1">
 <tr><th>L&Ouml;VE</th><th>Ved support</th></tr>
-<tr><td class="supported_bg">11.3</td><td rowspan="4">Supported since 1.3.3</td></tr>
+<!--<tr><td class="warnsupported_bg">12.0</td><td>Not officially supported yet (hasn't been released)</td></tr>-->
+<tr><td class="supported_bg">11.4</td><td rowspan="5">Supported since 1.3.3</td></tr>
+<tr><td class="supported_bg">11.3</td></tr>
 <tr><td class="supported_bg">11.2</td></tr>
 <tr><td class="supported_bg">11.1</td></tr>
 <tr><td class="supported_bg">11.0</td></tr>
-<tr><td class="supported_bg">0.10.2</td><td rowspan="3">Supported since a42</td></tr>
+<tr><td class="supported_bg">0.10.2</td><td rowspan="3">
+	Supported since a42, with the following restriction:
+	<ul>
+		<li>Loop points (Ved 1.10.0+) in the music player do not work</li>
+	</ul>
+</td></tr>
 <tr><td class="supported_bg">0.10.1</td></tr>
 <tr><td class="supported_bg">0.10.0</td></tr>
 <tr><td class="supported_bg">0.9.2</td><td rowspan="2">
@@ -217,7 +230,7 @@ end', 'generic'); ?>
 		<li>F9 to display hotkeys never displays &#x2318; on Mac and never translates keys</li>
 		<li>The music player can't show song durations</li>
 		<li>The plugin hooks love_filedropped and love_directorydropped are never called</li>
-		<li>(Playtesting was broken in versions of Ved below 1.8.4, now fixed)</li>
+		<li>Loop points (Ved 1.10.0+) in the music editor do not work</li>
 	</ul>
 </td></tr>
 <tr><td class="supported_bg">0.9.1</td></tr>
@@ -234,23 +247,28 @@ end', 'generic'); ?>
 <p><strong>Being able to use <tt>font.png</tt> from the VVVVVV graphics folder as the main font</strong><br>
 <em>This feature is only supported in L&Ouml;VE versions <strong>0.10.0 and up</strong>.</em></p>
 
-<p>This is because in L&Ouml;VE versions previous to 0.10.0, the font returned by <a href="https://love2d.org/wiki/love.graphics.newImageFont"><tt>love.graphics.newImageFont()</tt></a> automatically had 1 pixel of extra horizontal spacing, and there was no way to change this. If you used a custom <tt>font.png</tt> with 1 pixel of extra spacing for each glyph, it would look really ugly, partly because you wouldn't be used to it being rendered that way, but mostly because Ved prints text assuming there's no 1 pixel of extra space for each glyph.</p>
+<p>This is because in L&Ouml;VE versions previous to 0.10.0, the font returned by <a href="https://love2d.org/wiki/love.graphics.newImageFont" target="_blank"><tt>love.graphics.newImageFont()</tt></a> automatically had 1 pixel of extra horizontal spacing, and there was no way to change this. If you used a custom <tt>font.png</tt> with 1 pixel of extra spacing for each glyph, it would look really ugly, partly because you wouldn't be used to it being rendered that way, but mostly because Ved prints text assuming there's no 1 pixel of extra space for each glyph.</p>
 <p>This problem is fixed in L&Ouml;VE 0.10.0+ because it added an optional third argument to <tt>love.graphics.newImageFont()</tt> to specify the spacing, which also lets you use negative values.</p>
 <p>On a side note, <tt>tinynumbers</tt>, Ved's F9 hotkey font, doesn't have this problem. This is because of a semi-hacky workaround: the font image is intentionally made with 1 less pixel of space per glyph, and then when it gets passed to <tt>love.graphics.newImageFont()</tt>, it gets 1 pixel of extra spacing either because it's below L&Ouml;VE 0.10.0 and it's forced or because we've specified 1 pixel of spacing in L&Ouml;VE 0.10.0+.</p>
 
 <p><strong>Having the F9 hotkey font change depending on operating system, language, etc.</strong><br>
-<em>This feature is only supported in L&Ouml;VE versions <strong>0.10.0 and up</strong></em>.</p>
+<em>This feature is only supported in L&Ouml;VE versions <strong>0.10.0 and up</strong>.</em></p>
 
 <p>This is referring to the feature where the characters on the hotkeys that show up when you hold down F9 will change to match your operating system and language. This means that, for example, Ctrl will change to Cmd on macOS, and Ctrl will change to Strg if your language is German. (If you're a German macOS user then it will still be Cmd.)</p>
-<p>This feature depends on <a href="https://love2d.org/wiki/Font:setFallbacks"><tt>Font:setFallbacks()</tt></a>, which was only added in L&Ouml;VE 0.10.0. Not much we can do without it.</p>
+<p>This feature depends on <a href="https://love2d.org/wiki/Font:setFallbacks" target="_blank"><tt>Font:setFallbacks()</tt></a>, which was only added in L&Ouml;VE 0.10.0. Not much we can do without it.</p>
 
 <p><strong>Basically anything to do with jumping around the track of the currently playing audio in the music and sound effect viewers</strong><br>
-<em>This feature is only supported in L&Ouml;VE versions <strong>0.10.0 and up</strong></em>.</p>
+<em>This feature is only supported in L&Ouml;VE versions <strong>0.10.0 and up</strong>.</em></p>
 
 <p>In L&Ouml;VE versions before 0.10.0, you can't jump around the track of the currently playing music or sound effect. That means you cannot click on the track to go to a certain position, nor can you use (Shift)+(kp)Left/Right to move 5 or 10 seconds forwards or backwards.</p>
-<p>The reason is simple: we need to know the duration of the currently playing audio. The only function that does this is <a href="https://love2d.org/wiki/Source:getDuration"><tt>Source:getDuration()</tt></a>, and it only exists starting in L&Ouml;VE 0.10.0.</p>
+<p>The reason is simple: we need to know the duration of the currently playing audio. The only function that does this is <a href="https://love2d.org/wiki/Source:getDuration" target="_blank"><tt>Source:getDuration()</tt></a>, and it only exists starting in L&Ouml;VE 0.10.0.</p>
 <p>Without knowing the duration of the audio, clicking on the track becomes meaningless, because one end is supposed to be the start of the audio (time t=0) and the other end is supposed to be the end of the audio (time t&#61;&lt;<!-- probably shouldn't use '=' next to '&lt;' here directly, because PHP -->duration of audio&gt;). Without the duration, we don't know what timecode the other end should be. So if one song is, let's say, 2:30 long and the other is 5:00 long, then in the 5:00-long song the middle of the track is 2:30, and in the 2:30-long song the middle of the track is 1:15 - but without knowing the duration of each we don't know where each timecode is supposed to be placed on the track for each song.</p>
 <p>Another consequence of not knowing the duration is that we can't make sure that you don't go past the end of the track when you use (Shift)+(kp)Left/Right to jump around. The end of the track is determined by its duration, which we don't know. So we wouldn't know if you went past the end or not without knowing the duration of the audio.</p>
+
+<p><strong>Loop points in the music player/editor</strong><br>
+<em>This feature is only supported in L&Ouml;VE versions <strong>11.0 and up</strong>.</em></p>
+
+<p>Ogg/Vorbis audio can have loop points, which work in VVVVVV. Ved 1.10.0 added support for playing the audio with loop points correctly as well, but this relies on <a href="https://love2d.org/wiki/love.audio.newQueueableSource" target="_blank"><tt>QueueableSource</tt></a>, which was added in L&Ouml;VE 11.0. So on older versions, the audio instead just loops from start to finish (including the intro and the possibly otherwise inaccessible part beyond the end point).
 
 <h2><a name="debugmode">Debug mode</a></h2>
 <p>Debug mode is a special mode used to access certain features and information that can be useful for debugging and developing Ved. Enabling debug mode has the following effects:</p>
@@ -466,8 +484,9 @@ In Ved 1.4.0, the dialogs system was overhauled. To create a new dialog, you can
 <tr><td><tt>DB.SAVE</tt></td><td>8</td><td>Save</td></tr>
 <tr><td><tt>DB.CLOSE</tt></td><td>9</td><td>Close</td></tr>
 <tr><td><tt>DB.LOAD</tt></td><td>10</td><td>Load</td></tr>
+<tr><td><tt>DB.ADVANCED</tt></td><td>11</td><td>Advanced</td></tr>
 </table>
-<p><tt>DB.LOAD</tt> was added in Ved 1.6.0.</p>
+<p><tt>DB.LOAD</tt> was added in Ved 1.6.0. <tt>DB.ADVANCED</tt> was added in Ved 1.10.0.</p>
 <p>There's also built-in lists of buttons available as <tt>DBS</tt>, like <tt>DBS.YESNO</tt>, which stands for <tt>{DB.YES, DB.NO}</tt>, meaning a Yes and No button.</p>
 <table border="1">
 <tr><th>Constant</th><th>Buttons</th></tr>
@@ -476,12 +495,13 @@ In Ved 1.4.0, the dialogs system was overhauled. To create a new dialog, you can
 <tr><td><tt>DBS.YESNO</tt></td><td>Yes, No</td></tr>
 <tr><td><tt>DBS.OKCANCEL</tt></td><td>OK, Cancel</td></tr>
 <tr><td><tt>DBS.OKCANCELAPPLY</tt></td><td>OK, Cancel, Apply</td></tr>
+<tr><td><tt>DBS.OKCANCELADVANCED</tt></td><td>OK, Cancel, Advanced</td></tr>
 <tr><td><tt>DBS.SAVEDISCARDCANCEL</tt></td><td>Save, Discard, Cancel</td></tr>
 <tr><td><tt>DBS.YESNOCANCEL</tt></td><td>Yes, No, Cancel</td></tr>
 <tr><td><tt>DBS.SAVECANCEL</tt></td><td>Save, Cancel</td></tr>
 <tr><td><tt>DBS.LOADCANCEL</tt></td><td>Load, Cancel</td></tr>
 </table>
-<p><tt>DBS.SAVECANCEL</tt> and <tt>DBS.LOADCANCEL</tt> were added in Ved 1.6.0.</p>
+<p><tt>DBS.SAVECANCEL</tt> and <tt>DBS.LOADCANCEL</tt> were added in Ved 1.6.0. <tt>DBS.OKCANCELADVANCED</tt> was added in Ved 1.10.0.</p>
 <h3>Handler</h3>
 <p>The purpose of the handler function is to take action after closing a dialog. For example, if a question is asked whether the user wants to destroy something, then that should be done if (and only if) the user chooses <tt>DB.YES</tt>.</p>
 <p>The handler is a function that can take up to five arguments:
@@ -594,7 +614,7 @@ This will continuously display a different random number between 0 and 1. Note t
 Checkboxes are useful for <tt>true</tt>/<tt>false</tt> values. The width of the checkbox is not the width of the actual checkbox, but the width of the clicking area. This is useful to make the label clickable as well.<br>
 Example: <?php hyperlight('OPTIONLABEL = "Option"', 'generic', 'tt'); ?>
 <?php hyperlight('
-{"option", 0, 5, 2+font8:getWidth(OPTIONLABEL), true, DF.CHECKBOX},
+{"option", 0, 5, 2+font8:getWidth(OPTIONLABEL)/8, true, DF.CHECKBOX},
 {"", 2, 5, 40, OPTIONLABEL, DF.LABEL}', 'generic'); ?>
 The default state of this checkbox is checked, since the default value is set to <tt>true</tt> here. It is followed by a plain text label (type 2), and the label can be clicked as well to toggle the checkbox.
 
@@ -947,6 +967,14 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 		</li>
 	</ul>
 </dd>
+<dt><strong>1.10.0 (was 1.9.2)</strong></dt>
+<dd>
+	<ul>
+		<li>[13] Instead of using any code containing the string <tt>/available_libs/</tt>, <tt>prepare_library</tt> and <tt>load_library</tt> from <tt>librarian.lua</tt> are now preferred.</li>
+		<li>[13] The order of initializations in <tt>love.load()</tt> has been changed a little bit.</li>
+		<li>[24] The function <tt>directory_exists(where, what)</tt> has been changed into <tt>directory_exists(path)</tt>. Use <tt>directory_exists(where .. dirsep .. what)</tt> if you need to.</li>
+		<li>[28] Regardless of L&Ouml;VE version, <tt>love.mousepressed</tt> now never uses <tt>&quot;wu&quot;</tt> or <tt>&quot;wd&quot;</tt> constants, and <tt>love.wheelmoved</tt> is now always used instead. So instead of, on L&Ouml;VE 0.10+, redirecting <tt>love.wheelmoved</tt> to <tt>love.mousepressed</tt> with &quot;fake&quot; wu/wd buttons, we now, on L&Ouml;VE 0.9, redirect <tt>love.mousepressed</tt> with wu/wd buttons to <tt>love.wheelmoved</tt> with a &quot;fake&quot; 1/-1 y movement. The <tt>love_mousepressed_start</tt> hook has been changed accordingly, and a new hook <tt>love_wheelmoved_start</tt> has been added. This change applies to UIs' and elements' callbacks as well.</li>
+	</ul>
 </dl>
 
 <h2><a name="eastereggs">Easter eggs</a></h2>

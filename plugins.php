@@ -62,7 +62,7 @@ To start making a plugin, make a new folder for it in the plugins folder (see ab
 <h2><a name="hooks">Hooks</a></h2>
 <p>Plugins can make use of hooks, which are specific points in the Ved code where plugin code can be run. For example, there is a hook that is called after displaying everything on the screen, so you can use that hook to display something related to your plugin.</p>
 <table border="1">
-<tr><th>Hook name</th><th>Script</th><th>Function</th><th>Description</th><th>Args</th><th>Added</th></tr><?php
+<tr><th>Hook name</th><th>Function</th><th>Description</th><th>Args</th><th>Added</th></tr><?php
 $hooks = array(
 	array(
 		N => 'love_draw_end',
@@ -75,7 +75,7 @@ $hooks = array(
 		N => 'love_load_start',
 		S => 'main2',
 		F => 'love.load',
-		D => 'This is called at the start of love.load(), before the config file has even been loaded.<br><u>Before 1.3.3:</u> The compatibility layer for L&Ouml;VE 0.10.x will also not yet have been loaded, so be careful.',
+		D => 'This is called at the start of love.load(), before the config file has even been loaded, and (since 1.10.0) before the window has been first created.<br><u>Before 1.3.3:</u> The compatibility layer for L&Ouml;VE 0.10.x will also not yet have been loaded, so be careful.',
 		VA => 'a58'
 	),
 	array(
@@ -121,7 +121,7 @@ $hooks = array(
 		N => 'love_mousepressed_start',
 		S => 'main2',
 		F => 'love.mousepressed',
-		D => 'This is called at the start of love.mousepressed(x, y, button).',
+		D => 'This is called at the start of love.mousepressed(x, y, button).<br><u>Before 1.10.0:</u> This was also called for wheel movements, with the button constants &quot;wu&quot; and &quot;wd&quot;.',
 		A => 'x, y, button',
 		VA => 'a58/a59'
 	),
@@ -132,6 +132,14 @@ $hooks = array(
 		D => 'This is called at the start of love.mousereleased(x, y, button).',
 		A => 'x, y, button',
 		VA => 'a58/a59'
+	),
+	array(
+		N => 'love_wheelmoved_start',
+		S => 'main2',
+		F => 'love.wheelmoved',
+		D => 'This is called at the start of love.wheelmoved(xm, ym).',
+		A => 'xm, ym',
+		VA => '1.10.0'
 	),
 	array(
 		N => 'func',
@@ -226,7 +234,7 @@ foreach ($hooks as $hook)
 	echo '
 <tr>
 	<td>' . $hook['n'] . '</td>
-	<td>' . $hook['s'] . '.lua</td>
+	<!--<td>' . $hook['s'] . '.lua</td>-->
 	<td>' . ($hook['f'] ?? '&mdash;') . '</td>
 	<td>' . $hook['d'] . '</td>
 	<td>' . ($hook['a'] ?? '&mdash;') . '</td>
