@@ -13,6 +13,7 @@ define('VR', 'vr'); // Version removed
 <html>
 <head>
 <title>Ved plugins</title>
+<link rel="icon" href="/ved/favicon.ico" sizes="16x16 32x32 48x48 64x64">
 <style>
 td, th {
 	padding: 4px;
