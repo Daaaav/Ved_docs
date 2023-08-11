@@ -994,6 +994,13 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 		<li>[24] The function <tt>directory_exists(where, what)</tt> has been changed into <tt>directory_exists(path)</tt>. Use <tt>directory_exists(where .. dirsep .. what)</tt> if you need to.</li>
 		<li>[28] Regardless of L&Ouml;VE version, <tt>love.mousepressed</tt> now never uses <tt>&quot;wu&quot;</tt> or <tt>&quot;wd&quot;</tt> constants, and <tt>love.wheelmoved</tt> is now always used instead. So instead of, on L&Ouml;VE 0.10+, redirecting <tt>love.wheelmoved</tt> to <tt>love.mousepressed</tt> with &quot;fake&quot; wu/wd buttons, we now, on L&Ouml;VE 0.9, redirect <tt>love.mousepressed</tt> with wu/wd buttons to <tt>love.wheelmoved</tt> with a &quot;fake&quot; 1/-1 y movement. The <tt>love_mousepressed_start</tt> hook has been changed accordingly, and a new hook <tt>love_wheelmoved_start</tt> has been added. This change applies to UIs' and elements' callbacks as well.</li>
 	</ul>
+</dd>
+<dt><strong>1.10.4</strong></dt>
+<dd>
+	<ul>
+		<li>[02] anythingbutnil0 now always returns a number, instead of returning non-nil input as-is. Therefore, constructs like <?php hyperlight('anythingbutnil0(tonumber(x))', 'generic', 'tt'); ?> can be replaced by <?php hyperlight('anythingbutnil0(x)', 'generic', 'tt'); ?>.</li>
+	</ul>
+</dd>
 </dl>
 
 <h2><a name="eastereggs">Easter eggs</a></h2>
