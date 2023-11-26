@@ -998,7 +998,8 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 <dt><strong>1.10.4</strong></dt>
 <dd>
 	<ul>
-		<li>[02] anythingbutnil0 now always returns a number, instead of returning non-nil input as-is. Therefore, constructs like <?php hyperlight('anythingbutnil0(tonumber(x))', 'generic', 'tt'); ?> can be replaced by <?php hyperlight('anythingbutnil0(x)', 'generic', 'tt'); ?>.</li>
+		<li>[02] <tt>anythingbutnil0</tt> now always returns a number, instead of returning non-nil input as-is. Therefore, constructs like <?php hyperlight('anythingbutnil0(tonumber(x))', 'generic', 'tt'); ?> can be replaced by <?php hyperlight('anythingbutnil0(x)', 'generic', 'tt'); ?>.</li>
+		<li>[05] The function <?php hyperlight('tinyprint(text, x, y)', 'generic', 'tt'); ?> has been removed, use <?php hyperlight('tinyfont:print(text, x, y)', 'generic', 'tt'); ?> instead. (<tt>tinyprint</tt> has simply been a wrapper since the new text renderer in 1.10.0)</li>
 	</ul>
 </dd>
 </dl>
