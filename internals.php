@@ -140,6 +140,8 @@ div.outdated_but_still_include_for_now {
 <tr><td><tt>vvvvvvfunc.lua</tt></td><td></td><td></td><td>Implements some code from VVVVVV in Lua, mostly for displaying accurate colors.</td></tr>
 <tr><td><tt>vvvvvv_textbox.lua</tt></td><td>1.4.0</td><td></td><td>Contains code related to VVVVVV-style text boxes. Before 1.4.0, this was part of <tt>dialog.lua</tt>.</td></tr>
 <tr><td><tt>vvvvvvxml.lua</tt></td><td></td><td></td><td>Loads and parses levels from .vvvvvv level files, and creates and saves them. Also has a function for &quot;loading&quot; a blank level.</td></tr>
+<tr><td><tt>ziplevel.lua</tt></td><td>1.11.0</td><td></td><td>Contains the function that collects levels and their assets and uses the zipwriter to put them in a ZIP.</td></tr>
+<tr><td><tt>zipwriter.lua</tt></td><td>1.11.0</td><td></td><td>Is a library for creating ZIP files</td></tr>
 </table>
 
 <h2><a name="states">States</a></h2>
@@ -240,6 +242,7 @@ end', 'generic'); ?>
 		<li>The music player can't show song durations before playing</li>
 		<li>The plugin hooks love_filedropped and love_directorydropped are never called</li>
 		<li>Loop points (Ved 1.10.0+) in the music editor do not work</li>
+		<li>Creating ZIP files of levels and their assets (Ved 1.11.0+) is not possible</li>
 	</ul>
 </td></tr>
 <tr><td class="supported_bg">0.9.1</td></tr>
@@ -287,7 +290,12 @@ end', 'generic'); ?>
 <p><strong>Loop points in the music player/editor</strong><br>
 <em>This feature is only supported in L&Ouml;VE versions <strong>11.0 and up</strong>.</em></p>
 
-<p>Ogg/Vorbis audio can have loop points, which work in VVVVVV. Ved 1.10.0 added support for playing the audio with loop points correctly as well, but this relies on <a href="https://love2d.org/wiki/love.audio.newQueueableSource" target="_blank"><tt>QueueableSource</tt></a>, which was added in L&Ouml;VE 11.0. So on older versions, the audio instead just loops from start to finish (including the intro and the possibly otherwise inaccessible part beyond the end point).
+<p>Ogg/Vorbis audio can have loop points, which work in VVVVVV. Ved 1.10.0 added support for playing the audio with loop points correctly as well, but this relies on <a href="https://love2d.org/wiki/love.audio.newQueueableSource" target="_blank"><tt>QueueableSource</tt></a>, which was added in L&Ouml;VE 11.0. So on older versions, the audio instead just loops from start to finish (including the intro and the possibly otherwise inaccessible part beyond the end point).</p>
+
+<p><strong>Creating ZIP files of levels and their assets</strong><br>
+<em>This feature is only supported in L&Ouml;VE versions <strong>0.10.0 and up</strong>.</em></p>
+
+<p>L&Ouml;VE 0.10 added <a href="https://love2d.org/wiki/love.math.compress" target="_blank"><tt>love.math.compress</tt></a> &ndash; renamed to <a href="https://love2d.org/wiki/love.data.compress" target="_blank"><tt>love.data.compress</tt></a> in L&Ouml;VE 11.0. We rely on this function for compressing files and calculating a checksum, so they can be put into ZIP files.</p>
 
 <h2><a name="debugmode">Debug mode</a></h2>
 <p>Debug mode is a special mode used to access certain features and information that can be useful for debugging and developing Ved. Enabling debug mode has the following effects:</p>
@@ -995,11 +1003,12 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 		<li>[28] Regardless of L&Ouml;VE version, <tt>love.mousepressed</tt> now never uses <tt>&quot;wu&quot;</tt> or <tt>&quot;wd&quot;</tt> constants, and <tt>love.wheelmoved</tt> is now always used instead. So instead of, on L&Ouml;VE 0.10+, redirecting <tt>love.wheelmoved</tt> to <tt>love.mousepressed</tt> with &quot;fake&quot; wu/wd buttons, we now, on L&Ouml;VE 0.9, redirect <tt>love.mousepressed</tt> with wu/wd buttons to <tt>love.wheelmoved</tt> with a &quot;fake&quot; 1/-1 y movement. The <tt>love_mousepressed_start</tt> hook has been changed accordingly, and a new hook <tt>love_wheelmoved_start</tt> has been added. This change applies to UIs' and elements' callbacks as well.</li>
 	</ul>
 </dd>
-<dt><strong>1.10.4</strong></dt>
+<dt><strong>1.11.0 (was 1.10.4)</strong></dt>
 <dd>
 	<ul>
 		<li>[02] <tt>anythingbutnil0</tt> now always returns a number, instead of returning non-nil input as-is. Therefore, constructs like <?php hyperlight('anythingbutnil0(tonumber(x))', 'generic', 'tt'); ?> can be replaced by <?php hyperlight('anythingbutnil0(x)', 'generic', 'tt'); ?>.</li>
 		<li>[05] The function <?php hyperlight('tinyprint(text, x, y)', 'generic', 'tt'); ?> has been removed, use <?php hyperlight('tinyfont:print(text, x, y)', 'generic', 'tt'); ?> instead. (<tt>tinyprint</tt> has simply been a wrapper since the new text renderer in 1.10.0)</li>
+		<li>[11] <?php hyperlight('roomdata_get(rx, ry, tx, ty)', 'generic', 'tt'); ?> will now error if you request tile coordinates outside the range of 0,0-39,29. Previously, it would silently misconvert out-of-room coordinates to the 0-1199 room range, which is likely not what you want.</li>
 	</ul>
 </dd>
 </dl>
