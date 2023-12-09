@@ -222,8 +222,9 @@ end', 'generic'); ?>
 
 <table border="1">
 <tr><th>L&Ouml;VE</th><th>Ved support</th></tr>
-<!--<tr><td class="warnsupported_bg">12.0</td><td>Not officially supported yet (hasn't been released)</td></tr>-->
-<tr><td class="supported_bg">11.4</td><td rowspan="5">Supported since 1.3.3</td></tr>
+<tr><td class="warnsupported_bg">12.0</td><td>Hasn't been released &ndash; not officially supported yet. Probably already works.</td></tr>
+<tr><td class="supported_bg">11.5</td><td rowspan="6">Supported since 1.3.3</td></tr>
+<tr><td class="supported_bg">11.4</td></tr>
 <tr><td class="supported_bg">11.3</td></tr>
 <tr><td class="supported_bg">11.2</td></tr>
 <tr><td class="supported_bg">11.1</td></tr>
@@ -1009,6 +1010,8 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 		<li>[02] <tt>anythingbutnil0</tt> now always returns a number, instead of returning non-nil input as-is. Therefore, constructs like <?php hyperlight('anythingbutnil0(tonumber(x))', 'generic', 'tt'); ?> can be replaced by <?php hyperlight('anythingbutnil0(x)', 'generic', 'tt'); ?>.</li>
 		<li>[05] The function <?php hyperlight('tinyprint(text, x, y)', 'generic', 'tt'); ?> has been removed, use <?php hyperlight('tinyfont:print(text, x, y)', 'generic', 'tt'); ?> instead. (<tt>tinyprint</tt> has simply been a wrapper since the new text renderer in 1.10.0)</li>
 		<li>[11] <?php hyperlight('roomdata_get(rx, ry, tx, ty)', 'generic', 'tt'); ?> will now error if you request tile coordinates outside the range of 0,0-39,29. Previously, it would silently misconvert out-of-room coordinates to the 0-1199 room range, which is likely not what you want.</li>
+		<li>[12] <tt>dialog.callback.noclose_on.save</tt>, <tt>dialog.callback.noclose_on.apply</tt> and <tt>dialog.callback.noclose_on_advanced</tt> are removed and replaced with <tt>dialog.callback.noclose_on_make(button)</tt>. For example: <tt>dialog.callback.noclose_on_make(DB.SAVE)</tt></li>
+		<li>[13] The vertical grid alignment for dialog forms is now changed from 8 to 12 pixels. This means elements like text fields now appear higher, and an element at Y=1 now displays 12 pixels lower than Y=0, instead of 8. All textboxes are now also 12 pixels higher. Adjustment of more complex dialog forms is necessary (and has been done for Ved's own dialogs).</li>
 	</ul>
 </dd>
 </dl>
