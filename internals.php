@@ -232,7 +232,7 @@ end', 'generic'); ?>
 <tr><td class="supported_bg">0.10.2</td><td rowspan="3">
 	Supported since a42, with the following restriction:
 	<ul>
-		<li>Loop points (Ved 1.10.0+) in the music player do not work</li>
+		<li>Loop points in the music player (Ved 1.10.0+) do not work</li>
 	</ul>
 </td></tr>
 <tr><td class="supported_bg">0.10.1</td></tr>
@@ -242,7 +242,7 @@ end', 'generic'); ?>
 	<ul>
 		<li>The music player can't show song durations before playing</li>
 		<li>The plugin hooks love_filedropped and love_directorydropped are never called</li>
-		<li>Loop points (Ved 1.10.0+) in the music editor do not work</li>
+		<li>Loop points in the music player (Ved 1.10.0+) do not work</li>
 		<li>Creating ZIP files of levels and their assets (Ved 1.11.0+) is not possible</li>
 	</ul>
 </td></tr>
@@ -307,7 +307,7 @@ end', 'generic'); ?>
 	<li>You can access the lua_debug console by pressing Ctrl+PageUp. Make sure you do have a console attached, this blocks the entire Ved window until you type <tt>cont</tt> in the console. This shortcut is always available on a crash screen, by the way, even outside debug mode.</li>
 	<li>You can limit the framerate to 60, 30 or 15 by pressing Ctrl+PageDown</li>
 	<li>Entity IDs/table keys are shown in the raw entity properties dialog</li>
-	<li><s>The hidden tileset creator can be accessed by pressing LCtrl+\ in the main editor (I'm pretty sure I've written an explanation of it somewhere, but I may document it here as well)</s> (removed in 1.8.3)</li>
+	<li><del>The hidden tileset creator can be accessed by pressing LCtrl+\ in the main editor (I'm pretty sure I've written an explanation of it somewhere, but I may document it here as well)</del> (removed in 1.8.3)</li>
 	<li>Pressing LCtrl+' in the main editor will print all tileset and tilecol numbers to the console</li>
 	<li>Pressing F11 will print all global variables to the console</li>
 	<li>Holding / in the main editor would display <img src="entity.png"> instead of all entities, but that key now jumps to the script editor.</li>
@@ -717,7 +717,17 @@ Dialog boxes in the system before Ved 1.4.0 can be created by calling <tt>dialog
 <p>(6 has been added in Ved 1.3.0)</p>
 
 <h2><a name="textinput">Text input</a></h2>
-<p>General text input can be started by a single call to <tt>startinput()</tt>. There's also a function <tt>startinputonce()</tt>, which can be used if you decide to do it in update/drawing code, but expect me to remove that sooner or later. Input can be stopped (or locked) by calling <tt>stopinput()</tt>. The text input to the left of the cursor can be found in <tt>input</tt>, and text to the right of the cursor can be found in <tt>input_r</tt>. The variable <tt>__</tt> (two underscores) contains the text cursor and the text to the right of it. So, to display the input field, you can concatenate <tt>input</tt> and <tt>__</tt> (<?php hyperlight('input .. __', 'generic', 'tt'); ?>).</p>
+<p>TODO: Update this for the new input system, for now see <tt>input.lua</tt> (using <tt>newinputsys</tt> until the old input system is fully removed)</p>
+
+<p>In short: a simple one-line input can be:</p>
+<ul>
+	<li>created with <?php hyperlight('newinputsys.create(INPUT.ONELINE, "identifier", [initial])', 'generic', 'tt'); ?>;</li>
+	<li>displayed in editing mode with <?php hyperlight('newinputsys.print("identifier", x, y, [sx], [sy], [line_height])', 'generic', 'tt'); ?>, or with your own printing code followed by <tt>newinputsys.drawcas</tt> with the same arguments to draw just the cursor/caret and selection;</li>
+	<li>accessed as text <em>before closing</em> with <tt>inputs.identifier</tt>;</li>
+	<li>closed with <?php hyperlight('newinputsys.close("roomname")', 'generic', 'tt'); ?>.</li>
+</ul>
+
+<p><del>General text input can be started by a single call to <tt>startinput()</tt>. There's also a function <tt>startinputonce()</tt>, which can be used if you decide to do it in update/drawing code, but expect me to remove that sooner or later. Input can be stopped (or locked) by calling <tt>stopinput()</tt>. The text input to the left of the cursor can be found in <tt>input</tt>, and text to the right of the cursor can be found in <tt>input_r</tt>. The variable <tt>__</tt> (two underscores) contains the text cursor and the text to the right of it. So, to display the input field, you can concatenate <tt>input</tt> and <tt>__</tt> (<?php hyperlight('input .. __', 'generic', 'tt'); ?>).</del></p>
 
 <p>It's also possible to include text boxes in dialogs, see the above part on fields in dialogs.</p>
 
@@ -1012,6 +1022,8 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 		<li>[11] <?php hyperlight('roomdata_get(rx, ry, tx, ty)', 'generic', 'tt'); ?> will now error if you request tile coordinates outside the range of 0,0-39,29. Previously, it would silently misconvert out-of-room coordinates to the 0-1199 room range, which is likely not what you want.</li>
 		<li>[12] <tt>dialog.callback.noclose_on.save</tt>, <tt>dialog.callback.noclose_on.apply</tt> and <tt>dialog.callback.noclose_on_advanced</tt> are removed and replaced with <tt>dialog.callback.noclose_on_make(button)</tt>. For example: <tt>dialog.callback.noclose_on_make(DB.SAVE)</tt></li>
 		<li>[13] The vertical grid alignment for dialog forms is now changed from 8 to 12 pixels. This means elements like text fields now appear higher, and an element at Y=1 now displays 12 pixels lower than Y=0, instead of 8. All textboxes are now also 12 pixels higher. Adjustment of more complex dialog forms is necessary (and has been done for Ved's own dialogs).</li>
+		<li>[17] <tt>startinputonce()</tt> is removed. <tt>startinput()</tt> still exists, but has long been superseded by the new input system anyway (see <tt>input.lua</tt>)</li>
+		<li>[18] <tt>endeditingroomtext()</tt> is renamed to <tt>end_editing_roomtext()</tt>. Its optional and obscure argument is removed. If you want to start the editing of roomtext or a terminal/script box script name, use <?php hyperlight('start_editing_roomtext(ent_id, is_new, make_script)', 'generic', 'tt'); ?> instead of setting <tt>editingroomtext</tt>, <tt>newroomtext</tt> or <tt>makescriptroomtext</tt>, or calling <tt>startinput()</tt>.</li>
 	</ul>
 </dd>
 </dl>
