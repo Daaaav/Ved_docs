@@ -2,7 +2,7 @@
 require('hyperlight.php');
 
 define('N', 'n'); // Hook name
-define('S', 's'); // Script name
+//define('S', 's'); // Script name
 define('F', 'f'); // Function name
 define('D', 'd'); // Hook description
 define('A', 'a'); // Variables passed as arguments
@@ -52,43 +52,39 @@ To install a plugin, simply place the plugin in that folder, either as a .zip or
 </p>
 
 <h2><a name="making">How to make plugins</a></h2>
-<p>For an example of a plugin, check <a href="https://tolp2.nl/ved/plugindownloads/example_plugin.zip" target="_blank">example_plugin.zip</a> (1.1, now contains source edits). There's a technical documentation of Ved that can be found <a href="internals.php" target="_blank">here</a>. You'll probably need to look at Ved's code while developing the plugin, and you can find it at <a href="https://gitgud.io/Dav999/ved" target="_blank">the repository</a>. You can also unzip the .love (it's actually a zip).
+<p>For an example of a plugin, check <a href="https://tolp.nl/ved/plugindownloads/example_plugin.zip" target="_blank">example_plugin.zip</a> (1.1, now contains source edits) (TODO: this example is very old, it should be updated). There's a technical documentation of Ved that can be found <a href="internals.php" target="_blank">here</a>. You'll probably need to look at Ved's code while developing the plugin, and you can find it at <a href="https://github.com/Daaaav/Ved" target="_blank">the repository</a>. You can also unzip the .love (it's actually a zip).
 
-<p>Ved is written in <a href="http://www.lua.org/manual/5.1/" target="_blank">Lua</a> and uses the <a href="https://love2d.org/" target="_blank">L&Ouml;VE framework</a>. So to be able to make plugins, it would help a lot to be familiar with that.
+<p>Ved is written in <a href="https://www.lua.org/manual/5.1/" target="_blank">Lua</a> and uses the <a href="https://love2d.org/" target="_blank">L&Ouml;VE framework</a>. So to be able to make plugins, it would help a lot to be familiar with that.
 To start making a plugin, make a new folder for it in the plugins folder (see above). You can name it anything you want, but the name isn't shown inside Ved itself, instead, the name you specify in the info file (<tt>info.lua</tt>) is.
 <tt>info.lua</tt> is a file inside your plugin folder, containing the name for your plugin, a description, author name, version number, the minimum version of Ved that is required for the plugin to work, and some other things.<br>An example for the info file can be found here: <a href="info.lua" target="_blank">info.lua</a></p>
 
 <p>Next, to integrate the plugin with Ved, you can use hooks, or you can make the plugin edit Ved source code (see below). To use hooks, make a folder called <b>hooks</b> in your plugin folder.</p>
 
 <h2><a name="hooks">Hooks</a></h2>
-<p>Plugins can make use of hooks, which are specific points in the Ved code where plugin code can be run. For example, there is a hook that is called after displaying everything on the screen, so you can use that hook to display something related to your plugin.</p>
+<p>Plugins can make use of hooks, which are specific points in the Ved code where plugin code can be run. For example, there is a hook that is called after displaying everything on the screen, so you can use that hook to display something related to your plugin. Hooks are called in every state (whether they're plugin-specific states or default Ved states).</p>
 <table border="1">
 <tr><th>Hook name</th><th>Function</th><th>Description</th><th>Args</th><th>Added</th></tr><?php
 $hooks = array(
 	array(
 		N => 'love_draw_end',
-		S => 'main2',
 		F => 'love.draw',
 		D => 'This is called at the end of love.draw(), thus can be used to draw something after everything else has been drawn.',
 		VA => 'a58'
 	),
 	array(
 		N => 'love_load_start',
-		S => 'main2',
 		F => 'love.load',
 		D => 'This is called at the start of love.load(), before the config file has even been loaded, and (since 1.10.0) before the window has been first created.<br><u>Before 1.3.3:</u> The compatibility layer for L&Ouml;VE 0.10.x will also not yet have been loaded, so be careful.',
 		VA => 'a58'
 	),
 	array(
 		N => 'love_load_end',
-		S => 'main2',
 		F => 'love.load',
 		D => 'This is called at the end of love.load().',
 		VA => 'a58'
 	),
 	array(
 		N => 'love_update_start',
-		S => 'main2',
 		F => 'love.update',
 		D => 'This is called at the start of love.update().',
 		A => 'dt',
@@ -96,7 +92,6 @@ $hooks = array(
 	),
 	array(
 		N => 'love_update_end',
-		S => 'main2',
 		F => 'love.update',
 		D => 'This is called near the end of love.update().',
 		A => 'dt',
@@ -104,7 +99,6 @@ $hooks = array(
 	),
 	array(
 		N => 'love_keypressed_start',
-		S => 'main2',
 		F => 'love.keypressed',
 		D => 'This is called at the start of love.keypressed(key).',
 		A => 'key',
@@ -112,7 +106,6 @@ $hooks = array(
 	),
 	array(
 		N => 'love_keyreleased_start',
-		S => 'main2',
 		F => 'love.keyreleased',
 		D => 'This is called at the start of love.keyreleased(key).',
 		A => 'key',
@@ -120,7 +113,6 @@ $hooks = array(
 	),
 	array(
 		N => 'love_mousepressed_start',
-		S => 'main2',
 		F => 'love.mousepressed',
 		D => 'This is called at the start of love.mousepressed(x, y, button).<br><u>Before 1.10.0:</u> This was also called for wheel movements, with the button constants &quot;wu&quot; and &quot;wd&quot;.',
 		A => 'x, y, button',
@@ -128,7 +120,6 @@ $hooks = array(
 	),
 	array(
 		N => 'love_mousereleased_start',
-		S => 'main2',
 		F => 'love.mousereleased',
 		D => 'This is called at the start of love.mousereleased(x, y, button).',
 		A => 'x, y, button',
@@ -136,7 +127,6 @@ $hooks = array(
 	),
 	array(
 		N => 'love_wheelmoved_start',
-		S => 'main2',
 		F => 'love.wheelmoved',
 		D => 'This is called at the start of love.wheelmoved(xm, ym).',
 		A => 'xm, ym',
@@ -144,55 +134,48 @@ $hooks = array(
 	),
 	array(
 		N => 'func',
-		S => 'func',
 		D => 'This is called at the end of the func.lua script, so you can add your own functions here.',
 		VA => 'a58'
 	),
 	array(
 		N => 'func_loadstate',
-		S => 'func',
-		F => 'loadstate, to_astate',
-		D => 'This is called when going to a new state, so you can add code to prepare loading a custom state you may have added. Use <tt>in_astate(name, state)</tt> to check what the new state is (example: <tt>in_astate("my_1st_plug", 0)</tt>, see technical documentation).<br><u>Before 1.1.4:</u> The variable <tt>new</tt> contains the new state which is being loaded.',
+		F => 'loadstate (tostate &amp; to_astate)',
+		D => 'This is called when going to a new state, so you can add code to prepare loading a custom state you may have added. Use <tt>in_astate(name, state)</tt> to check what the new state is (example: <tt>in_astate("my_1st_plug", 0)</tt>, see technical documentation).<br><u>Before 1.1.4:</u> The variable <tt>new</tt> contains the new state which is being loaded.<br><u>Since 1.11.1:</u> <tt>to_astate(name, new, dontinitialize, ...)</tt> now has a vararg (<tt>...</tt>), which is passed to this hook.',
+		A => '...',
 		VA => 'a58/a59'
 	),
 	array(
 		N => 'love_draw_state',
-		S => 'main2',
 		F => 'love.draw',
 		D => 'Here you can add drawing code for custom states. Use <tt>in_astate(name, state)</tt> to check what the current state is, and if your code recognizes a state and handles it, it should set <tt>statecaught</tt> to true, so there will not be an error message saying the state wasn\'t recognized.<br><u>Before 1.1.4:</u> The <tt>state</tt> variable was used instead of <tt>in_astate()</tt>.',
 		VA => 'a58'
 	),
 	array(
 		N => 'love_load_win',
-		S => 'main2',
 		F => 'love.load',
 		D => 'This is called in love.load() only if the operating system is Windows.',
 		VA => 'b10'
 	),
 	array(
 		N => 'love_load_mac',
-		S => 'main2',
 		F => 'love.load',
 		D => 'This is called in love.load() only if the operating system is Mac OS X.',
 		VA => 'b10'
 	),
 	array(
 		N => 'love_load_lin',
-		S => 'main2',
 		F => 'love.load',
 		D => 'This is called in love.load() only if the operating system is Linux.',
 		VA => 'b10'
 	),
 	array(
 		N => 'love_load_luv',
-		S => 'main2',
 		F => 'love.load',
 		D => 'This is called in love.load() only if the operating system is something other than Windows, OS X or Linux.',
 		VA => 'b10'
 	),
 	array(
 		N => 'love_directorydropped',
-		S => 'main2',
 		F => 'love.directorydropped',
 		D => 'This is called in love.directorydropped(path). Note that this was added in L&Ouml;VE 0.10.0, so in 0.9.x this hook will never be called.',
 		A => 'path',
@@ -200,7 +183,6 @@ $hooks = array(
 	),
 	array(
 		N => 'love_filedropped',
-		S => 'main2',
 		F => 'love.filedropped',
 		D => 'This is called in love.filedropped(file). Note that this was added in L&Ouml;VE 0.10.0, so in 0.9.x this hook will never be called.',
 		A => '<a href="https://love2d.org/wiki/DroppedFile" target="_blank">file</a>',
@@ -208,21 +190,18 @@ $hooks = array(
 	),
 	array(
 		N => 'love_focus_gained',
-		S => 'main2',
 		F => 'love.focus',
 		D => 'This is called in love.focus(f), if f is true.',
 		VA => '1.4.3'
 	),
 	array(
 		N => 'love_focus_lost',
-		S => 'main2',
 		F => 'love.focus',
 		D => 'This is called in love.focus(f), if f is false.',
 		VA => '1.4.3'
 	),
 	array(
 		N => 'love_focus',
-		S => 'main2',
 		F => 'love.focus',
 		D => 'This is called in love.focus(f), regardless of the value of f, in case this suits you better. If f is true then focus is gained, false if lost.',
 		A => 'f',
@@ -235,7 +214,6 @@ foreach ($hooks as $hook)
 	echo '
 <tr>
 	<td>' . $hook['n'] . '</td>
-	<!--<td>' . $hook['s'] . '.lua</td>-->
 	<td>' . ($hook['f'] ?? '&mdash;') . '</td>
 	<td>' . $hook['d'] . '</td>
 	<td>' . ($hook['a'] ?? '&mdash;') . '</td>
@@ -312,6 +290,90 @@ It does not matter whether your plugin files use Unix-style (LF) line endings, W
 <p><span style="color:red;">Warning:</span> this is only intended for your own (original) plugin files, not edited versions of Ved source files (even though it will work)! Adding an entire file will stop official Ved updates from affecting these files (yes, after downloading a new version of Ved) and also overrides any other plugin editing them.</p>
 <p>In Ved 1.1.4 and later, you can also have subfolders inside the <strong>include</strong> folder, so it's probably a good idea to put all your included files in a folder with the name of your plugin to avoid clashes with other plugins or future files in Ved, and then just include them with something like <?php hyperlight('ved_require("my_1st_plug/drawingcode")', 'generic', 'tt'); ?>.</p>
 <p>Including assets like images is not yet supported in this way, this may be added later!</p>
+
+<h2><a name="pluginstates">Plugin UIs/states</a></h2>
+<p>In Ved 1.11.1 and higher, the best way for plugins to add their own states (or &quot;screens&quot;) is by including them in a <tt>uis</tt> folder. You can then jump to these with <?php hyperlight('to_astate(name)', 'generic', 'tt'); ?>.</p>
+<p>A UI's folder can contain callbacks which are only called when that state is active (like <tt>draw.lua</tt> or <tt>keypressed.lua</tt>), as well as <tt>elements.lua</tt> which has a table of Elements, which are described further in the <a href="internals.php#guielements" target="_blank">technical documentation</a>.</p>
+<p>As opposed to hooks, these files are expected to <em>return</em> a function (or in the case of <tt>elements.lua</tt>, a table). So <tt>elements.lua</tt> should look somewhat like <?php hyperlight('return {}', 'generic', 'tt'); ?>, all the others should look somewhat like <?php hyperlight('return function() end', 'generic', 'tt'); ?>.</p>
+<p>A template for a UI folder can be found <a href="https://github.com/Daaaav/Ved/tree/master/Source/uis/TEMPLATE" target="_blank">here</a>.</p>
+<table border="1">
+<tr><th>Callback name</th><th>Description</th><th>Args</th><th>Added</th></tr><?php
+$ui_callbacks = array(
+	array(
+		N => 'load',
+		D => 'Called when the state is entered (using <tt>to_astate</tt>).',
+		A => '...',
+		VA => '1.11.1'
+	),
+	array(
+		N => 'elements',
+		D => 'A sequential table of <a href="internals.php#guielements" target="_blank">elements</a>',
+		A => '',
+		VA => '1.11.1'
+	),
+	array(
+		N => 'draw',
+		D => 'Called in <tt>love.draw</tt>',
+		A => '',
+		VA => '1.11.1'
+	),
+	array(
+		N => 'update',
+		D => 'Called in <tt>love.update</tt>',
+		A => 'dt',
+		VA => '1.11.1'
+	),
+	array(
+		N => 'keypressed',
+		D => 'Called in <tt>love.keypressed</tt>, unless any right click menus or dialogs are open',
+		A => 'key',
+		VA => '1.11.1'
+	),
+	array(
+		N => 'keyreleased',
+		D => 'Called in <tt>love.keyreleased</tt>, unless any right click menus or dialogs are open',
+		A => 'key',
+		VA => '1.11.1'
+	),
+	array(
+		N => 'textinput',
+		D => 'Called in <tt>love.textinput</tt>, unless any right click menus or dialogs are open',
+		A => 'text',
+		VA => '1.11.1'
+	),
+	array(
+		N => 'mousepressed',
+		D => 'Called in <tt>love.mousepressed</tt>, unless any right click menus or dialogs are open',
+		A => 'x, y, button',
+		VA => '1.11.1'
+	),
+	array(
+		N => 'mousereleased',
+		D => 'Called in <tt>love.mousereleased</tt>, unless any right click menus or dialogs are open',
+		A => 'x, y, button',
+		VA => '1.11.1'
+	),
+	array(
+		N => 'wheelmoved',
+		D => 'Called in <tt>love.wheelmoved</tt>, unless any dialogs are open (in case you\'re wondering, right click menus close upon scrolling)',
+		A => 'xm, ym',
+		VA => '1.11.1'
+	),
+);
+
+foreach ($ui_callbacks as $cb)
+{
+	echo '
+<tr>
+	<td>' . $cb['n'] . '</td>
+	<td>' . $cb['d'] . '</td>
+	<td>' . ($cb['a'] ?? '&mdash;') . '</td>
+	<td>' . $cb['va'] . '</td>
+</tr>';
+}
+?>
+
+</table>
 
 <h2><a name="technicaldocumentation">Technical documentation</a></h2>
 <p>There's a technical documentation of Ved that can be found <a href="internals.php" target="_blank">here</a>.</p>

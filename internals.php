@@ -69,7 +69,7 @@ div.outdated_but_still_include_for_now {
 <body>
 <?php include('links.php'); ?>
 <h1>Ved technical documentation</h1>
-<p>This page is intended to document Ved's internals as well as possible. The page is still being worked on, and more things are being added over time. If you'd like to know more about anything specific in Ved that I haven't explained yet here, or not well enough (except for the easter eggs :P), feel free to ask! If you'd like more information on how to make plugins, check <a href="plugins.php" target="_blank">this page</a>. The repository is <a href="https://gitgud.io/Dav999/ved" target="_blank">here</a>.</p>
+<p>This page is intended to document Ved's internals as well as possible. The page is still being worked on, and more things are being added over time. If you'd like to know more about anything specific in Ved that I haven't explained yet here, or not well enough (except for the easter eggs :P), feel free to ask! If you'd like more information on how to make plugins, check <a href="plugins.php" target="_blank">this page</a>. The repository is <a href="https://github.com/Daaaav/Ved" target="_blank">here</a>.</p>
 <p>Last updated: <strong><?php echo date('l j F Y H:i (T)', filemtime('ved_docs/internals.php')); /* previously getlastmod() */ ?></strong> (this is the last edit date of the file)</p>
 
 <h2><a name="files">Files</a></h2>
@@ -188,18 +188,26 @@ div.outdated_but_still_include_for_now {
 <tr><td>33</td><td>language</td><td>Language screen</td></tr>
 <tr><td class="blu">34</td><td>inputtest</td><td>New input system test</td></tr>
 <tr><td>35</td><td>vvvvvvsetupoptions</td><td>&quot;VVVVVV setup&quot; options</td></tr>
+<tr><td>36</td><td>textboxcolors</td><td>Textbox colors</td></tr>
 <tr><td colspan="3">100 and further can be allocated by plugins (next paragraph)</td></tr>
 </table>
 
-<h2><a name="stateallocation">State allocation</a></h2>
+<h2><a name="pluginstates">Plugin UIs/states</a></h2>
+<p>In Ved 1.11.1 and higher, the best way for plugins to add their own states (or &quot;screens&quot;) is by including them in a <tt>uis</tt> folder. This will automatically allocate a state for each of your UIs, which you can jump to with the following function:</p>
+<p><?php hyperlight('to_astate(name [, new=0 [, dontinitialize=false [, ...]]])', 'generic', 'tt'); ?></p>
+<p>Here, <tt>name</tt> is the name of your UI, which is the name of the folder. If <tt>new</tt> is specified (because you want to specify <tt>dontinitialize</tt>=<tt>true</tt>), then <tt>new</tt> must be 0.</p>
+<p>Jumping to a state calls the hook <tt>func_loadstate</tt> and the UIs <tt>load</tt> callback, unless <tt>dontinitialize</tt> is true.</p>
+<p>For more information about UI folders, see <a href="plugins.php#pluginstates" target="_blank">the plugins page</a>.</p>
+
+<h2><a name="stateallocation">Manual plugin state allocation</a></h2>
 <p>In Ved 1.1.4 and higher, plugins can allocate an amount of states for their own use, without using hardcoded state numbers, making it unnecessary to think of unique state numbers that won't interfere with any other plugins or future Ved updates. The following functions can be used:</p>
 <dl>
 <dt><?php hyperlight('allocate_states(name [, amount=1])', 'generic', 'tt'); ?></dt>
 <dd>This function is used to allocate the given <tt>amount</tt> of states with identifier <tt>name</tt>.</dd>
 <dt><?php hyperlight('in_astate(name [, s=0])', 'generic', 'tt'); ?></dt>
 <dd>This function returns true if the current state is <tt>s</tt> for identifier <tt>name</tt>. These state numbers start at 0.</dd>
-<dt><?php hyperlight('to_astate(name [, new=0 [, dontinitialize=false]])', 'generic', 'tt'); ?></dt>
-<dd>Change state to state number <tt>new</tt> for identifier <tt>name</tt>, and if <tt>dontinitialize</tt> is set, call hook <tt>func_loadstate</tt>.</dd>
+<dt><?php hyperlight('to_astate(name [, new=0 [, dontinitialize=false [, ...]]])', 'generic', 'tt'); ?></dt>
+<dd>Change state to state number <tt>new</tt> for identifier <tt>name</tt>, and if <tt>dontinitialize</tt> is not set, call hook <tt>func_loadstate</tt>.</dd>
 </dl>
 <p>For example, take a plugin called My First Plugin, which uses three states. Upon startup, like in hook <tt>love_load_start</tt> or <tt>love_load_end</tt>, the plugin calls <?php hyperlight('allocate_states("my_1st_plug", 3)', 'generic', 'tt'); ?>. If this is the only plugin, or the first plugin to call <tt>allocate_states()</tt>, the allocated states will now, internally, be 100, 101 and 102. Let's say My First Plugin has three buttons to go to each of the allocated states. The first button, when clicked, would call <?php hyperlight('to_astate("my_1st_plug", 0)', 'generic', 'tt'); ?>, the second would call <?php hyperlight('to_astate("my_1st_plug", 1)', 'generic', 'tt'); ?> and the third would call <?php hyperlight('to_astate("my_1st_plug", 2)', 'generic', 'tt'); ?>. Hook <tt>love_draw_state</tt>, would contain something like this:</p>
 <?php hyperlight('if in_astate("my_1st_plug", 0) then
@@ -426,6 +434,26 @@ scripts = {
 If you're wondering how Ved stores internal scripts: for both loadscript and say(-1) internal script modes, <?php hyperlight('text(1,0,0,3) #v', 'generic', 'tt'); ?> and <?php hyperlight('say(x) #v', 'generic', 'tt'); ?> are put in between each block if the script has to be split. The loadscript mode starts with <?php hyperlight('squeak(off) #v', 'generic', 'tt'); ?> and <?php hyperlight('say(x) #v', 'generic', 'tt'); ?>, and ends with <?php hyperlight('loadscript(stop) #v', 'generic', 'tt'); ?> and <?php hyperlight('text(1,0,0,3) #v', 'generic', 'tt'); ?>. The say(-1) mode starts with <?php hyperlight('squeak(off) #v', 'generic', 'tt'); ?>, <?php hyperlight('say(-1) #v', 'generic', 'tt'); ?>, <?php hyperlight('text(1,0,0,3) #v', 'generic', 'tt'); ?>, and <?php hyperlight('say(x) #v', 'generic', 'tt'); ?>, and ends with <?php hyperlight('loadscript(stop) #v', 'generic', 'tt'); ?> (with no extra <tt>text</tt> line like the loadscript internal script mode has). If you want to check, hold down the shift key while opening a script. The same goes for checking checking flag names - Ved converts them to numbers when leaving the script editor and converts them back into names when opening it, unless you hold shift while opening.
 <!-- Also explain storage of internal scripts here, and when flag names are handled -->
 
+<h3>Textbox colors</h3>
+As of VVVVVV 2.4 and Ved 1.11.1, textbox colors can be customized in a level. This data is stored in Ved as follows:
+<?php hyperlight('extra.textboxcolors_order = {
+	[1] = "red",
+	[2] = "magenta"
+}
+extra.textboxcolors = {
+	red = {
+		[1] = 255,
+		[2] = 0,
+		[3] = 0
+	},
+	magenta = {
+		[1] = 255,
+		[2] = 0,
+		[3] = 255
+	}
+}', 'generic'); ?>
+As you can see in this example: despite &quot;red&quot; already being a built-in color, it can still be customized in the level file, which overrides the built-in color.
+
 <h3>Counts</h3>
 The table <tt>count</tt> keeps count of the number of trinkets, crewmates and entities in the level, and keeps track of the integer key of the start point entity. It also counts the number of sanity checks that failed when loading the level. As can be seen in <tt>vvvvvvxml.lua</tt>:
 <?php hyperlight('	local mycount = {trinkets = 0, crewmates = 0, entities = 0, startpoint = nil, FC = 0}  -- FC = Failed Checks
@@ -598,7 +626,8 @@ These are the different types of input fields:</p>
 <p>More information about how the different types work:</p>
 <h4>(0) DF.TEXT - Text input</h4>
 A text field is what it says it is. An example is given as follows: <?php hyperlight('{"name", 0, 1, 40, "", DF.TEXT}', 'generic', 'tt'); ?><br>
-Here, the key is <tt>name</tt>, it is positioned on the start of the second line of text, it is 40 characters wide (but more characters will fit) and its default value is an empty string.
+Here, the key is <tt>name</tt>, it is positioned on the start of the second line of text, it is 40 characters wide (but more characters will fit) and its default value is an empty string.<br>
+Since Ved 1.11.1, you can specify the font to use in this textbox. In this case, you will need to add both an empty string and the font at the end of the arguments. For example: <?php hyperlight('{"name", 0, 1, 40, "", DF.TEXT, "", font_level}', 'generic', 'tt'); ?>. (The empty string stores the characters to the right of the text cursor, this will get an overhaul later)
 
 <h4>(1) DF.DROPDOWN - Dropdown</h4>
 Dropdowns require at least one more argument:
@@ -606,6 +635,7 @@ Dropdowns require at least one more argument:
 	<li>A list of items shown in the dropdown menu</li>
 	<li>An optional table that converts a value to a displayable &quot;current selection&quot; if you want to hide how the value is passed. If not given, set this to <tt>false</tt> if you also want to supply the next argument.</li>
 	<li>An optional function that gets called whenever a selection is made from the dropdown. Think of an <tt>onchange</tt> event in HTML/JS. Gets passed the selection from the dropdown as text, and may return a substitute to fill into the input field behind the scenes.</li>
+	<li>An optional list of fonts for each item to use (added in 1.11.1-pre06)</li>
 </ol>
 <p>Basically, there's two forms: first the simpler one. In the simpler form, you only need a list of items that will appear in the dropdown, and whenever the user selects an item, the value of the input field is set to the text of the option that the user selected. This means what's readable as an option will be passed. You may want to set the default value to an option in the list.<br>
 An example: <?php hyperlight('{"drop", 0, 0, 30, "Option A", DF.DROPDOWN, {"Option A", "Option B", "Option C"}}', 'generic', 'tt'); ?><br>
@@ -722,7 +752,7 @@ Dialog boxes in the system before Ved 1.4.0 can be created by calling <tt>dialog
 <p>In short: a simple one-line input can be:</p>
 <ul>
 	<li>created with <?php hyperlight('newinputsys.create(INPUT.ONELINE, "identifier", [initial])', 'generic', 'tt'); ?>;</li>
-	<li>displayed in editing mode with <?php hyperlight('newinputsys.print("identifier", x, y, [sx], [sy], [line_height])', 'generic', 'tt'); ?>, or with your own printing code followed by <tt>newinputsys.drawcas</tt> with the same arguments to draw just the cursor/caret and selection;</li>
+	<li>displayed in editing mode with <?php hyperlight('newinputsys.print("identifier", x, y, [font], [cjk_align], [sx], [sy], [line_height])', 'generic', 'tt'); ?>, or with your own printing code followed by <tt>newinputsys.drawcas</tt> with the same arguments to draw just the cursor/caret and selection;</li>
 	<li>accessed as text <em>before closing</em> with <tt>inputs.identifier</tt>;</li>
 	<li>closed with <?php hyperlight('newinputsys.close("roomname")', 'generic', 'tt'); ?>.</li>
 </ul>
@@ -808,8 +838,7 @@ The top row of letters of the QWERTY keyboard, lowercase, along with <tt>k</tt> 
 </ul>
 
 <h2><a name="guielements">GUI elements</a></h2>
-TODO: Update this for 1.8.4, each state now has a folder, not a single file.<br><br>
-Each <a href="#states">state</a> can have a list of elements in their file in <tt>uis/</tt>, which is a table <tt>ui.elements</tt>. Each of these elements at the root is drawn in order - all being given a position of 0,0 and remaining width and height as the window dimensions - and their callbacks are called when that state is active. The internal functioning of the different classes of UI elements can be found in <tt>ui_elements.lua</tt>. There are certain element <strong>classes</strong> such as <tt>elButton</tt> with all sorts of parameters controlling their behavior (for example, whether it's a button with text on it, or whether it's an icon), which actually implement the callbacks (documenting which is TODO). Then there are easy <strong>constructor functions</strong> which actually create and &quot;configure&quot; these classes depending on what you want (for example, a <tt>LabelButton</tt> constructor has an argument for the text to display on the button, which an <tt>ImageButton</tt> doesn't need because it has arguments to do with displaying a clickable image). The following constructors for UI elements exist:
+Each <a href="#states">state</a> can have a list of elements in <tt>uis/NAME/elements.lua</tt>, which is a table. Each of these elements at the root is drawn in order - all being given a position of 0,0 and remaining width and height as the window dimensions - and their callbacks are called when that state is active. The internal functioning of the different classes of UI elements can be found in <tt>ui_elements.lua</tt>. There are certain element <strong>classes</strong> such as <tt>elButton</tt> with all sorts of parameters controlling their behavior (for example, whether it's a button with text on it, or whether it's an icon), which actually implement the callbacks (documenting which is TODO). Then there are easy <strong>constructor functions</strong> which actually create and &quot;configure&quot; these classes depending on what you want (for example, a <tt>LabelButton</tt> constructor has an argument for the text to display on the button, which an <tt>ImageButton</tt> doesn't need because it has arguments to do with displaying a clickable image). The following constructors for UI elements exist:
 
 <dl>
 <dt><?php hyperlight('DrawingFunction(func)', 'generic', 'tt'); ?></dt>
@@ -850,6 +879,10 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 <dd>
 	A right-aligned vertical list container with a width of 128, and <tt>starty</tt> and <tt>spacing</tt> of 8.
 </dd>
+<dt><?php hyperlight('LeftBar(els_top, els_bot)', 'generic', 'tt'); ?></dt>
+<dd>
+	The same as a <tt>RightBar</tt>, but on the left. Added in Ved 1.11.1.
+</dd>
 <dt><?php hyperlight('Spacer(w, h)', 'generic', 'tt'); ?></dt>
 <dd>
 	Filler element that just takes space.
@@ -861,6 +894,7 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 <dt><?php hyperlight('LabelButton(label, action, hotkey_text, hotkey_func, status_func, action_r, hotkey_r_func)', 'generic', 'tt'); ?></dt>
 <dd>
 	A clickable button with a text label. If clicked or the hotkey is used, the function <tt>action</tt> is run.<br>
+	<tt>label</tt>: The string to display on the button. Since Ved 1.11.1, this can also be a function returning a string.<br>
 	<tt>hotkey_text</tt>: The displayed hotkey when holding F9. Displayed in the tiny numbers font.<br>
 	<tt>hotkey_func</tt>: A function that takes a key as argument (from <tt>love.keypressed(key)</tt>) and returns true if this button's hotkey is pressed (so that <tt>action</tt> will run). There is a convenience function <?php hyperlight('hotkey(checkkey, checkmod)', 'generic', 'tt'); ?>. For more about that, see <a href="#hotkeyfunc">the section</a> about it above. Example: <?php hyperlight('hotkey("escape")', 'generic', 'tt'); ?><br>
 	<tt>status_func</tt>: A function that can have three return values indicating the button's status: <tt>shown</tt>, <tt>enabled</tt>, <tt>yellow</tt>. If nil, <tt>shown</tt> and <tt>enabled</tt> default to true, <tt>yellow</tt> defaults to false.<br>
@@ -871,6 +905,11 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 <dd>
 	A clickable image (scaled <tt>scale</tt> times) that will appear dimmed or normal depending on whether the cursor hovers over it. For argument descriptions, see LabelButton.
 </dd>
+<dt><?php hyperlight('ColorButton(color_func, w, h, action, hotkey_text, hotkey_func, status_func, action_r, hotkey_r_func)', 'generic', 'tt'); ?></dt>
+<dd>
+	This was added in Ved 1.11.1.<br>
+	A clickable button filled with a certain color, as returned by color_func (returning R, G, B). This is used in the textbox colors editor, and the syntax highlighting color settings, with dimensions 32x16.
+</dd>
 <dt><?php hyperlight('InvisibleButton(w, h, action, hotkey_text, hotkey_func, status_func, action_r, hotkey_r_func)', 'generic', 'tt'); ?></dt>
 <dd>
 	A clickable button that is not displayed. For argument descriptions, see LabelButton.
@@ -879,17 +918,26 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 <dd>
 	A horizontal list container with image buttons for undo, redo, cut, copy and paste.
 </dd>
-<dt><?php hyperlight('Text(text, color_func, sx, sy)', 'generic', 'tt'); ?></dt>
+<dt><?php hyperlight('Text(text, color_func, font, sx, sy)', 'generic', 'tt'); ?></dt>
 <dd>
 	This was added in Ved 1.8.5.<br>
-	A text displayed via <tt>ved_print</tt>. <tt>text</tt> can be either a string, or a function returning a string. <tt>color_func</tt> may be a function that returns R, G, B, and optionally A values (0-255). <tt>sx</tt> and <tt>sy</tt> are horizontal and vertical scale values (default 1).<br>
-	All arguments are optional except <tt>text</tt>.
+	A text displayed via <tt>font:print</tt>. <tt>text</tt> can be either a string, or a function returning a string. <tt>color_func</tt> may be a function that returns R, G, B, and optionally A values (0-255). <tt>sx</tt> and <tt>sy</tt> are horizontal and vertical scale values (default 1).<br>
+	All arguments are optional except <tt>text</tt>.<br>
+	The <tt>font</tt> argument was added in Ved 1.11.1. By default, <tt>font_ui</tt> is used. There is no <tt>cjk_align</tt> argument - <tt>&quot;cjk_low&quot;</tt> is assumed and the text element simply becomes taller. (In some cases it might be undesirable to make the whole interface expand like an accordion, and you might want to use <tt>&quot;cjk_cen&quot;</tt> instead? But we'll see - in that case, we'll need to add some argument after all...)
 </dd>
-<dt><?php hyperlight('WrappedText(text, maxwidth, align, color_func, sx, sy)', 'generic', 'tt'); ?></dt>
+<dt><?php hyperlight('WrappedText(text, maxwidth, align, color_func, font, sx, sy)', 'generic', 'tt'); ?></dt>
 <dd>
 	This was added in Ved 1.8.5.<br>
-	A text displayed via <tt>ved_printf</tt>. <tt>text</tt> can be either a string, or a function returning a string. If <tt>maxwidth</tt> is not given, the remaining parent width will be filled. <tt>align</tt> is passed to <tt>ved_printf</tt>/<tt>love.graphics.printf</tt>. <tt>color_func</tt> may be a function that returns R, G, B, and optionally A values (0-255). <tt>sx</tt> and <tt>sy</tt> are horizontal and vertical scale values (default 1).<br>
-	All arguments are optional except <tt>text</tt>.
+	A text displayed via <tt>font:printf</tt>. <tt>text</tt> can be either a string, or a function returning a string. If <tt>maxwidth</tt> is not given, the remaining parent width will be filled. <tt>align</tt> is passed to <tt>ved_printf</tt>. <tt>color_func</tt> may be a function that returns R, G, B, and optionally A values (0-255). <tt>sx</tt> and <tt>sy</tt> are horizontal and vertical scale values (default 1).<br>
+	All arguments are optional except <tt>text</tt>.<br>
+	The <tt>font</tt> argument was added in Ved 1.11.1. By default, <tt>font_ui</tt> is used.
+</dd>
+<dt><?php hyperlight('ColorPicker(get_color_func, set_color_func)', 'generic', 'tt'); ?></dt>
+<dd>
+	This was added in Ved 1.11.1.<br>
+	A full color picker, used in the textbox colors editor and the syntax highlighting color settings.<br>
+	<tt>get_color_func()</tt> is called to get the color (which should return R, G and B).<br>
+	The color picker calls <?php hyperlight('set_color_func(r, g, b)', 'generic', 'tt'); ?> when the user sets a new color.
 </dd>
 </dl>
 
@@ -1024,6 +1072,26 @@ Each <a href="#states">state</a> can have a list of elements in their file in <t
 		<li>[13] The vertical grid alignment for dialog forms is now changed from 8 to 12 pixels. This means elements like text fields now appear higher, and an element at Y=1 now displays 12 pixels lower than Y=0, instead of 8. All textboxes are now also 12 pixels higher. Adjustment of more complex dialog forms is necessary (and has been done for Ved's own dialogs).</li>
 		<li>[17] <tt>startinputonce()</tt> is removed. <tt>startinput()</tt> still exists, but has long been superseded by the new input system anyway (see <tt>input.lua</tt>)</li>
 		<li>[18] <tt>endeditingroomtext()</tt> is renamed to <tt>end_editing_roomtext()</tt>. Its optional and obscure argument is removed. If you want to start the editing of roomtext or a terminal/script box script name, use <?php hyperlight('start_editing_roomtext(ent_id, is_new, make_script)', 'generic', 'tt'); ?> instead of setting <tt>editingroomtext</tt>, <tt>newroomtext</tt> or <tt>makescriptroomtext</tt>, or calling <tt>startinput()</tt>.</li>
+	</ul>
+</dd>
+<dt><strong>1.11.1</strong></dt>
+<dd>
+	<ul>
+		<li>[05] A distinction is now made between the UI font (<tt>font_ui</tt>), the level font (<tt>font_level</tt>), and the 8x8 font (<tt>font_8x8</tt>), all of which might or might not actually be the same font.<br>
+			The following functions have thus been deprecated, as well as the <tt>font8</tt> object:<span class="br_bigger"></span>
+			<?php hyperlight('ved_print(text, x, y, sx, sy)', 'generic', 'tt'); ?> - instead use: <?php hyperlight('font_8x8:print(text, x, y, cjk_align, sx, sy)', 'generic', 'tt'); ?><span class="br_bigger"></span>
+			<?php hyperlight('ved_printf(text, x, y, max_width, align, sx, sy)', 'generic', 'tt'); ?> - instead use: <?php hyperlight('font_8x8:printf(text, x, y, max_width, align, cjk_align, sx, sy)', 'generic', 'tt'); ?><span class="br_bigger"></span>
+			<?php hyperlight('ved_shadowprint(text, x, y, sx, sy)', 'generic', 'tt'); ?> - instead use: <?php hyperlight('font_8x8:shadowprint(text, x, y, cjk_align, sx, sy)', 'generic', 'tt'); ?> (just added)<span class="br_bigger"></span>
+			<?php hyperlight('ved_shadowprintf(text, x, y, max_width, align, sx, sy)', 'generic', 'tt'); ?> - instead use: <?php hyperlight('font_8x8:shadowprintf(text, x, y, max_width, align, cjk_align, sx, sy)', 'generic', 'tt'); ?> (just added)<span class="br_bigger"></span>
+			<?php hyperlight('ved_shadowprint_tiny(text, x, y, sx, sy)', 'generic', 'tt'); ?> - instead use: <?php hyperlight('tinyfont:shadowprint(text, x, y, cjk_align, sx, sy)', 'generic', 'tt'); ?> (just added)<span class="br_bigger"></span>
+			You can replace <tt>font_8x8</tt> by any of the other fonts here. The <tt>cjk_align</tt> argument can be either <tt>nil</tt> to make bigger characters stick out on both the top and bottom compared to 8x8 dimensions, <tt>&quot;cjk_low&quot;</tt> to make them stick out on the bottom, or <tt>&quot;cjk_high&quot;</tt> to make them stick out on the top. If you are using the 8x8 font or tinyfont, this argument will almost certainly not have any visible effect so you can just leave it <tt>nil</tt>.<br>
+			The old functions will probably keep working for a while, and will keep using <tt>font_8x8</tt> with a <tt>cjk_align</tt> set to <tt>nil</tt>.
+		</li>
+		<li>[05] <tt>font</tt> and <tt>cjk_align</tt> support has also been added to the input system:<span class="br_bigger"></span>
+			<?php hyperlight('newinputsys.print("identifier", x, y, [sx], [sy], [line_height])', 'generic', 'tt'); ?> &rarr; <?php hyperlight('newinputsys.print("identifier", x, y, [font], [cjk_align], [sx], [sy], [line_height])', 'generic', 'tt'); ?><span class="br_bigger"></span>
+			<?php hyperlight('newinputsys.drawcas("identifier", x, y, [sx], [sy], [line_height])', 'generic', 'tt'); ?> &rarr; <?php hyperlight('newinputsys.drawcas("identifier", x, y, [font], [cjk_align], [sx], [sy], [line_height])', 'generic', 'tt'); ?><span class="br_bigger"></span>
+		</li>
+		<li>[09] Optional <tt>font</tt> argument has now also been added to <?php hyperlight('Text(text, color_func, font, sx, sy)', 'generic', 'tt'); ?> and <?php hyperlight('WrappedText(text, maxwidth, align, color_func, font, sx, sy)', 'generic', 'tt'); ?>. These elements now assume <tt>font_ui</tt> by default.</li>
 	</ul>
 </dd>
 </dl>
