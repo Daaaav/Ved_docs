@@ -336,12 +336,6 @@ $ui_callbacks = array(
 		VA => '1.11.1'
 	),
 	array(
-		N => 'textinput',
-		D => 'Called in <tt>love.textinput</tt>, unless any right click menus or dialogs are open',
-		A => 'text',
-		VA => '1.11.1'
-	),
-	array(
 		N => 'mousepressed',
 		D => 'Called in <tt>love.mousepressed</tt>, unless any right click menus or dialogs are open',
 		A => 'x, y, button',
