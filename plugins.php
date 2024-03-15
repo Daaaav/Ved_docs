@@ -228,7 +228,7 @@ foreach ($hooks as $hook)
 <p>If you need a hook that doesn't exist yet or have an idea for one, or if you need further help with developing a plugin, don't hesitate to tell Dav!</p>
 
 <h2><a name="sourceedits">Source edits</a></h2>
-<p>As of Ved beta 2, plugins can do find and replace operations on files in the Ved source code. Every internal Lua file can be modified this way, except for <tt>main.lua</tt>, <tt>corefunc.lua</tt>, <tt>plugins.lua</tt>, <tt>errorhandler.lua</tt>, <tt>incompatmain8.lua</tt>, <tt>incompatmain9.lua</tt>, <tt>love10compat.lua</tt> and <tt>love11compat.lua</tt>.</p>
+<p>As of Ved beta 2, plugins can do find and replace operations on files in the Ved source code. Every internal Lua file can be modified this way, except for <tt>main.lua</tt>, <tt>corefunc.lua</tt>, <tt>plugins.lua</tt>, <tt>errorhandler.lua</tt>, <tt>incompatmain*.lua</tt>, and all versions of <tt>love*compat.lua</tt>.</p>
 <p>The file <tt>sourceedits.lua</tt> in your plugins folder controls these source edits. It contains an array in the following format:
 <?php hyperlight('sourceedits =
 {
@@ -289,6 +289,7 @@ It does not matter whether your plugin files use Unix-style (LF) line endings, W
 <p>It's also possible to include entire source files in your plugin, which will be considered as being inside Ved's root directory. Included source files go in the <strong>include</strong> folder in your plugin. After that, it can just be included with <?php hyperlight('ved_require("your_file")', 'generic', 'tt'); ?>, in a hook or otherwise. Note that this is not much different from how you would normally include a file in Lua: <?php hyperlight('require("your_file")', 'generic', 'tt'); ?>.</p>
 <p><span style="color:red;">Warning:</span> this is only intended for your own (original) plugin files, not edited versions of Ved source files (even though it will work)! Adding an entire file will stop official Ved updates from affecting these files (yes, after downloading a new version of Ved) and also overrides any other plugin editing them.</p>
 <p>In Ved 1.1.4 and later, you can also have subfolders inside the <strong>include</strong> folder, so it's probably a good idea to put all your included files in a folder with the name of your plugin to avoid clashes with other plugins or future files in Ved, and then just include them with something like <?php hyperlight('ved_require("my_1st_plug/drawingcode")', 'generic', 'tt'); ?>.</p>
+<p>As of Ved 1.11.1-pre22, it is preferred to use dots instead of slashes in <?php hyperlight('ved_require', 'generic', 'tt'); ?>s: <?php hyperlight('ved_require("my_1st_plug.drawingcode")', 'generic', 'tt'); ?>. Slashes are still supported, however.</p>
 <p>Including assets like images is not yet supported in this way, this may be added later!</p>
 
 <h2><a name="pluginstates">Plugin UIs/states</a></h2>
