@@ -249,7 +249,8 @@ end', 'generic'); ?>
 	Supported, with the following restrictions:
 	<ul>
 		<li>The music player can't show song durations before playing</li>
-		<li>The plugin hooks love_filedropped and love_directorydropped are never called</li>
+		<li>The plugin hooks <tt>love_filedropped</tt> and <tt>love_directorydropped</tt> are never called</li>
+		<li><tt>love.textedited</tt> is never called (IME input)</li>
 		<li>Loop points in the music player (Ved 1.10.0+) do not work</li>
 		<li>Creating ZIP files of levels and their assets (Ved 1.11.0+) is not possible</li>
 	</ul>
@@ -1094,6 +1095,7 @@ Each <a href="#states">state</a> can have a list of elements in <tt>uis/NAME/ele
 		<li>[09] Optional <tt>font</tt> argument has now also been added to <?php hyperlight('Text(text, color_func, font, sx, sy)', 'generic', 'tt'); ?> and <?php hyperlight('WrappedText(text, maxwidth, align, color_func, font, sx, sy)', 'generic', 'tt'); ?>. These elements now assume <tt>font_ui</tt> by default.<span class="br_bigger"></span></li>
 		<li>[22] It's now preferred to use dots instead of slashes in places like <?php hyperlight('ved_require("module")', 'generic', 'tt'); ?>, <?php hyperlight('require("module")', 'generic', 'tt'); ?>, plugin sourceedits, and plugin includes. Slashes are still supported, but for the standard <?php hyperlight('require(module)', 'generic', 'tt'); ?>, slashes are deprecated in L&Ouml;VE 12. Any use of <tt>package.loaded</tt> <em>must</em> now use dots.</li>
 		<li>[22] The <tt>textinput</tt> UI callback has been removed. You weren't using it in your plugin. (Right?)</li>
+		<li>[23] <tt>love.textinput</tt> is now only enabled when text input is expected, according to the conditions in <tt>love.update</tt> (new input system, old input system...)</li>
 	</ul>
 </dd>
 </dl>
