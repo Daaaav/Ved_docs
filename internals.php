@@ -1096,6 +1096,7 @@ Each <a href="#states">state</a> can have a list of elements in <tt>uis/NAME/ele
 		<li>[22] It's now preferred to use dots instead of slashes in places like <?php hyperlight('ved_require("module")', 'generic', 'tt'); ?>, <?php hyperlight('require("module")', 'generic', 'tt'); ?>, plugin sourceedits, and plugin includes. Slashes are still supported, but for the standard <?php hyperlight('require(module)', 'generic', 'tt'); ?>, slashes are deprecated in L&Ouml;VE 12. Any use of <tt>package.loaded</tt> <em>must</em> now use dots.</li>
 		<li>[22] The <tt>textinput</tt> UI callback has been removed. You weren't using it in your plugin. (Right?)</li>
 		<li>[23] <tt>love.textinput</tt> is now only enabled when text input is expected, according to the conditions in <tt>love.update</tt> (new input system, old input system...)</li>
+		<li>[25] Sprites images (<tt>sprites.png</tt> and <tt>teleporter.png</tt>) can no longer be accessed via <tt>tilesets[file].img</tt>, but instead <tt>tilesets[file].white_img</tt>. This makes it consistent with tilesets, where <tt>.img</tt> is the colored image and <tt>.white_img</tt> is the whitened image.</li>
 	</ul>
 </dd>
 </dl>
